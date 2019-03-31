@@ -1,0 +1,5 @@
+# Binaries
+*.exe
+
+# Environment files
+/.vscode
