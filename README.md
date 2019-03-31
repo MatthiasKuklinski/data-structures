@@ -7,7 +7,7 @@ More precisely, a data structure is a collection of data values, the relationshi
 
 Data structures can be subvided into the following major categories:
 
-| Category | Data structures | Desc. |
+| Category | Data structures | Description |
 | -------- | --------------- | ----- |
 | Linear | Array | A data structure is said to be linear if its elements form a sequence. |
 | Non-linear | Linked List | A data structure is said to be non-linear if its elements do not form a sequence. |
