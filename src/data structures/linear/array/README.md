@@ -19,6 +19,7 @@ There are three ways in which the elements of an array can be indexed:
 - 1 (one-based indexing): The first element of the array is indexed by subscript of 1.
 - n (n-based indexing): The base index of an array can be freely chosen. Usually programming languages allowing n-based indexing also allow negative index values and other scalar data types like enumerations, or characters may be used as an array index.
 
+Given n is the size of the array and the first element of the array is indexed by subscript of 0, the last element of an array is accessed by (n-1).
 Arrays can have multiple dimensions, thus it is not uncommon to access an array using multiple indices.
 
 
