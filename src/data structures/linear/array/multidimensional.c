@@ -11,7 +11,7 @@ int main()
 
     for (int i = 0; i < sizeof(array) / sizeof(array[0]); ++i) // Iterate through the outer array.
     {
-        for (j = 0; j < sizeof(array[i]) / sizeof(int); ++j) // Iterate through the inner array.
+        for (int j = 0; j < sizeof(array[i]) / sizeof(int); ++j) // Iterate through the inner array.
         {
             printf("Index: [%u][%u], memory address: %p, value: %u\n", i, j, &array[i][j], array[i][j]); // Print each elements index, memory location and value.
         }
