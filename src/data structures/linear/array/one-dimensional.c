@@ -2,7 +2,7 @@
 
 int main()
 {
-    unsigned int array[5] = {1, 2, 3, 4, 5};               // Allocate memory for five elements of type int and initialize each element with the corresponding value.
+    unsigned int array[3] = {1, 2, 3};               // Allocate memory for five elements of type int and initialize each element with the corresponding value.
     printf("Size: %llu\n", sizeof(array));                 // Print the size (in bytes) of the array.
     printf("Length: %llu\n", sizeof(array) / sizeof(int)); // Print the length (number of elements) of the array.
 
