@@ -9,8 +9,8 @@ Data structures can be subvided into the following major categories:
 
 | Category | Data structures | Description |
 | -------- | --------------- | ----- |
-| Linear | Array | A data structure is said to be linear if its elements form a sequence. |
-| Non-linear | Linked List | A data structure is said to be non-linear if its elements do not form a sequence. |
+| Linear | Arrays, Lists | A data structure is said to be linear if its elements form a sequence. |
+| Non-linear | Trees, Heaps | A data structure is said to be non-linear if its elements do not form a sequence. |
 
 ## References
 [Data structure](https://en.wikipedia.org/w/index.php?title=Data_structure&oldid=888977642 "Wikipedia")  
