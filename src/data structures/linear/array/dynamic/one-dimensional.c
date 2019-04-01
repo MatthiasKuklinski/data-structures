@@ -3,11 +3,9 @@
 
 int main(int argc, char *argv[])
 {
-    int i;
-    int *ptr;
-
-    ptr = calloc(3, sizeof(int)); // Reserve memory for the array.
-    printf("%p", ptr);
+    int *ptr = malloc(argv[1], sizeof(int)); // Reserve memory (size is specified by the user) for the array.
+    for (int i = 0; i < 3; i++)              // Iterate through the array.
+        *(ptr + i) = i;                      // Initialize each index with the corresponding value.
 
     free(ptr);
 }
