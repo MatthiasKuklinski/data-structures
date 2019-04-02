@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
         *(ptr + i) = i;                      // Initialize each index with the corresponding value.
 
     for (int i = 0; i < length; i++) // Iterate through the array.
-        printf("%d", *(ptr + i));    // Print the value of each index.
+        printf("%d\n", *(ptr + i));  // Print the value of each index.
 
     free(ptr); // Free the allocated memory.
 }
