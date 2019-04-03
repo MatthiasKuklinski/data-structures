@@ -3,24 +3,24 @@
 ## About
 A linear collection of data elements consisting of a collection of nodes which together represent a sequence, whose order is not given by their physical placement in memory. Instead, each element points to the next.
 In its most basic form, each node contains:
-- data
-- at least one reference to the next node in the sequence (a pointer)
+- Data
+- At least one reference to the next node in the sequence (a pointer)
 
 
 The 'head' of a list is its first node. The 'tail' of a list may refer either to the rest of the list after the head, or to the last node in the list.
 
 ### Singly linked list
-- data field (element)
-- next field (pointer which contains the address of the next node in the memory)
+- Data field (element)
+- Next field (pointer which contains the address of the next node in the memory)
 
 
 ![](https://upload.wikimedia.org/wikipedia/commons/6/6d/Singly-linked-list.svg)
 
 
 ### Doubly linked list
-- data field (element)
-- next field (pointer which contains the address of the next node in the memory)
-- prev field (pointer which contains the address of the previous node in the memory)
+- Data field (element)
+- Next field (pointer which contains the address of the next node in the memory)
+- Prev field (pointer which contains the address of the previous node in the memory)
 
 
 ![](https://upload.wikimedia.org/wikipedia/commons/5/5e/Doubly-linked-list.svg)
