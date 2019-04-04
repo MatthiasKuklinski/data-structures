@@ -26,17 +26,21 @@ void sll_print(node *data)
 int main(int argc, char *argv[])
 {
     const long length = strtol(argv[1], NULL, 10); // Convert char/string into long.
-    node *list;
+    node *list = NULL;
     for (int i = 0; i < length; ++i)
     {
         if (sll_length(list) < 1)
             list = sll_create(i, NULL);
         else
+        {
             sll_insert(list, i, i);
+        }
     }
-    
+    sll_insert(list, 1337, 2);
+    // printf("%d\n", list->data);
     sll_traverse(list, sll_print);
     sll_free(list);
+    return 0;
 }
 
 node *sll_create(int data, node *successor)
@@ -77,13 +81,16 @@ int sll_length(node *head)
 
 void sll_insert(node *head, int data, int index)
 {
+    node *temp_node = NULL;
     if (index == 0)
     {
-        head = sll_create(data, head);
+        temp_node = head;
+        head->next = sll_create(temp_node->data, temp_node->next);
+        head->data = data;
         return;
     }
 
-    node *temp_node = head;
+    temp_node = head;
     for (int i = 0; i < index; i++)
     {
         if (i == index - 1)
@@ -100,9 +107,8 @@ void sll_free(node *head)
 {
     node *temp_node;
 
-    while (temp_node != NULL)
+    while ((temp_node = head) != NULL)
     {
-        temp_node = head;
         head = head->next;
         free(temp_node);
     }
