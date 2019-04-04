@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Types
 typedef struct node
 {
     int data;
@@ -9,16 +10,32 @@ typedef struct node
 
 typedef void (*callback)(node *data);
 
+// Functions
 node *sll_create(int data, node *successor);
 void sll_traverse(node *head, callback cb);
-int sll_length();
+int sll_length(node *head);
 void sll_insert(node *head, int data, int index);
 void sll_free(node *head);
 
+// Callback Implementations
+void sll_print(node *data)
+{
+    printf("%d\n", data->data);
+}
+
 int main(int argc, char *argv[])
 {
-    node *list = sll_create(1, NULL);
-    printf("%d\n", list->data);
+    const long length = strtol(argv[1], NULL, 10); // Convert char/string into long.
+    node *list;
+    for (int i = 0; i < length; ++i)
+    {
+        if (sll_length(list) < 1)
+            list = sll_create(i, NULL);
+        else
+            sll_insert(list, i, i);
+    }
+    
+    sll_traverse(list, sll_print);
     sll_free(list);
 }
 
@@ -60,6 +77,12 @@ int sll_length(node *head)
 
 void sll_insert(node *head, int data, int index)
 {
+    if (index == 0)
+    {
+        head = sll_create(data, head);
+        return;
+    }
+
     node *temp_node = head;
     for (int i = 0; i < index; i++)
     {
@@ -84,30 +107,3 @@ void sll_free(node *head)
         free(temp_node);
     }
 }
-
-/* void list_print(node *head)
-{
-    node *current = head; // Point the current node to the head of the list.
-
-    while (current != NULL) // Iterate through the sequence until the last node is reached.
-    {
-        printf("%d\n", current->data); // Print the value of the current node.
-        current = current->next;       // Point the current node to the next node.
-    }
-}
-
-void list_push(node *head, int data)
-{
-    node *current = head; // Point the current node to the head of the list.
-
-    while (current->next != NULL) // Iterate through the sequence until the last node is reached.
-    {
-        current = current->next; // Point the current node to the next node.
-    }
-
-    current->next = malloc(sizeof(node)); // Allocate space for the new node and point the latest node to it.
-    if (current->next == NULL)            // Check if mempory was successfully allocated.
-        exit(0);                          // Exit the program if no memory was available.
-    current->next->data = data;           // Populate the added node with the passed in data argument.
-    current->next->next = NULL;           // Declare the added node to represent the end of the list.
-} */
