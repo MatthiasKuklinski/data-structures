@@ -7,12 +7,26 @@ typedef struct node
     struct node *next;
 } node_t;
 
+node_t *list();
 void list_print(node_t *head);
 void list_push(node_t *head, int val);
 
 int main(int argc, char *argv[])
 {
     const long length = strtol(argv[1], NULL, 10); // Convert char/string into long.
+    for (int i = 0; i < length; i++)
+    {
+    }
+}
+
+node_t *list(int data)
+{
+    node_t *head = malloc(sizeof(node_t));
+    if (head == NULL) // Check if mempory was successfully allocated.
+        exit(0);      // Exit the program if no memory was available.
+
+    head->data = data;
+    head->next = NULL;
 }
 
 void list_print(node_t *head)
