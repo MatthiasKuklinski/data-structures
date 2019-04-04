@@ -5,40 +5,42 @@ typedef struct node
 {
     int data;
     struct node *next;
-} node_t;
+} node;
 
-node_t *list_constructor();
-void list_free(node_t *head);
-void list_print(node_t *head);
-void list_push(node_t *head, int val);
+node *create();
+void free(node *head);
+void print(node *head);
+void push(node *head, int val);
 
 int main(int argc, char *argv[])
 {
-    const long length = strtol(argv[1], NULL, 10); // Convert char/string into long.
-    node_t *list = list_constructor(1);            // Create a list and populate the first element with integer 1.
-    for (long i = 0; i < length - 1; ++i)
+/*     const long length = strtol(argv[1], NULL, 10); // Convert char/string into long.
+    node *list = list_constructor(1);              // Create a list and populate the first element with integer 1.
+    for (long i = 0; i < length - 1; ++i)          //
     {
         list_push(list, i + 2);
     }
     list_print(list);
-    list_free(list);
+    list_free(list); */
 }
 
-node_t *list_constructor(int data)
+node *create(int data, node *successor)
 {
-    node_t *head = malloc(sizeof(node_t));
-    if (head == NULL) // Check if mempory was successfully allocated.
-        exit(0);      // Exit the program if no memory was available.
+    node *temp_node = malloc(sizeof(node));
+    if (temp_node == NULL) // Check if mempory was successfully allocated.
+    {
+        printf("Error creating a new node: memory allocation failed.\n"); // Print the error message to the user.
+        exit(0);                                                          // Exit the program if no memory was available.
+    }
+    temp_node->data = data;      // Populate the node with the passed in data.
+    temp_node->next = successor; // Declare the node to represent the end of the list.
 
-    head->data = data; // Populate the node with the passed in data.
-    head->next = NULL; // Declare the node to represent the end of the list.
-
-    return head;
+    return temp_node; // Return a pointer to the new node.
 }
 
-void list_free(node_t *head)
+void list_free(node *head)
 {
-    node_t *current;
+    node *current;
 
     while (current != NULL)
     {
@@ -48,9 +50,9 @@ void list_free(node_t *head)
     }
 }
 
-void list_print(node_t *head)
+void list_print(node *head)
 {
-    node_t *current = head; // Point the current node to the head of the list.
+    node *current = head; // Point the current node to the head of the list.
 
     while (current != NULL) // Iterate through the sequence until the last node is reached.
     {
@@ -59,18 +61,18 @@ void list_print(node_t *head)
     }
 }
 
-void list_push(node_t *head, int data)
+void list_push(node *head, int data)
 {
-    node_t *current = head; // Point the current node to the head of the list.
+    node *current = head; // Point the current node to the head of the list.
 
     while (current->next != NULL) // Iterate through the sequence until the last node is reached.
     {
         current = current->next; // Point the current node to the next node.
     }
 
-    current->next = malloc(sizeof(node_t)); // Allocate space for the new node and point the latest node to it.
-    if (current->next == NULL)              // Check if mempory was successfully allocated.
-        exit(0);                            // Exit the program if no memory was available.
-    current->next->data = data;             // Populate the added node with the passed in data argument.
-    current->next->next = NULL;             // Declare the added node to represent the end of the list.
+    current->next = malloc(sizeof(node)); // Allocate space for the new node and point the latest node to it.
+    if (current->next == NULL)            // Check if mempory was successfully allocated.
+        exit(0);                          // Exit the program if no memory was available.
+    current->next->data = data;           // Populate the added node with the passed in data argument.
+    current->next->next = NULL;           // Declare the added node to represent the end of the list.
 }
