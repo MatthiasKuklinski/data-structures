@@ -36,6 +36,8 @@ void list_push(node_t *head, int data)
     }
 
     current->next = malloc(sizeof(node_t)); // Allocate space for the new node and point the latest node to it.
+    if (current->next == NULL)              // Check if mempory was successfully allocated.
+        exit(0);                            // Exit the program if no memory was available.
     current->next->data = data;             // Populate the added node with the passed in data argument.
     current->next->next = NULL;             // Declare the added node to be the end of the list.
 }
