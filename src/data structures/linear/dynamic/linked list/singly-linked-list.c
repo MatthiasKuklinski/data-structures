@@ -8,6 +8,7 @@ typedef struct node
 } node_t;
 
 node_t *list_constructor();
+void list_free(node_t *head);
 void list_print(node_t *head);
 void list_push(node_t *head, int val);
 
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
         list_push(list, i + 2);
     }
     list_print(list);
+    list_free(list);
 }
 
 node_t *list_constructor(int data)
@@ -32,6 +34,18 @@ node_t *list_constructor(int data)
     head->next = NULL; // Declare the node to represent the end of the list.
 
     return head;
+}
+
+void list_free(node_t *head)
+{
+    node_t *current;
+
+    while (current != NULL)
+    {
+        current = head;
+        head = head->next;
+        free(current);
+    }
 }
 
 void list_print(node_t *head)
