@@ -9,15 +9,18 @@ typedef struct node
 
 typedef void (*callback)(node *data);
 
-node *sll_node_create();
+node *sll_create(int data, node *successor);
 void sll_traverse(node *head, callback cb);
 int sll_length();
+void sll_insert(node *head, int data, int index);
+void sll_free(node *head);
 
 int main(int argc, char *argv[])
 {
+    node *list = sll_node_create(1, NULL);
 }
 
-node *sll_node_create(int data, node *successor)
+node *sll_create(int data, node *successor)
 {
     node *temp_node = malloc(sizeof(node));
     if (temp_node == NULL) // Check if mempory was successfully allocated.
@@ -53,15 +56,30 @@ int sll_length(node *head)
     return length;
 }
 
-/* void list_free(node *head)
+void sll_insert(node *head, int data, int index)
 {
-    node *current;
-
-    while (current != NULL)
+    node *temp_node = head;
+    for (int i = 0; i < index; i++)
     {
-        current = head;
+        if (i == index - 1)
+        {
+            temp_node->next = sll_create(data, temp_node->next);
+            return;
+        }
+
+        temp_node = temp_node->next;
+    }
+}
+
+void sll_free(node *head)
+{
+    node *temp_node;
+
+    while (temp_node != NULL)
+    {
+        temp_node = head;
         head = head->next;
-        free(current);
+        free(temp_node);
     }
 }
 
@@ -90,4 +108,5 @@ void list_push(node *head, int data)
         exit(0);                          // Exit the program if no memory was available.
     current->next->data = data;           // Populate the added node with the passed in data argument.
     current->next->next = NULL;           // Declare the added node to represent the end of the list.
-} */
+}
+* /
