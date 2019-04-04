@@ -11,6 +11,7 @@ typedef void (*callback)(node *data);
 
 node *sll_node_create();
 void sll_traverse(node *head, callback cb);
+int sll_length();
 
 int main(int argc, char *argv[])
 {
@@ -38,6 +39,18 @@ void sll_traverse(node *head, callback cb)
         cb(temp_node);
         temp_node = temp_node->next;
     }
+}
+
+int sll_length(node *head)
+{
+    node *temp_node = head;
+    int length = 0;
+    while (temp_node != NULL)
+    {
+        ++length;
+        temp_node = temp_node->next;
+    }
+    return length;
 }
 
 /* void list_free(node *head)
