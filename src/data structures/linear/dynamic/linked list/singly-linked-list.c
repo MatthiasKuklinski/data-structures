@@ -7,26 +7,31 @@ typedef struct node
     struct node *next;
 } node_t;
 
-node_t *list();
+node_t *list_constructor();
 void list_print(node_t *head);
 void list_push(node_t *head, int val);
 
 int main(int argc, char *argv[])
 {
     const long length = strtol(argv[1], NULL, 10); // Convert char/string into long.
-    for (int i = 0; i < length; i++)
+    node_t *list = list_constructor(1);            // Create a list and populate the first element with integer 1.
+    for (long i = 0; i < length - 1; ++i)
     {
+        list_push(list, i + 2);
     }
+    list_print(list);
 }
 
-node_t *list(int data)
+node_t *list_constructor(int data)
 {
     node_t *head = malloc(sizeof(node_t));
     if (head == NULL) // Check if mempory was successfully allocated.
         exit(0);      // Exit the program if no memory was available.
 
-    head->data = data;
-    head->next = NULL;
+    head->data = data; // Populate the node with the passed in data.
+    head->next = NULL; // Declare the node to represent the end of the list.
+
+    return head;
 }
 
 void list_print(node_t *head)
@@ -53,5 +58,5 @@ void list_push(node_t *head, int data)
     if (current->next == NULL)              // Check if mempory was successfully allocated.
         exit(0);                            // Exit the program if no memory was available.
     current->next->data = data;             // Populate the added node with the passed in data argument.
-    current->next->next = NULL;             // Declare the added node to be the end of the list.
+    current->next->next = NULL;             // Declare the added node to represent the end of the list.
 }
