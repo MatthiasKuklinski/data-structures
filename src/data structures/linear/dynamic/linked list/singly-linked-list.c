@@ -7,24 +7,16 @@ typedef struct node
     struct node *next;
 } node;
 
-node *create();
-void free(node *head);
-void print(node *head);
-void push(node *head, int val);
+typedef void (*callback)(node *data);
+
+node *sll_node_create();
+void sll_traverse(node *head, callback cb);
 
 int main(int argc, char *argv[])
 {
-/*     const long length = strtol(argv[1], NULL, 10); // Convert char/string into long.
-    node *list = list_constructor(1);              // Create a list and populate the first element with integer 1.
-    for (long i = 0; i < length - 1; ++i)          //
-    {
-        list_push(list, i + 2);
-    }
-    list_print(list);
-    list_free(list); */
 }
 
-node *create(int data, node *successor)
+node *sll_node_create(int data, node *successor)
 {
     node *temp_node = malloc(sizeof(node));
     if (temp_node == NULL) // Check if mempory was successfully allocated.
@@ -38,7 +30,17 @@ node *create(int data, node *successor)
     return temp_node; // Return a pointer to the new node.
 }
 
-void list_free(node *head)
+void sll_traverse(node *head, callback cb)
+{
+    node *temp_node = head;
+    while (temp_node != NULL)
+    {
+        cb(temp_node);
+        temp_node = temp_node->next;
+    }
+}
+
+/* void list_free(node *head)
 {
     node *current;
 
@@ -75,4 +77,4 @@ void list_push(node *head, int data)
         exit(0);                          // Exit the program if no memory was available.
     current->next->data = data;           // Populate the added node with the passed in data argument.
     current->next->next = NULL;           // Declare the added node to represent the end of the list.
-}
+} */
