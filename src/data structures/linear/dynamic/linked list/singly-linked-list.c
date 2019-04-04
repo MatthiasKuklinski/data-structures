@@ -17,7 +17,9 @@ void sll_free(node *head);
 
 int main(int argc, char *argv[])
 {
-    node *list = sll_node_create(1, NULL);
+    node *list = sll_create(1, NULL);
+    printf("%d\n", list->data);
+    sll_free(list);
 }
 
 node *sll_create(int data, node *successor)
@@ -83,7 +85,7 @@ void sll_free(node *head)
     }
 }
 
-void list_print(node *head)
+/* void list_print(node *head)
 {
     node *current = head; // Point the current node to the head of the list.
 
@@ -108,5 +110,4 @@ void list_push(node *head, int data)
         exit(0);                          // Exit the program if no memory was available.
     current->next->data = data;           // Populate the added node with the passed in data argument.
     current->next->next = NULL;           // Declare the added node to represent the end of the list.
-}
-* /
+} */
