@@ -16,7 +16,7 @@ void menu()
 
 void controller(const char cmd)
 {
-    int user_input;
+    int value, index;
     static node *list = NULL;
 
     switch (cmd)
@@ -27,11 +27,23 @@ void controller(const char cmd)
         sll_traverse(list, sll_print);
         break;
     case 'c':
-        printf("Enter the data:");
-        scanf("%d", &user_input);
-        list = sll_create(user_input, NULL);
+        printf("Value:");
+        scanf("%d", &value);
+        list = sll_create(value, NULL);
         break;
-
+    case 'i':
+        printf("Value:");
+        scanf("%d", &value);
+        printf("Index:");
+        scanf("%d", &index);
+        sll_insert(list, value, index);
+        break;
+    case 'f':
+        sll_free(list);
+        break;
+    case 'e':
+        sll_free(list);
+        exit(0);
     default:
         break;
     }
@@ -45,7 +57,7 @@ int main()
     while (1)
     {
         printf("Enter a command:");
-        scanf("%s", &cmd);
+        scanf("%c", &cmd);
         controller(cmd);
     }
 }
