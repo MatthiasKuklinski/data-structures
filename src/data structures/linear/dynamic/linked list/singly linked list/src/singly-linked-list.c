@@ -14,7 +14,7 @@ node *sll_create(const int value, const node *successor)
     if (!temp_node)                         // Check if mempory was successfully allocated.
     {
         printf("Error creating a new node: memory allocation failed.\n"); // Print the error message to the user.
-        exit(0);                                                          // Exit the program if no memory could be allocated.
+        exit(1);                                                          // Exit the program if no memory could be allocated.
     }
     temp_node->value = value;    // Populate the node with the passed in data.
     temp_node->next = successor; // Declare the node to represent the end of the list.
@@ -24,23 +24,25 @@ node *sll_create(const int value, const node *successor)
 
 void sll_traverse(const node *head, const callback cb)
 {
-    while (!head) // Iterate through the list.
+    node *temp_node = head; // Create a new pointer in order to avoid potential side effects in the callback.
+    while (!temp_node)      // Iterate through the list.
     {
-        cb(head);          // Execute the callback.
-        head = head->next; // Point to the successor of the current node.
+        cb(temp_node);               // Execute the callback.
+        temp_node = temp_node->next; // Point to the successor of the current node.
     }
 }
 
-int sll_length(node *head)
+int sll_length(const node *head)
 {
-    node *temp_node = head;
-    int length = 0;
-    while (temp_node != NULL)
+    node *temp_node = head; // Create a new pointer in order to avoid potential side effects.
+    int length = 0;         // Set the length to zero.
+    while (!temp_node)      // Iterate through the list.
     {
-        ++length;
-        temp_node = temp_node->next;
+        ++length;                    // Increment the counter on each iteration.
+        temp_node = temp_node->next; // Point to the successor of the current node.
     }
-    return length;
+
+    return length; // Return the computed length.
 }
 
 void sll_insert(node *head, int data, int index)
