@@ -81,20 +81,18 @@ int sll_length(node *head)
 
 void sll_insert(node *head, int data, int index)
 {
-    node *temp_node = NULL;
-    if (index == 0)
+    node *temp_node = head;
+    for (int i = 1; i <= index; i++)
     {
-        temp_node = head;
-        head->next = sll_create(temp_node->data, temp_node->next);
-        head->data = data;
-        return;
-    }
-
-    temp_node = head;
-    for (int i = 0; i < index; i++)
-    {
-        if (i == index - 1)
+        if (i == index)
         {
+            if (i == 0)
+            {
+                temp_node = head;
+                head->next = sll_create(temp_node->data, temp_node->next);
+                head->data = data;
+                return;
+            }
             temp_node->next = sll_create(data, temp_node->next);
             return;
         }
