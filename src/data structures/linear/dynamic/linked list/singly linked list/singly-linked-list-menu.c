@@ -29,6 +29,7 @@ void controller(const char cmd)
     case 'c':
         printf("Value:");
         scanf("%d", &value);
+        sll_free(list);
         list = sll_create(value, NULL);
         break;
     case 'i':
@@ -36,7 +37,8 @@ void controller(const char cmd)
         scanf("%d", &value);
         printf("Index:");
         scanf("%d", &index);
-        sll_insert(list, value, index);
+        if (index < sll_length(list))
+            sll_insert(list, value, index);
         break;
     case 'f':
         sll_free(list);
