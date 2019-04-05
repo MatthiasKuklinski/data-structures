@@ -3,31 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Callback Implementations
 void sll_print(node *data)
 {
     printf("%d\n", data->data);
 }
-
-/* int main(int argc, char *argv[])
-{
-    const long length = strtol(argv[1], NULL, 10); // Convert char/string into long.
-    node *list = NULL;
-    for (int i = 0; i < length; ++i)
-    {
-        if (sll_length(list) < 1)
-            list = sll_create(i, NULL);
-        else
-        {
-            sll_insert(list, i, i);
-        }
-    }
-    sll_insert(list, 1337, 2);
-    // printf("%d\n", list->data);
-    sll_traverse(list, sll_print);
-    sll_free(list);
-    return 0;
-} */
 
 node *sll_create(int data, node *successor)
 {

@@ -6,22 +6,27 @@
 void menu()
 {
     printf("--- Singly Linked List ---\n");
-    printf("0. Show Menu");
-    printf("1. Print\n");
-    printf("2. Create\n");
+    printf("Menu(m)\n");
+    printf("Print(p)\n");
+    printf("Create(c)\n");
+    printf("Insert(i)\n");
+    printf("Free(f)\n");
+    printf("Exit(e)\n");
 }
 
-void controller(unsigned short cmd)
+void controller(const char cmd)
 {
     int user_input;
     static node *list = NULL;
 
     switch (cmd)
     {
-    case 1:
+    case 'm':
+        menu();
+    case 'p':
         sll_traverse(list, sll_print);
         break;
-    case 2:
+    case 'c':
         printf("Enter the data:");
         scanf("%d", &user_input);
         list = sll_create(user_input, NULL);
@@ -34,13 +39,13 @@ void controller(unsigned short cmd)
 
 int main()
 {
-    unsigned short cmd = 0;
+    char cmd;
 
     menu();
     while (1)
     {
         printf("Enter a command:");
-        scanf("%hu", &cmd);
+        scanf("%s", &cmd);
         controller(cmd);
     }
 }
