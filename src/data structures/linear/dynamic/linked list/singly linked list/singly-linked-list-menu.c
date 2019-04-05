@@ -37,8 +37,7 @@ void controller(const char cmd)
         scanf("%d", &value);
         printf("Index:");
         scanf("%d", &index);
-        if (index < sll_length(list))
-            sll_insert(list, value, index);
+        sll_insert(list, value, index);
         break;
     case 'f':
         sll_free(list);
