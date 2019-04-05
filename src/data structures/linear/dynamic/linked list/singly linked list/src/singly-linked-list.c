@@ -10,25 +10,24 @@ void sll_print(node *data)
 
 node *sll_create(const int value, const node *successor)
 {
-    node *temp_node = malloc(sizeof(node));
-    if (!temp_node) // Check if mempory was successfully allocated.
+    node *temp_node = malloc(sizeof(node)); // Allocate memory.
+    if (!temp_node)                         // Check if mempory was successfully allocated.
     {
         printf("Error creating a new node: memory allocation failed.\n"); // Print the error message to the user.
-        exit(0);                                                          // Exit the program if no memory was available.
+        exit(0);                                                          // Exit the program if no memory could be allocated.
     }
-    temp_node->value = value;      // Populate the node with the passed in data.
+    temp_node->value = value;    // Populate the node with the passed in data.
     temp_node->next = successor; // Declare the node to represent the end of the list.
 
     return temp_node; // Return a pointer to the new node.
 }
 
-void sll_traverse(node *head, callback cb)
+void sll_traverse(const node *head, const callback cb)
 {
-    node *temp_node = head;
-    while (temp_node != NULL)
+    while (!head) // Iterate through the list.
     {
-        cb(temp_node);
-        temp_node = temp_node->next;
+        cb(head);          // Execute the callback.
+        head = head->next; // Point to the successor of the current node.
     }
 }
 
