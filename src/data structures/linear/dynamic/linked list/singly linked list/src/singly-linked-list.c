@@ -8,15 +8,15 @@ void sll_print(node *data)
     printf("%d\n", data->data);
 }
 
-node *sll_create(int data, node *successor)
+node *sll_create(const int value, const node *successor)
 {
     node *temp_node = malloc(sizeof(node));
-    if (temp_node == NULL) // Check if mempory was successfully allocated.
+    if (!temp_node) // Check if mempory was successfully allocated.
     {
         printf("Error creating a new node: memory allocation failed.\n"); // Print the error message to the user.
         exit(0);                                                          // Exit the program if no memory was available.
     }
-    temp_node->data = data;      // Populate the node with the passed in data.
+    temp_node->value = value;      // Populate the node with the passed in data.
     temp_node->next = successor; // Declare the node to represent the end of the list.
 
     return temp_node; // Return a pointer to the new node.
@@ -46,23 +46,36 @@ int sll_length(node *head)
 
 void sll_insert(node *head, int data, int index)
 {
+    if (!head) // Check if the list was initialized.
+    {
+        printf("Error inserting a new node: head of list is uninitialized.\n");
+        return;
+    }
+
     node *temp_node = head;
     for (int i = 1; i <= index; i++)
     {
         if (i == index)
         {
-            if (i == 0)
+            if (i == 0) // Insert at the beginning of the list.
             {
                 temp_node = head;
                 head->next = sll_create(temp_node->data, temp_node->next);
                 head->data = data;
                 return;
             }
-            temp_node->next = sll_create(data, temp_node->next);
+
+            temp_node->next = sll_create(data, temp_node->next); // Insert at the requested index at the list.
             return;
         }
 
         temp_node = temp_node->next;
+
+        if (!temp_node)
+        {
+            temp_node = sll_create(data, NULL); // Insert at the end of the list (if the requested index is greater than the list length).
+            return;
+        }
     }
 }
 
