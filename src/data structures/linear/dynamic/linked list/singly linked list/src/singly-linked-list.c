@@ -45,7 +45,7 @@ int sll_length(const node *head)
     return length; // Return the computed length.
 }
 
-void sll_insert(node *head, int data, int index)
+/* void sll_insert(const node *head, const int value, const int index);
 {
     if (!head) // Check if the list was initialized.
     {
@@ -78,15 +78,15 @@ void sll_insert(node *head, int data, int index)
             return;
         }
     }
-}
+} */
 
-void sll_free(node *head)
+void sll_delete(node *head)
 {
     node *temp_node;
 
-    while ((temp_node = head) != NULL)
+    while (!(temp_node = head)) // Iterate through the list and temporarly store the current node.
     {
-        head = head->next;
-        free(temp_node);
+        head = head->next; // Point to the address of the successor of the current node.
+        free(temp_node);   // Deallocate the memory.
     }
 }
