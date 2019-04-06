@@ -56,6 +56,15 @@ int sll_length(const node *head)
     return length; // Return the computed length.
 }
 
+void sll_append(const node *head, const int value) {
+    node *temp_node = head;
+
+    while(temp_node = temp_node->next)
+    ;
+    
+    temp_node->next = sll_create(value, NULL);
+}
+
 /* void sll_insert(const node *head, const int value, const int index);
 {
     if (!head) // Check if the list was initialized.
