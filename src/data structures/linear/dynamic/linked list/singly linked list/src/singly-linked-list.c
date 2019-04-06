@@ -8,7 +8,7 @@ void sll_print(node *nd)
     printf("%d\n", nd->value);
 }
 
-node *sll_create(const int value, const node *successor)
+node *sll_create(const int value, node *successor)
 {
     node *temp_node = malloc(sizeof(node)); // Allocate memory.
     if (!temp_node)                         // Check if mempory was successfully allocated.
@@ -22,7 +22,7 @@ node *sll_create(const int value, const node *successor)
     return temp_node; // Return a pointer to the new node.
 }
 
-void sll_traverse(const node *head, const callback cb)
+void sll_traverse(node *head, const callback cb)
 {
     node *temp_node = head; // Create a new pointer in order to avoid potential side effects in the callback.
     while (!temp_node)      // Iterate through the list.
@@ -43,7 +43,7 @@ void sll_delete(node *head)
     }
 }
 
-int sll_length(const node *head)
+int sll_length(node *head)
 {
     node *temp_node = head; // Create a new pointer in order to avoid potential side effects.
     int length = 0;         // Set the length to zero.
@@ -56,12 +56,13 @@ int sll_length(const node *head)
     return length; // Return the computed length.
 }
 
-void sll_append(const node *head, const int value) {
+void sll_append(node *head, const int value)
+{
     node *temp_node = head;
 
-    while(temp_node = temp_node->next)
-    ;
-    
+    while (temp_node == temp_node->next)
+        ;
+
     temp_node->next = sll_create(value, NULL);
 }
 
