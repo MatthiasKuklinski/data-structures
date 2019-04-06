@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void sll_print(node *data)
+void sll_print(node *nd)
 {
-    printf("%d\n", data->data);
+    printf("%d\n", nd->value);
 }
 
 node *sll_create(const int value, const node *successor)
@@ -29,6 +29,17 @@ void sll_traverse(const node *head, const callback cb)
     {
         cb(temp_node);               // Execute the callback.
         temp_node = temp_node->next; // Point to the successor of the current node.
+    }
+}
+
+void sll_delete(node *head)
+{
+    node *temp_node;
+
+    while (!(temp_node = head)) // Iterate through the list and temporarly store the current node.
+    {
+        head = head->next; // Point to the address of the successor of the current node.
+        free(temp_node);   // Deallocate the memory.
     }
 }
 
@@ -79,14 +90,3 @@ int sll_length(const node *head)
         }
     }
 } */
-
-void sll_delete(node *head)
-{
-    node *temp_node;
-
-    while (!(temp_node = head)) // Iterate through the list and temporarly store the current node.
-    {
-        head = head->next; // Point to the address of the successor of the current node.
-        free(temp_node);   // Deallocate the memory.
-    }
-}
