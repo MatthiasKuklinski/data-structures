@@ -24,11 +24,10 @@ node *sll_create(const int value, node *successor)
 
 void sll_traverse(node *head, const callback cb)
 {
-    node *temp_node = head; // Create a new pointer in order to avoid potential side effects in the callback.
-    while (!temp_node)      // Iterate through the list.
+    while (head) // Iterate through the list.
     {
-        cb(temp_node);               // Execute the callback.
-        temp_node = temp_node->next; // Point to the successor of the current node.
+        cb(head);          // Execute the callback.
+        head = head->next; // Point to the successor of the current node.
     }
 }
 
@@ -36,7 +35,7 @@ void sll_delete(node *head)
 {
     node *temp_node;
 
-    while (!(temp_node = head)) // Iterate through the list and temporarly store the current node.
+    while (temp_node = head) // Iterate through the list and temporarly store the current node.
     {
         head = head->next; // Point to the address of the successor of the current node.
         free(temp_node);   // Deallocate the memory.
@@ -47,7 +46,7 @@ int sll_length(node *head)
 {
     node *temp_node = head; // Create a new pointer in order to avoid potential side effects.
     int length = 0;         // Set the length to zero.
-    while (!temp_node)      // Iterate through the list.
+    while (temp_node)       // Iterate through the list.
     {
         ++length;                    // Increment the counter on each iteration.
         temp_node = temp_node->next; // Point to the successor of the current node.
