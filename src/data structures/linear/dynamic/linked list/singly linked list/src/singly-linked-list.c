@@ -3,15 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void sll_print(node *nd)
+void sll_print(node_t *node)
 {
-    printf("%d\n", nd->value);
+    printf("%d\n", node->value);
 }
 
-node *sll_create(const int value, node *successor)
+node_t *sll_create(const int value, node_t *successor)
 {
-    node *temp_node = malloc(sizeof(node)); // Allocate memory.
-    if (!temp_node)                         // Check if mempory was successfully allocated.
+    node_t *temp_node = malloc(sizeof(node_t)); // Allocate memory.
+    if (!temp_node)                             // Check if mempory was successfully allocated.
     {
         printf("Error creating a new node: memory allocation failed.\n"); // Print the error message to the user.
         exit(1);                                                          // Exit the program if no memory could be allocated.
@@ -22,47 +22,44 @@ node *sll_create(const int value, node *successor)
     return temp_node; // Return a pointer to the new node.
 }
 
-void sll_traverse(node *head, const callback cb)
+void sll_traverse(node_t *node, const callback cb)
 {
-    while (head) // Iterate through the list.
+    while (node) // Iterate through the list.
     {
-        cb(head);          // Execute the callback.
-        head = head->next; // Point to the successor of the current node.
+        cb(node);          // Execute the callback.
+        node = node->next; // Point to the successor of the current node.
     }
 }
 
-void sll_delete(node *head)
+void sll_delete(node_t *node)
 {
-    node *temp_node;
+    node_t *temp_node;
 
-    while (temp_node = head) // Iterate through the list and temporarly store the current node.
+    while (temp_node = node) // Iterate through the list and temporarly store the current node.
     {
-        head = head->next; // Point to the address of the successor of the current node.
+        node = node->next; // Point to the address of the successor of the current node.
         free(temp_node);   // Deallocate the memory.
     }
 }
 
-int sll_length(node *head)
+int sll_length(node_t *node)
 {
-    node *temp_node = head; // Create a new pointer in order to avoid potential side effects.
-    int length = 0;         // Set the length to zero.
-    while (temp_node)       // Iterate through the list.
+    int length = 0; // Set the length to zero.
+    while (node)    // Iterate through the list.
     {
-        ++length;                    // Increment the counter on each iteration.
-        temp_node = temp_node->next; // Point to the successor of the current node.
+        ++length;          // Increment the counter on each iteration.
+        node = node->next; // Point to the successor of the current node.
     }
 
     return length; // Return the computed length.
 }
 
-void sll_append(node *head, const int value)
+void sll_append(node_t *node, const int value)
 {
-    node *temp_node = head;
-
-    while (temp_node == temp_node->next)
+    while (node == node->next)
         ;
 
-    temp_node->next = sll_create(value, NULL);
+    node->next = sll_create(value, NULL);
 }
 
 /* void sll_insert(const node *head, const int value, const int index);

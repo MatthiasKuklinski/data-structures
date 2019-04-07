@@ -18,7 +18,7 @@ void menu()
 void controller(const char cmd)
 {
     int value, index;
-    static node *list = NULL;
+    static node_t *list = NULL;
 
     switch (cmd)
     {
