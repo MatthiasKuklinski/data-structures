@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Callbacks
 void sll_print(node_t *node)
 {
     printf("%d\n", node->value);
@@ -67,37 +68,31 @@ void sll_append(node_t *node, const int value)
     }
 }
 
-/* void sll_insert(const node *head, const int value, const int index);
+void sll_insert(node_t *node, const int value, const unsigned int index)
 {
-    if (!head) // Check if the list was initialized.
+    if (!node) // Check if the initial node exists.
     {
         printf("Error inserting a new node: head of list is uninitialized.\n");
         return;
     }
 
-    node *temp_node = head;
-    for (int i = 1; i <= index; i++)
+    if (index == 0) // Check if the requested insert should be at the head of the list.
     {
-        if (i == index)
-        {
-            if (i == 0) // Insert at the beginning of the list.
-            {
-                temp_node = head;
-                head->next = sll_create(temp_node->data, temp_node->next);
-                head->data = data;
-                return;
-            }
-
-            temp_node->next = sll_create(data, temp_node->next); // Insert at the requested index at the list.
-            return;
-        }
-
-        temp_node = temp_node->next;
-
-        if (!temp_node)
-        {
-            temp_node = sll_create(data, NULL); // Insert at the end of the list (if the requested index is greater than the list length).
-            return;
-        }
+        node_t *temp_node = node;                                   // Copy the node.
+        node->next = sll_create(temp_node->value, temp_node->next); // Point the successor of the head to the new (old head) node.
+        node->value = value;                                        // Change the head node value to the requested value.
     }
-} */
+    else if (index >= sll_length(node)) // Check if the requested insert should be at the end of the list.
+    {
+        sll_append(node, value);
+    }
+    else
+    {
+        for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
+        {
+            node = node->next;
+        }
+
+        node->next = sll_create(value, node->next); // Point the successor of the head to the new (old head) node.
+    }
+}

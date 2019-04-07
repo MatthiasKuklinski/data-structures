@@ -14,4 +14,5 @@ void sll_delete(node_t *node);
 int sll_length(node_t *node);
 void sll_append(node_t *node, const int value);
 // void sll_insert(const node *head, const int value, const int index);
+void sll_insert(node_t *node, const int value, const unsigned int index);
 void sll_print(node_t *node);

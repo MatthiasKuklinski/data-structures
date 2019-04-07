@@ -8,6 +8,7 @@ void menu()
     printf("--- Singly Linked List ---\n");
     printf("Menu(m)\n");
     printf("Create(c)\n");
+    printf("Insert(i)\n");
     printf("Append(a)\n");
     printf("Length(l)\n");
     printf("Print(p)\n");
@@ -31,6 +32,13 @@ void controller(const char cmd)
         sll_delete(list);
         list = sll_create(value, NULL);
         break;
+    case 'i':
+        printf("Value:");
+        scanf("%d", &value);
+        printf("Index:");
+        scanf("%d", &index);
+        sll_insert(list, value, index);
+        break;
     case 'a':
         printf("Value:");
         scanf("%d", &value);
@@ -42,13 +50,6 @@ void controller(const char cmd)
     case 'p':
         sll_traverse(list, sll_print);
         break;
-        /*     case 'i':
-        printf("Value:");
-        scanf("%d", &value);
-        printf("Index:");
-        scanf("%d", &index);
-        // sll_insert(list, value, index);
-        break; */
     case 'd':
         sll_delete(list);
         break;
@@ -68,7 +69,7 @@ int main()
     while (1)
     {
         printf("Command:");
-        scanf("%c", &cmd);
+        scanf(" %c", &cmd);
         controller(cmd);
     }
 }
