@@ -8,8 +8,9 @@ void menu()
     printf("--- Singly Linked List ---\n");
     printf("Menu(m)\n");
     printf("Create(c)\n");
-    printf("Insert(i)\n");
+    printf("Prepend(p)\n");
     printf("Append(a)\n");
+    printf("Insert(i)\n");
     printf("Length(l)\n");
     printf("Print(p)\n");
     printf("Delete(d)\n");

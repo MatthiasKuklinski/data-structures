@@ -25,7 +25,7 @@ node_t *sll_create(const int value, node_t *successor)
     return temp_node; // Return a pointer to the new node.
 }
 
-void sll_traverse(node_t *node, const callback cb)
+void sll_traverse(node_t *node, const sll_callback cb)
 {
     while (node) // Iterate through the list.
     {
@@ -57,6 +57,16 @@ int sll_length(node_t *node)
     return length; // Return the computed length.
 }
 
+void sll_prepend(node_t *node, const int value)
+{
+    if (node)
+    {
+        node_t *temp_node = node;                                   // Copy the node.
+        node->next = sll_create(temp_node->value, temp_node->next); // Point the successor of the head to the new (old head) node.
+        node->value = value;                                        // Change the head node value to the requested value.
+    }
+}
+
 void sll_append(node_t *node, const int value)
 {
     if (node)
@@ -78,9 +88,7 @@ void sll_insert(node_t *node, const int value, const unsigned int index)
 
     if (index == 0) // Check if the requested insert should be at the head of the list.
     {
-        node_t *temp_node = node;                                   // Copy the node.
-        node->next = sll_create(temp_node->value, temp_node->next); // Point the successor of the head to the new (old head) node.
-        node->value = value;                                        // Change the head node value to the requested value.
+        sll_prepend(node, value);
     }
     else if (index >= sll_length(node)) // Check if the requested insert should be at the end of the list.
     {
