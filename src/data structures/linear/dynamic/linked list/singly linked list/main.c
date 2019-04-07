@@ -12,6 +12,7 @@ void menu()
     printf("Append(a)\n");
     printf("Insert(i)\n");
     printf("Delete(d)\n");
+    printf("Get(g)\n");
     printf("Length(l)\n");
     printf("Print(p)\n");
     printf("Free(f)\n");
@@ -55,6 +56,11 @@ void controller(const char cmd)
         printf("Index:");
         scanf("%d", &value);
         sll_delete(list, value);
+        break;
+    case 'g':
+        printf("Index:");
+        scanf("%d", &value);
+        printf("%p\n", sll_get(list, value));
         break;
     case 'l':
         printf("%d\n", sll_length(list));

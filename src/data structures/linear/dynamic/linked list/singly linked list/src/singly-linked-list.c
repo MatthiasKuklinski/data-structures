@@ -45,6 +45,16 @@ void sll_free(node_t *node)
     }
 }
 
+node_t *sll_get(node_t *node, const int index)
+{
+    printf("Index: %d\n", index);
+    for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
+    {
+        node = node->next;
+    }
+    return node;
+}
+
 void sll_delete(node_t *node, const unsigned int index)
 {
     for (int i = 1; i < index; ++i) // Iterate through the list until the requested index is reached.

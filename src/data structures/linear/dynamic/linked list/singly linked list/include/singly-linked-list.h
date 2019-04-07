@@ -17,3 +17,4 @@ void sll_prepend(node_t *node, const int value);
 void sll_append(node_t *node, const int value);
 void sll_insert(node_t *node, const int value, const unsigned int index);
 void sll_print(node_t *node);
+node_t *sll_get(node_t *node, const int index);
