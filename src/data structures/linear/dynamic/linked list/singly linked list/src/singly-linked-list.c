@@ -11,11 +11,13 @@ void sll_print(node_t *node)
 node_t *sll_create(const int value, node_t *successor)
 {
     node_t *temp_node = malloc(sizeof(node_t)); // Allocate memory.
-    if (!temp_node)                             // Check if mempory was successfully allocated.
+
+    if (!temp_node) // Check if mempory was successfully allocated.
     {
         printf("Error creating a new node: memory allocation failed.\n"); // Print the error message to the user.
         exit(1);                                                          // Exit the program if no memory could be allocated.
     }
+
     temp_node->value = value;    // Populate the node with the passed in data.
     temp_node->next = successor; // Declare the node to represent the end of the list.
 
@@ -56,8 +58,8 @@ int sll_length(node_t *node)
 
 void sll_append(node_t *node, const int value)
 {
-    while (node == node->next)
-        ;
+    while (node->next)
+        node = node->next;
 
     node->next = sll_create(value, NULL);
 }
