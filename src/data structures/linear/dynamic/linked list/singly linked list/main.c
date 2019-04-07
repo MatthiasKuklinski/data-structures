@@ -24,15 +24,11 @@ void controller(const char cmd)
     {
     case 'm':
         menu();
-    case 'p':
-        sll_traverse(list, sll_print);
         break;
-    case 'l':
-        sll_length(list);
     case 'c':
         printf("Value:");
         scanf("%d", &value);
-        // sll_delete(list);
+        sll_delete(list);
         list = sll_create(value, NULL);
         break;
     case 'a':
@@ -40,13 +36,19 @@ void controller(const char cmd)
         scanf("%d", &value);
         sll_append(list, value);
         break;
-    case 'i':
+    case 'l':
+        printf("%d\n", sll_length(list));
+        break;
+    case 'p':
+        sll_traverse(list, sll_print);
+        break;
+        /*     case 'i':
         printf("Value:");
         scanf("%d", &value);
         printf("Index:");
         scanf("%d", &index);
         // sll_insert(list, value, index);
-        break;
+        break; */
     case 'd':
         sll_delete(list);
         break;

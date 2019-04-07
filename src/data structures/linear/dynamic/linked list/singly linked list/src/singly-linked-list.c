@@ -58,10 +58,13 @@ int sll_length(node_t *node)
 
 void sll_append(node_t *node, const int value)
 {
-    while (node->next)
-        node = node->next;
+    if (node)
+    {
+        while (node->next)
+            node = node->next;
 
-    node->next = sll_create(value, NULL);
+        node->next = sll_create(value, NULL);
+    }
 }
 
 /* void sll_insert(const node *head, const int value, const int index);
