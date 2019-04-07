@@ -34,7 +34,7 @@ void sll_traverse(node_t *node, const sll_callback cb)
     }
 }
 
-void sll_delete(node_t *node)
+void sll_free(node_t *node)
 {
     node_t *temp_node;
 
@@ -43,6 +43,17 @@ void sll_delete(node_t *node)
         node = node->next; // Point to the address of the successor of the current node.
         free(temp_node);   // Deallocate the memory.
     }
+}
+
+void sll_delete(node_t *node, const unsigned int index)
+{
+    for (int i = 1; i < index; ++i) // Iterate through the list until the requested index is reached.
+    {
+        node = node->next;
+    }
+    node_t *temp_node = node->next;
+    node->next = node->next->next;
+    free(temp_node);
 }
 
 int sll_length(node_t *node)

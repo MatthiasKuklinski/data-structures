@@ -11,9 +11,10 @@ void menu()
     printf("Prepend(b)\n");
     printf("Append(a)\n");
     printf("Insert(i)\n");
+    printf("Delete(d)\n");
     printf("Length(l)\n");
     printf("Print(p)\n");
-    printf("Delete(d)\n");
+    printf("Free(f)\n");
     printf("Exit(e)\n");
 }
 
@@ -30,7 +31,7 @@ void controller(const char cmd)
     case 'c':
         printf("Value:");
         scanf("%d", &value);
-        sll_delete(list);
+        sll_free(list);
         list = sll_create(value, NULL);
         break;
     case 'b':
@@ -50,17 +51,22 @@ void controller(const char cmd)
         scanf("%d", &index);
         sll_insert(list, value, index);
         break;
+    case 'd':
+        printf("Index:");
+        scanf("%d", &value);
+        sll_delete(list, value);
+        break;
     case 'l':
         printf("%d\n", sll_length(list));
         break;
     case 'p':
         sll_traverse(list, sll_print);
         break;
-    case 'd':
-        sll_delete(list);
+    case 'f':
+        sll_free(list);
         break;
     case 'e':
-        sll_delete(list);
+        sll_free(list);
         exit(0);
     default:
         break;
