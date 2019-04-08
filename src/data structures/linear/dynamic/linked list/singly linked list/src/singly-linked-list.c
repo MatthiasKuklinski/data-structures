@@ -80,6 +80,9 @@ void sll_pop(node_t *node, const unsigned int index)
 
 node_t *sll_pop_first(node_t *node)
 {
+    if (!node)
+        return NULL;
+
     node_t *temp_node = node->next;
     free(node);
     return temp_node;
@@ -87,6 +90,14 @@ node_t *sll_pop_first(node_t *node)
 
 void sll_pop_last(node_t *node)
 {
+    if (!node)
+        return;
+
+    while (node->next->next)
+        node = node->next;
+
+    free(node->next);
+    node->next = NULL;
 }
 
 node_t *sll_get(node_t *node, const unsigned int index)
