@@ -9,12 +9,12 @@ void sll_print(node_t *node)
     printf("%d\n", node->value);
 }
 
-node_t *sll_construct(const int value, const node_t *successor)
+node_t *sll_construct(const int value, node_t *successor)
 {
     node_t *temp_node = malloc(sizeof(node_t)); // Allocate memory.
 
     if (!temp_node) // Check if mempory was successfully allocated.
-        return;
+        return NULL;
 
     temp_node->value = value;    // Populate the node with the passed in data.
     temp_node->next = successor; // Declare the node to represent the end of the list.
@@ -38,9 +38,9 @@ void sll_prepend(node_t *node, const int value)
     if (!node)
         return;
 
-    node_t *temp_node = node;                                   // Copy the node.
-    node->next = sll_create(temp_node->value, temp_node->next); // Point the successor of the head to the new (old head) node.
-    node->value = value;                                        // Change the head node value to the requested value.
+    node_t *temp_node = node;                                      // Copy the node.
+    node->next = sll_construct(temp_node->value, temp_node->next); // Point the successor of the head to the new (old head) node.
+    node->value = value;                                           // Change the head node value to the requested value.
 }
 
 void sll_append(node_t *node, const int value)
@@ -51,7 +51,7 @@ void sll_append(node_t *node, const int value)
     while (node->next)
         node = node->next;
 
-    node->next = sll_create(value, NULL);
+    node->next = sll_construct(value, NULL);
 }
 
 void sll_insert(node_t *node, const int value, const unsigned int index)
@@ -62,7 +62,7 @@ void sll_insert(node_t *node, const int value, const unsigned int index)
     for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
         node = node->next;
 
-    node->next = sll_create(value, node->next); // Point the successor of the head to the new (old head) node.
+    node->next = sll_construct(value, node->next); // Point the successor of the head to the new (old head) node.
 }
 
 void sll_pop(node_t *node, const unsigned int index)
@@ -78,8 +78,11 @@ void sll_pop(node_t *node, const unsigned int index)
     free(temp_node);
 }
 
-void sll_pop_first(node_t *node)
+node_t *sll_pop_first(node_t *node)
 {
+    node_t *temp_node = node->next;
+    free(node);
+    return temp_node;
 }
 
 void sll_pop_last(node_t *node)
@@ -89,7 +92,7 @@ void sll_pop_last(node_t *node)
 node_t *sll_get(node_t *node, const unsigned int index)
 {
     if (!node)
-        return;
+        return NULL;
 
     for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
         node = node->next;

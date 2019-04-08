@@ -9,16 +9,16 @@ void menu()
     printf("Menu(m)\n");
     printf("Construct(c)\n");
     printf("Destruct(d)\n");
-    printf("Prepend(p)\n");
+    printf("Prepend(b)\n");
     printf("Append(a)\n");
     printf("Insert(i)\n");
-    printf("Pop(pp)\n");
-    printf("Pop first(ppf)\n");
-    printf("Pop last(ppl)\n");
+    printf("Pop(r)\n");
+    printf("Pop first(t)\n");
+    printf("Pop last(z)\n");
     printf("Get(g)\n");
     printf("Set(s)\n");
     printf("Length(l)\n");
-    printf("Print(pt)\n");
+    printf("Print(p)\n");
     printf("Exit(e)\n");
 }
 
@@ -42,7 +42,7 @@ void controller(const char cmd)
     case 'd':
         sll_destruct(list);
         break;
-    case 'p':
+    case 'b':
         printf("Value:");
         scanf("%d", &value);
         sll_prepend(list, value);
@@ -59,14 +59,15 @@ void controller(const char cmd)
         scanf("%d", &value);
         sll_insert(list, value, index);
         break;
-    case 'pp':
+    case 'r':
+        printf("Index:");
         scanf("%d", &index);
         sll_pop(list, index);
         break;
-    case 'ppf':
-        sll_pop_first(list);
+    case 't':
+        list = sll_pop_first(list);
         break;
-    case 'ppl':
+    case 'z':
         sll_pop_last(list);
         break;
     case 'g':
@@ -79,16 +80,16 @@ void controller(const char cmd)
         scanf("%d", &index);
         printf("Value:");
         scanf("%d", &value);
-        printf("%p\n", sll_set(list, index, value));
+        sll_set(list, index, value);
         break;
     case 'l':
         printf("%d\n", sll_length(list));
         break;
-    case 'pt':
+    case 'p':
         sll_traverse(list, sll_print);
         break;
     case 'e':
-        sll_free(list);
+        sll_destruct(list);
         exit(0);
     default:
         break;
@@ -102,7 +103,7 @@ int main()
     menu();
     while (1)
     {
-        printf("Command:");
+        printf("Cmd:");
         scanf(" %s", &cmd);
         controller(cmd);
     }
