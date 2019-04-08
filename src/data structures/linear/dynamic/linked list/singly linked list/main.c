@@ -7,21 +7,25 @@ void menu()
 {
     printf("--- Singly Linked List ---\n");
     printf("Menu(m)\n");
-    printf("Create(c)\n");
-    printf("Prepend(b)\n");
+    printf("Construct(c)\n");
+    printf("Destruct(d)\n");
+    printf("Prepend(p)\n");
     printf("Append(a)\n");
     printf("Insert(i)\n");
-    printf("Delete(d)\n");
+    printf("Pop(pp)\n");
+    printf("Pop first(ppf)\n");
+    printf("Pop last(ppl)\n");
     printf("Get(g)\n");
+    printf("Set(s)\n");
     printf("Length(l)\n");
-    printf("Print(p)\n");
-    printf("Free(f)\n");
+    printf("Print(pt)\n");
     printf("Exit(e)\n");
 }
 
 void controller(const char cmd)
 {
-    int value, index;
+    int value;
+    unsigned int index;
     static node_t *list = NULL;
 
     switch (cmd)
@@ -32,10 +36,13 @@ void controller(const char cmd)
     case 'c':
         printf("Value:");
         scanf("%d", &value);
-        sll_free(list);
-        list = sll_create(value, NULL);
+        sll_destruct(list);
+        list = sll_construct(value, NULL);
         break;
-    case 'b':
+    case 'd':
+        sll_destruct(list);
+        break;
+    case 'p':
         printf("Value:");
         scanf("%d", &value);
         sll_prepend(list, value);
@@ -46,30 +53,39 @@ void controller(const char cmd)
         sll_append(list, value);
         break;
     case 'i':
-        printf("Value:");
-        scanf("%d", &value);
         printf("Index:");
         scanf("%d", &index);
+        printf("Value:");
+        scanf("%d", &value);
         sll_insert(list, value, index);
         break;
-    case 'd':
-        printf("Index:");
-        scanf("%d", &value);
-        sll_delete(list, value);
+    case 'pp':
+        scanf("%d", &index);
+        sll_pop(list, index);
+        break;
+    case 'ppf':
+        sll_pop_first(list);
+        break;
+    case 'ppl':
+        sll_pop_last(list);
         break;
     case 'g':
         printf("Index:");
+        scanf("%d", &index);
+        printf("%p\n", sll_get(list, index));
+        break;
+    case 's':
+        printf("Index:");
+        scanf("%d", &index);
+        printf("Value:");
         scanf("%d", &value);
-        printf("%p\n", sll_get(list, value));
+        printf("%p\n", sll_set(list, index, value));
         break;
     case 'l':
         printf("%d\n", sll_length(list));
         break;
-    case 'p':
+    case 'pt':
         sll_traverse(list, sll_print);
-        break;
-    case 'f':
-        sll_free(list);
         break;
     case 'e':
         sll_free(list);
@@ -87,7 +103,7 @@ int main()
     while (1)
     {
         printf("Command:");
-        scanf(" %c", &cmd);
+        scanf(" %s", &cmd);
         controller(cmd);
     }
 }
