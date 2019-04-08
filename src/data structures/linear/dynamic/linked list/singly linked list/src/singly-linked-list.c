@@ -9,20 +9,82 @@ void sll_print(node_t *node)
     printf("%d\n", node->value);
 }
 
-node_t *sll_create(const int value, node_t *successor)
+node_t *sll_construct(const int value, const node_t *successor)
 {
     node_t *temp_node = malloc(sizeof(node_t)); // Allocate memory.
 
     if (!temp_node) // Check if mempory was successfully allocated.
-    {
-        printf("Error creating a new node: memory allocation failed.\n"); // Print the error message to the user.
-        exit(1);                                                          // Exit the program if no memory could be allocated.
-    }
+        return;
 
     temp_node->value = value;    // Populate the node with the passed in data.
     temp_node->next = successor; // Declare the node to represent the end of the list.
 
     return temp_node; // Return a pointer to the new node.
+}
+
+void sll_destruct(node_t *node)
+{
+    node_t *temp_node;
+
+    while (temp_node = node) // Iterate through the list and temporarly store the current node.
+    {
+        node = node->next; // Point to the address of the successor of the current node.
+        free(temp_node);   // Deallocate the memory.
+    }
+}
+
+void sll_prepend(node_t *node, const int value)
+{
+    if (!node)
+        return;
+
+    node_t *temp_node = node;                                   // Copy the node.
+    node->next = sll_create(temp_node->value, temp_node->next); // Point the successor of the head to the new (old head) node.
+    node->value = value;                                        // Change the head node value to the requested value.
+}
+
+void sll_append(node_t *node, const int value)
+{
+    if (!node)
+        return;
+
+    while (node->next)
+        node = node->next;
+
+    node->next = sll_create(value, NULL);
+}
+
+void sll_insert(node_t *node, const int value, const unsigned int index)
+{
+    if (!node) // Check if the initial node exists.
+        return;
+
+    for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
+        node = node->next;
+
+    node->next = sll_create(value, node->next); // Point the successor of the head to the new (old head) node.
+}
+
+node_t *sll_get(node_t *node, const unsigned int index)
+{
+    if (!node)
+        return;
+
+    for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
+        node = node->next;
+
+    return node;
+}
+
+void sll_set(node_t *node, const unsigned int index, const int value)
+{
+    if (!node)
+        return;
+
+    for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
+        node = node->next;
+
+    node->value = value;
 }
 
 void sll_traverse(node_t *node, const sll_callback cb)
@@ -34,29 +96,11 @@ void sll_traverse(node_t *node, const sll_callback cb)
     }
 }
 
-void sll_free(node_t *node)
-{
-    node_t *temp_node;
-
-    while (temp_node = node) // Iterate through the list and temporarly store the current node.
-    {
-        node = node->next; // Point to the address of the successor of the current node.
-        free(temp_node);   // Deallocate the memory.
-    }
-}
-
-node_t *sll_get(node_t *node, const int index)
-{
-    printf("Index: %d\n", index);
-    for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
-    {
-        node = node->next;
-    }
-    return node;
-}
-
 void sll_delete(node_t *node, const unsigned int index)
 {
+    if (!node)
+        return;
+
     for (int i = 1; i < index; ++i) // Iterate through the list until the requested index is reached.
     {
         node = node->next;
@@ -76,52 +120,4 @@ int sll_length(node_t *node)
     }
 
     return length; // Return the computed length.
-}
-
-void sll_prepend(node_t *node, const int value)
-{
-    if (node)
-    {
-        node_t *temp_node = node;                                   // Copy the node.
-        node->next = sll_create(temp_node->value, temp_node->next); // Point the successor of the head to the new (old head) node.
-        node->value = value;                                        // Change the head node value to the requested value.
-    }
-}
-
-void sll_append(node_t *node, const int value)
-{
-    if (node)
-    {
-        while (node->next)
-            node = node->next;
-
-        node->next = sll_create(value, NULL);
-    }
-}
-
-void sll_insert(node_t *node, const int value, const unsigned int index)
-{
-    if (!node) // Check if the initial node exists.
-    {
-        printf("Error inserting a new node: head of list is uninitialized.\n");
-        return;
-    }
-
-    if (index == 0) // Check if the requested insert should be at the head of the list.
-    {
-        sll_prepend(node, value);
-    }
-    else if (index >= sll_length(node)) // Check if the requested insert should be at the end of the list.
-    {
-        sll_append(node, value);
-    }
-    else
-    {
-        for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
-        {
-            node = node->next;
-        }
-
-        node->next = sll_create(value, node->next); // Point the successor of the head to the new (old head) node.
-    }
 }
