@@ -65,6 +65,27 @@ void sll_insert(node_t *node, const int value, const unsigned int index)
     node->next = sll_create(value, node->next); // Point the successor of the head to the new (old head) node.
 }
 
+void sll_pop(node_t *node, const unsigned int index)
+{
+    if (!node)
+        return;
+
+    for (int i = 1; i < index; ++i) // Iterate through the list until the requested index is reached.
+        node = node->next;
+
+    node_t *temp_node = node->next;
+    node->next = node->next->next;
+    free(temp_node);
+}
+
+void sll_pop_first(node_t *node)
+{
+}
+
+void sll_pop_last(node_t *node)
+{
+}
+
 node_t *sll_get(node_t *node, const unsigned int index)
 {
     if (!node)
@@ -94,20 +115,6 @@ void sll_traverse(node_t *node, const sll_callback cb)
         cb(node);          // Execute the callback.
         node = node->next; // Point to the successor of the current node.
     }
-}
-
-void sll_delete(node_t *node, const unsigned int index)
-{
-    if (!node)
-        return;
-
-    for (int i = 1; i < index; ++i) // Iterate through the list until the requested index is reached.
-    {
-        node = node->next;
-    }
-    node_t *temp_node = node->next;
-    node->next = node->next->next;
-    free(temp_node);
 }
 
 int sll_length(node_t *node)
