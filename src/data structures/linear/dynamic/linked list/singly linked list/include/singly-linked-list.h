@@ -20,3 +20,4 @@ void sll_set(node_t *node, const unsigned int index, const int value);
 void sll_traverse(node_t *node, const sll_callback cb);
 int sll_length(node_t *node);
 void sll_print(node_t *node);
+node_t *sll_reverse(node_t *node);
