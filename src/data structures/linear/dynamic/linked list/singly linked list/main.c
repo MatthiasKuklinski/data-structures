@@ -27,7 +27,7 @@ void controller(const char cmd)
 {
     int value;
     unsigned int index;
-    static node_t *list = NULL;
+    static sll_node_t *list = NULL;
 
     switch (cmd)
     {

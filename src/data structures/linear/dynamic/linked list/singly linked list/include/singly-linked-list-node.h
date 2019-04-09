@@ -3,5 +3,5 @@
 typedef struct node
 {
     int value;
-    struct node *next;
-} node_t;
+    struct node *successor;
+} sll_node_t;
