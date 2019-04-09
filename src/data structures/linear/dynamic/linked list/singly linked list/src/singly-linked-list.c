@@ -142,3 +142,20 @@ int sll_length(node_t *node)
 
     return length; // Return the computed length.
 }
+
+node_t *sll_reverse(node_t *node)
+{
+    if (!node)
+        return node;
+
+    node_t *predecessor = NULL;
+    node_t *successor;
+    while (node)
+    {
+        successor = node->next;
+        node->next = predecessor;
+        predecessor = node;
+        node = successor;
+    }
+    return predecessor;
+}

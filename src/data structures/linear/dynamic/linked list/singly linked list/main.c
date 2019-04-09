@@ -19,6 +19,7 @@ void menu()
     printf("Set(s)\n");
     printf("Length(l)\n");
     printf("Print(p)\n");
+    printf("Reverse(v)");
     printf("Exit(e)\n");
 }
 
@@ -87,6 +88,9 @@ void controller(const char cmd)
         break;
     case 'p':
         sll_traverse(list, sll_print);
+        break;
+    case 'v':
+        list = sll_reverse(list);
         break;
     case 'e':
         sll_destruct(list);
