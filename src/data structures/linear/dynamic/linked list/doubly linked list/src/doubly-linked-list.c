@@ -16,3 +16,14 @@ dll_node_t *dll_construct(const int value, dll_node_t *predecessor, dll_node_t *
 
     return temp_node; // Return a pointer to the new node.
 }
+
+void dll_destruct(dll_node_t *node)
+{
+    dll_node_t *temp_node;
+
+    while (temp_node = node) // Iterate through the list and temporarly store the current node.
+    {
+        node = node->successor; // Point to the address of the successor of the current node.
+        free(temp_node);        // Deallocate the memory.
+    }
+}

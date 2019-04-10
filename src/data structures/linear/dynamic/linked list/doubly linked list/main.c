@@ -8,6 +8,7 @@ void menu()
     printf("--- Doubly Linked List ---\n");
     printf("Menu(m)\n");
     printf("Construct(c)\n");
+    printf("Destruct(d)\n");
     printf("Exit(e)\n");
 }
 
@@ -25,8 +26,15 @@ void controller(const char cmd)
     case 'c':
         printf("Value:");
         scanf("%d", &value);
+        dll_destruct(list);
         list = dll_construct(value, NULL, NULL);
         break;
+    case 'd':
+        dll_destruct(list);
+        break;
+    case 'e':
+        dll_destruct(list);
+        exit(0);
     default:
         break;
     }
