@@ -1,5 +1,8 @@
 # Binaries
 *.exe
 
+# Object files
+*.o
+
 # Environment files
 /.vscode
