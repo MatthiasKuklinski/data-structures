@@ -27,3 +27,17 @@ void dll_destruct(dll_node_t *node)
         free(temp_node);        // Deallocate the memory.
     }
 }
+
+void dll_traverse(dll_node_t *node, const dll_callback cb)
+{
+    while (node) // Iterate through the list.
+    {
+        cb(node);               // Execute the callback.
+        node = node->successor; // Point to the successor of the current node.
+    }
+}
+
+void dll_print(dll_node_t *node)
+{
+    printf("%d\n", node->value);
+}

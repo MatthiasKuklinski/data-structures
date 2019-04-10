@@ -7,6 +7,7 @@ void menu()
 {
     printf("--- Doubly Linked List ---\n");
     printf("Menu(m)\n");
+    printf("Print(p)\n");
     printf("Construct(c)\n");
     printf("Destruct(d)\n");
     printf("Exit(e)\n");
@@ -22,6 +23,9 @@ void controller(const char cmd)
     {
     case 'm':
         menu();
+        break;
+    case 'p':
+        dll_traverse(list, dll_print);
         break;
     case 'c':
         printf("Value:");
