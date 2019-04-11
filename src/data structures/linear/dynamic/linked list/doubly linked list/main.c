@@ -16,7 +16,6 @@ void menu()
 void controller(const char cmd)
 {
     int value;
-    unsigned int index;
     static dll_node_t *list = NULL;
 
     switch (cmd)
