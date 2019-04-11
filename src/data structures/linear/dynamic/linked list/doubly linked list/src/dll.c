@@ -50,13 +50,22 @@ void dll_append(dll_node_t *node, const int value)
 
 unsigned long dll_length(dll_node_t *node)
 {
-    unsigned long n = 0;
+    if (!node)
+        return 0;
 
-    while (node)
-    {
+    unsigned long n = 1;
+
+    while ((node = node->successor))
         ++n;
-        node = node->successor;
-    }
 
     return n;
+}
+
+// TODO: Adjust return type to fit bigger sizes.
+unsigned long dll_size(dll_node_t *node)
+{
+    if (!node)
+        return 0;
+
+    return dll_length(node) * sizeof(int);
 }
