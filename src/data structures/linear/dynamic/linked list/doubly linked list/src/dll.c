@@ -1,21 +1,7 @@
-#include "../include/doubly-linked-list.h"
+#include "dll.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-
-dll_node_t *dll_construct(const int value, dll_node_t *predecessor, dll_node_t *successor)
-{
-    dll_node_t *temp_node = malloc(sizeof(dll_node_t)); // Allocate memory.
-
-    if (!temp_node) // Check if mempory was successfully allocated.
-        return NULL;
-
-    temp_node->value = value; // Populate the node with the passed in data.
-    temp_node->predecessor = predecessor;
-    temp_node->successor = successor; // Declare the node to represent the end of the list.
-
-    return temp_node; // Return a pointer to the new node.
-}
 
 void dll_destruct(dll_node_t *node)
 {
@@ -40,4 +26,15 @@ void dll_traverse(dll_node_t *node, const dll_callback cb)
 void dll_print(dll_node_t *node)
 {
     printf("%d\n", node->value);
+}
+
+void dll_prepend(dll_node_t *head, const int value)
+{
+    if (!head)
+        return;
+
+    dll_node_t *node = head;                                           // Copy the node.
+    head->predecessor = node;
+    head->successor = dll_node_construct(node->value, head, node->successor); // Point the successor of the head to the new (old head) node.
+    head->value = value;                                                     // Change the head node value to the requested value.
 }

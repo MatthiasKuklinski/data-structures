@@ -1,4 +1,4 @@
-#include "./include/doubly-linked-list.h"
+#include "dll.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,7 +31,7 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         dll_destruct(list);
-        list = dll_construct(value, NULL, NULL);
+        list = dll_node_construct(value, NULL, NULL);
         break;
     case 'd':
         dll_destruct(list);
