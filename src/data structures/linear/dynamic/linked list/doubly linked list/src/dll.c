@@ -47,3 +47,16 @@ void dll_append(dll_node_t *node, const int value)
 
     node->successor = dll_node(value, node->predecessor, NULL);
 }
+
+unsigned long dll_length(dll_node_t *node)
+{
+    unsigned long n = 0;
+
+    while (node)
+    {
+        ++n;
+        node = node->successor;
+    }
+
+    return n;
+}
