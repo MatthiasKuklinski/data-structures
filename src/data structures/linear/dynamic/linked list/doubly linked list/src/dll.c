@@ -28,11 +28,22 @@ void dll_print(dll_node_t *node)
     printf("%d\n", node->value);
 }
 
-void dll_prepend(dll_node_t *head, const int value)
+void dll_prepend(dll_node_t *node, const int value)
 {
-    if (!head)
+    if (!node)
         return;
 
-    head->successor = dll_node(head->value, head, head->successor); // Create a copy of head with the provided value ("move" the node to the second position).
-    head->value = value;
+    node->successor = dll_node(node->value, node, node->successor); // Create a copy of the node and assign the provided value ("move" the node to the second position).
+    node->value = value;
+}
+
+void dll_append(dll_node_t *node, const int value)
+{
+    if (!node)
+        return;
+
+    while (node->successor)
+        node = node->successor;
+
+    node->successor = dll_node(value, node->predecessor, NULL);
 }

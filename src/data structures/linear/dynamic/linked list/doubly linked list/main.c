@@ -9,6 +9,7 @@ void menu()
     printf("Print(p)\n");
     printf("Create(c)\n");
     printf("Prepend(b)\n");
+    printf("Append(a)\n");
     printf("Destroy(d)\n");
     printf("Menu(m)\n");
     printf("Exit(e)\n");
@@ -37,6 +38,11 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         dll_prepend(list, value);
+        break;
+    case 'a':
+        printf("Value:");
+        scanf("%d", &value);
+        dll_append(list, value);
         break;
     case 'd':
         dll_destroy(list);
