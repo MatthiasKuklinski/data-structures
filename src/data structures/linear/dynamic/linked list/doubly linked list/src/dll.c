@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void dll_destruct(dll_node_t *node)
+void dll_destroy(dll_node_t *node)
 {
     dll_node_t *temp_node;
 
@@ -16,7 +16,7 @@ void dll_destruct(dll_node_t *node)
 
 void dll_traverse(dll_node_t *node, const dll_callback cb)
 {
-    while (node) // Iterate through the list.
+    while (node)
     {
         cb(node);               // Execute the callback.
         node = node->successor; // Point to the successor of the current node.
@@ -33,8 +33,6 @@ void dll_prepend(dll_node_t *head, const int value)
     if (!head)
         return;
 
-    dll_node_t *node = head;                                           // Copy the node.
-    head->predecessor = node;
-    head->successor = dll_node(node->value, head, node->successor); // Point the successor of the head to the new (old head) node.
-    head->value = value;                                                     // Change the head node value to the requested value.
+    head->successor = dll_node(head->value, head, head->successor); // Create a copy of head with the provided value ("move" the node to the second position).
+    head->value = value;
 }

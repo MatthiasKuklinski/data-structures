@@ -3,7 +3,7 @@
 
 typedef void (*dll_callback)(dll_node_t *node);
 
-void dll_destruct(dll_node_t *node);
+void dll_destroy(dll_node_t *node);
 
 void dll_prepend(dll_node_t *node, const int value);
 

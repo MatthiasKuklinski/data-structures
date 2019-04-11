@@ -5,10 +5,11 @@
 
 void menu()
 {
-    printf("--- Doubly Linked List ---\n");
+    printf("- Doubly Linked List -\n");
     printf("Print(p)\n");
-    printf("Construct(c)\n");
-    printf("Destruct(d)\n");
+    printf("Create(c)\n");
+    printf("Prepend(b)\n");
+    printf("Destroy(d)\n");
     printf("Menu(m)\n");
     printf("Exit(e)\n");
 }
@@ -29,14 +30,19 @@ void controller(const char cmd)
     case 'c':
         printf("Value:");
         scanf("%d", &value);
-        dll_destruct(list);
+        dll_destroy(list);
         list = dll_node(value, NULL, NULL);
         break;
+    case 'b':
+        printf("Value:");
+        scanf("%d", &value);
+        dll_prepend(list, value);
+        break;
     case 'd':
-        dll_destruct(list);
+        dll_destroy(list);
         break;
     case 'e':
-        dll_destruct(list);
+        dll_destroy(list);
         exit(0);
     default:
         break;
