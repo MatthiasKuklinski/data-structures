@@ -23,11 +23,6 @@ void dll_traverse(dll_node_t *node, const dll_callback cb)
     }
 }
 
-void dll_print(dll_node_t *node)
-{
-    printf("%d\n", node->value);
-}
-
 void dll_prepend(dll_node_t *node, const int value)
 {
     if (!node)
