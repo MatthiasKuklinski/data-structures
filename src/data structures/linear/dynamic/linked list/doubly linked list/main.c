@@ -15,6 +15,7 @@ void menu()
     printf("Create(c)\n");
     printf("Prepend(b)\n");
     printf("Append(a)\n");
+    printf("Insert(i)\n");
     printf("Length(l)\n");
     printf("Size(v)\n");
     printf("Destroy(d)\n");
@@ -25,6 +26,7 @@ void menu()
 void controller(const char cmd)
 {
     int value;
+    unsigned int index;
     static dll_node_t *list = NULL;
 
     switch (cmd)
@@ -50,6 +52,13 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         dll_append(list, value);
+        break;
+    case 'i':
+        printf("Index:");
+        scanf("%d", &index);
+        printf("Value:");
+        scanf("%d", &value);
+        dll_insert(list, value, index);
         break;
     case 'l':
         printf("%lu\n", dll_length(list));

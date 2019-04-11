@@ -43,6 +43,24 @@ void dll_append(dll_node_t *node, const int value)
     node->successor = dll_node(value, node, NULL);
 }
 
+void dll_insert(dll_node_t *node, const int value, const unsigned int index)
+{
+    if (!node)
+        return;
+
+    if (index >= dll_length(node))
+        dll_append(node, value);
+    else if (index == 0)
+        dll_prepend(node, value);
+    else
+    {
+        for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
+            node = node->successor;
+
+        node->successor = dll_node(value, node, node->successor); // Point the successor of the head to the new (old head) node.
+    }
+}
+
 unsigned long dll_length(dll_node_t *node)
 {
     if (!node)
