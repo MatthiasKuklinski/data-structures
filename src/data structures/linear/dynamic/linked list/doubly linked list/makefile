@@ -5,15 +5,19 @@ CFLAGS := -c -Wall
 
 # Directories
 SRC_DIR = src
+INCLUDE_DIR = include
 
-doubly-linked-list: doubly-linked-list.o main.o
-	$(CC) doubly-linked-list.o main.o -o doubly-linked-list
+dll: dll_node.o dll.o main.o
+	$(CC) dll_node.o dll.o main.o -o dll
 
-doubly-linked-list.o: $(SRC_DIR)/doubly-linked-list.c
-	$(CC) $(CFLAGS) $(SRC_DIR)/doubly-linked-list.c
+dll_node.o: $(SRC_DIR)/dll_node.c
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) $(SRC_DIR)/dll_node.c
+
+dll.o: $(SRC_DIR)/dll.c
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) $(SRC_DIR)/dll.c
 
 main.o: main.c
-	$(CC) $(CFLAGS) main.c
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) main.c
 
 clean:
-	rm -rf *o doubly-linked-list
+	rm -rf *o dll
