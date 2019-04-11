@@ -1,4 +1,4 @@
-#include "dll.h"
+#include <dll.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,10 +6,10 @@
 void menu()
 {
     printf("--- Doubly Linked List ---\n");
-    printf("Menu(m)\n");
     printf("Print(p)\n");
     printf("Construct(c)\n");
     printf("Destruct(d)\n");
+    printf("Menu(m)\n");
     printf("Exit(e)\n");
 }
 
@@ -30,7 +30,7 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         dll_destruct(list);
-        list = dll_node_construct(value, NULL, NULL);
+        list = dll_node(value, NULL, NULL);
         break;
     case 'd':
         dll_destruct(list);

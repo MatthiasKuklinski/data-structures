@@ -1,4 +1,4 @@
-#include "dll.h"
+#include <dll.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,7 +7,7 @@ void dll_destruct(dll_node_t *node)
 {
     dll_node_t *temp_node;
 
-    while (temp_node = node) // Iterate through the list and temporarly store the current node.
+    while ((temp_node = node)) // Iterate through the list and temporarly store the current node.
     {
         node = node->successor; // Point to the address of the successor of the current node.
         free(temp_node);        // Deallocate the memory.
@@ -35,6 +35,6 @@ void dll_prepend(dll_node_t *head, const int value)
 
     dll_node_t *node = head;                                           // Copy the node.
     head->predecessor = node;
-    head->successor = dll_node_construct(node->value, head, node->successor); // Point the successor of the head to the new (old head) node.
+    head->successor = dll_node(node->value, head, node->successor); // Point the successor of the head to the new (old head) node.
     head->value = value;                                                     // Change the head node value to the requested value.
 }
