@@ -3,6 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void dll_print(dll_node_t *node)
+{
+    printf("%-32d%-32p%-32p%-32p\n", node->value, node, node->predecessor, node->successor);
+}
+
 void menu()
 {
     printf("- Doubly Linked List -\n");
