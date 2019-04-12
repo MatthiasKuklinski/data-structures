@@ -65,7 +65,7 @@ void dll_insert(dll_node_t *node, const int value, const unsigned int index)
     }
 }
 
-void dll_remove(dll_node_t *node, const unsigned int index)
+void dll_pop(dll_node_t *node, const unsigned int index)
 {
     if (!node)
         return;

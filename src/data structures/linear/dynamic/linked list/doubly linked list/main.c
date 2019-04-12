@@ -16,7 +16,7 @@ void menu()
     printf("Prepend(b)\n");
     printf("Append(a)\n");
     printf("Insert(i)\n");
-    printf("Remove(r)\n");
+    printf("Pop(r)\n");
     printf("Length(l)\n");
     printf("Size(v)\n");
     printf("Destroy(d)\n");
@@ -64,7 +64,7 @@ void controller(const char cmd)
     case 'r':
         printf("Index:");
         scanf("%d", &index);
-        dll_remove(list, index);
+        dll_pop(list, index);
         break;
     case 'l':
         printf("%lu\n", dll_length(list));
