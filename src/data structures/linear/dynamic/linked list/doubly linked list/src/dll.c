@@ -62,6 +62,20 @@ void dll_insert(dll_node_t *node, const int value, const unsigned int index)
     }
 }
 
+void dll_remove(dll_node_t *node, const unsigned int index)
+{
+    if (!node)
+        return;
+
+    for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
+        node = node->successor;
+
+    dll_node_t *temp_node = node;
+    node->predecessor->successor = node->successor;
+    node->successor->predecessor = node->predecessor;
+    free(temp_node);
+}
+
 unsigned long dll_length(dll_node_t *node)
 {
     if (!node)
