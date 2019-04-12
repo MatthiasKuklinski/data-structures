@@ -126,6 +126,17 @@ dll_node_t *dll_get(dll_node_t *node, const unsigned int index)
     return node;
 }
 
+void dll_set(dll_node_t *node, const unsigned int index, int value)
+{
+    if (!node)
+        return;
+
+    for (unsigned int i = 0; i < index && node->successor; ++i)
+        node = node->successor;
+    
+    node->value = value;
+}
+
 unsigned long dll_length(dll_node_t *node)
 {
     if (!node)

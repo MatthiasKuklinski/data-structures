@@ -13,6 +13,7 @@ void menu()
     printf("- Doubly Linked List -\n");
     printf("Print(p)\n");
     printf("Get(g)\n");
+    printf("Set(s)\n");
     printf("Create(c)\n");
     printf("Prepend(b)\n");
     printf("Append(a)\n");
@@ -43,6 +44,13 @@ void controller(const char cmd)
         scanf("%d", &index);
         dll_node_t *temp_node = dll_get(list, index);
         printf("%-32d%-32p%-32p%-32p\n", temp_node->value, temp_node, temp_node->predecessor, temp_node->successor);
+        break;
+    case 's':
+        printf("Index:");
+        scanf("%d", &index);
+        printf("Value:");
+        scanf("%d", &value);
+        dll_set(list, index, value);
         break;
     case 'c':
         printf("Value:");
