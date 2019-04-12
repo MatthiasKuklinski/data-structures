@@ -79,6 +79,12 @@ void dll_pop(dll_node_t *node, const unsigned int index)
     free(temp_node);
 }
 
+void dll_pop_first(dll_node_t **node)
+{
+    (*node)->successor->predecessor = NULL;
+    (*node) = (*node)->successor;
+}
+
 unsigned long dll_length(dll_node_t *node)
 {
     if (!node)
