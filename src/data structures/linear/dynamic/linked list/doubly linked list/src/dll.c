@@ -115,6 +115,17 @@ void dll_pop_last(dll_node_t *node)
     free(node);
 }
 
+dll_node_t *dll_get(dll_node_t *node, const unsigned int index)
+{
+    if (!node)
+        return NULL;
+
+    for (unsigned int i = 0; i < index && node->successor; ++i)
+        node = node->successor;
+
+    return node;
+}
+
 unsigned long dll_length(dll_node_t *node)
 {
     if (!node)

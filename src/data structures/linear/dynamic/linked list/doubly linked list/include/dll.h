@@ -13,6 +13,8 @@ void dll_pop(dll_node_t *node, const unsigned int index);
 void dll_pop_first(dll_node_t **node);
 void dll_pop_last(dll_node_t *node);
 
+dll_node_t *dll_get(dll_node_t *node, const unsigned int index);
+
 void dll_traverse(dll_node_t *node, const dll_callback cb);
 unsigned long dll_length(dll_node_t *node);
 unsigned long dll_size(dll_node_t *node);
