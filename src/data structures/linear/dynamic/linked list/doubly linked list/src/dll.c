@@ -12,6 +12,7 @@ void dll_destroy(dll_node_t *node)
         node = node->successor; // Point to the address of the successor of the current node.
         free(temp_node);        // Deallocate the memory.
     }
+    node = NULL; // Set the head node to NULL.
 }
 
 void dll_traverse(dll_node_t *node, const dll_callback cb)
@@ -31,7 +32,7 @@ void dll_prepend(dll_node_t *node, const int value)
     node->successor = dll_node(node->value, node, node->successor); // Create a copy of the node and assign the provided value ("move" the node to the second position).
     node->value = value;
 
-    if (node->successor->successor)
+    if (node->successor->successor) // Check if a successor of the created node exists.
         node->successor->successor->predecessor = node->successor;
 }
 
