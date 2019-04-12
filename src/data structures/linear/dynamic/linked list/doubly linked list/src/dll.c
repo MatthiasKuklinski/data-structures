@@ -81,8 +81,20 @@ void dll_pop(dll_node_t *node, const unsigned int index)
 
 void dll_pop_first(dll_node_t **node)
 {
-    (*node)->successor->predecessor = NULL;
-    (*node) = (*node)->successor;
+    if (!node)
+        return;
+
+    if (!((*node)->successor)) // Check if a successor exists.
+    {
+        dll_destroy(*node); // Invoke destroy() since the only element of the list was requested to be popped.
+        return;
+    }
+
+    dll_node_t *temp_node = *node;
+
+    (*node) = (*node)->successor; // Set the former (head)node to point to the next node.
+    (*node)->predecessor = NULL;  // Set the predecessor to NULL, since the node will represent the head of the list.
+    free(temp_node);              // Deallocate memory of the former (head)node.
 }
 
 unsigned long dll_length(dll_node_t *node)
