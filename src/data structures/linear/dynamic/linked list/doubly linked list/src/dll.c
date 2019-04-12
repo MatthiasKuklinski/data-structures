@@ -97,6 +97,24 @@ void dll_pop_first(dll_node_t **node)
     free(temp_node);              // Deallocate memory of the former (head)node.
 }
 
+void dll_pop_last(dll_node_t *node)
+{
+    if (!node)
+        return;
+
+    if (!node->successor)
+    {
+        dll_destroy(node); // Invoke destroy() since the only element of the list was requested to be popped.
+        return;
+    }
+
+    while (node->successor)
+        node = node->successor;
+
+    node->predecessor->successor = NULL;
+    free(node);
+}
+
 unsigned long dll_length(dll_node_t *node)
 {
     if (!node)

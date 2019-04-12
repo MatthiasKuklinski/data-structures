@@ -11,6 +11,7 @@ void dll_insert(dll_node_t *node, const int value, const unsigned int index);
 
 void dll_pop(dll_node_t *node, const unsigned int index);
 void dll_pop_first(dll_node_t **node);
+void dll_pop_last(dll_node_t *node);
 
 void dll_traverse(dll_node_t *node, const dll_callback cb);
 unsigned long dll_length(dll_node_t *node);

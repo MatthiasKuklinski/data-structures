@@ -18,6 +18,7 @@ void menu()
     printf("Insert(i)\n");
     printf("Pop(r)\n");
     printf("Pop first(t)\n");
+    printf("Pop last(z)\n");
     printf("Length(l)\n");
     printf("Size(v)\n");
     printf("Destroy(d)\n");
@@ -69,6 +70,9 @@ void controller(const char cmd)
         break;
     case 't':
         dll_pop_first(&list);
+        break;
+    case 'z':
+        dll_pop_last(list);
         break;
     case 'l':
         printf("%lu\n", dll_length(list));
