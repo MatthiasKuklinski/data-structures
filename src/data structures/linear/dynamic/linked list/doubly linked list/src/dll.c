@@ -29,8 +29,10 @@ void dll_prepend(dll_node_t *node, const int value)
         return;
 
     node->successor = dll_node(node->value, node, node->successor); // Create a copy of the node and assign the provided value ("move" the node to the second position).
-    node->successor->successor->predecessor = node->successor;
     node->value = value;
+
+    if (node->successor->successor)
+        node->successor->successor->predecessor = node->successor;
 }
 
 void dll_append(dll_node_t *node, const int value)
