@@ -1,11 +1,13 @@
-#include <stk_array.h>
+#include <stk_ary.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
 void menu()
 {
-    printf("- Stack -\n");
+    printf("- stk_ary -\n");
+    printf("Create(c)\n");
+    printf("Push(p)\n");
     printf("Menu(m)\n");
     printf("Exit(e)\n");
 }
@@ -13,9 +15,15 @@ void menu()
 void controller(const char cmd)
 {
     int value;
+    static stk_ary_t *stk_ary = NULL;
 
     switch (cmd)
     {
+    case 'c':
+        unsigned int capacity;
+        printf("Capcity:");
+        scanf("%d", &capacity);
+        stk_ary = stk_ary(capacity);
     case 'm':
         menu();
         break;
