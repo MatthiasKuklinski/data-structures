@@ -12,7 +12,7 @@ stk_ary_t *stk_ary(unsigned int capacity)
     return stk_ary;
 }
 
-void push(stk_ary_t *stk_ary, int value)
+void stk_ary_push(stk_ary_t *stk_ary, int value)
 {
     stk_ary->array[++stk_ary->top] = value; // Increment top and append the requested value.
 }

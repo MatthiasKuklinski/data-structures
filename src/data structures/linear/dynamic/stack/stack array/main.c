@@ -15,15 +15,19 @@ void menu()
 void controller(const char cmd)
 {
     int value;
-    static stk_ary_t *stk_ary = NULL;
+    unsigned int capacity;
+    static stk_ary_t *stk = NULL;
 
     switch (cmd)
     {
     case 'c':
-        unsigned int capacity;
         printf("Capcity:");
         scanf("%d", &capacity);
-        stk_ary = stk_ary(capacity);
+        stk = stk_ary(capacity);
+    case 'p':
+        printf("Value:");
+        scanf("%d", &value);
+        stk_ary_push(stk, value);
     case 'm':
         menu();
         break;

@@ -8,4 +8,4 @@ typedef struct stk_ary
 } stk_ary_t;
 
 stk_ary_t *stk_ary(unsigned int capacity);
-void push(stk_ary_t *stk_ary, int value);
+void stk_ary_push(stk_ary_t *stk_ary, int value);
