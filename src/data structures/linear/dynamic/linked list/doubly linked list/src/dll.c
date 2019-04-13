@@ -142,18 +142,18 @@ void dll_reverse(dll_node_t **node)
     if (!node)
         return;
 
-    dll_node_t *current = *node;
+    dll_node_t *current = *node; // Store the address of the current node.
     dll_node_t *temp_node = NULL;
 
-    while(current)
+    while (current)
     {
-        temp_node = current->predecessor;
-        current->predecessor = current->successor;
-        current->successor = temp_node;
-        current = current->predecessor;
+        temp_node = current->predecessor;          // Store the address of the predecessing node.
+        current->predecessor = current->successor; // Change the address of the the predecessing node to the successing node.
+        current->successor = temp_node;            // Change the address of the succesing node to the previously stored address of the predecessing node.
+        current = current->predecessor;            // Change the address of the current node to the currents predecessing node (former successing node).
     }
 
-    *node = temp_node->predecessor;
+    *node = temp_node->predecessor; // Set the head node to the former tail node.
 }
 
 unsigned long dll_length(dll_node_t *node)
