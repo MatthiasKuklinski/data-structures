@@ -24,10 +24,12 @@ void controller(const char cmd)
         printf("Capcity:");
         scanf("%d", &capacity);
         stk = stk_ary(capacity);
+        break;
     case 'p':
         printf("Value:");
         scanf("%d", &value);
         stk_ary_push(stk, value);
+        break;
     case 'm':
         menu();
         break;
