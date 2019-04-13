@@ -21,6 +21,7 @@ void menu()
     printf("Pop(r)\n");
     printf("Pop first(t)\n");
     printf("Pop last(z)\n");
+    printf("Reverse(o)\n");
     printf("Length(l)\n");
     printf("Size(v)\n");
     printf("Destroy(d)\n");
@@ -85,6 +86,9 @@ void controller(const char cmd)
         break;
     case 'z':
         dll_pop_last(list);
+        break;
+    case 'o':
+        dll_reverse(&list);
         break;
     case 'l':
         printf("%lu\n", dll_length(list));

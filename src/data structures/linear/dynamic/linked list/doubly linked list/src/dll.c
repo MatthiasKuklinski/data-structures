@@ -133,8 +133,27 @@ void dll_set(dll_node_t *node, const unsigned int index, int value)
 
     for (unsigned int i = 0; i < index && node->successor; ++i)
         node = node->successor;
-    
+
     node->value = value;
+}
+
+void dll_reverse(dll_node_t **node)
+{
+    if (!node)
+        return;
+
+    dll_node_t *current = *node;
+    dll_node_t *temp_node = NULL;
+
+    while(current)
+    {
+        temp_node = current->predecessor;
+        current->predecessor = current->successor;
+        current->successor = temp_node;
+        current = current->predecessor;
+    }
+
+    *node = temp_node->predecessor;
 }
 
 unsigned long dll_length(dll_node_t *node)
