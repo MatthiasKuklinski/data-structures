@@ -11,3 +11,8 @@ stack_t *stack(unsigned int capacity)
 
     return stack;
 }
+
+void push(stack_t *stack, int value)
+{
+    stack->array[++stack->top] = value; // Increment top and append the requested value.
+}
