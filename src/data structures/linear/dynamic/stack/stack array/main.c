@@ -5,6 +5,7 @@
 
 void stk_ary_print(stk_ary_t *stk_ary)
 {
+    printf("%-32d%-32d\n", stk_ary->capacity, stk_ary->top);
     for (int i = stk_ary->top; i > -1; --i)
         printf("%-32d%-32p\n", stk_ary->array[i], &stk_ary->array[i]);
 }
