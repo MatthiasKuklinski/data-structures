@@ -17,3 +17,8 @@ void stk_ary_push(stk_ary_t *stk_ary, int value)
 {
     stk_ary->array[++stk_ary->top] = value; // Increment top and append the requested value.
 }
+
+void stk_ary_pop(stk_ary_t **stk_ary)
+{
+    (*stk_ary)->array = realloc((*stk_ary)->array, (*stk_ary)->top-- * sizeof(int));
+}

@@ -15,6 +15,7 @@ void menu()
     printf("Print(x)\n");
     printf("Create(c)\n");
     printf("Push(p)\n");
+    printf("Pop(r)\n");
     printf("Menu(m)\n");
     printf("Exit(e)\n");
 }
@@ -39,6 +40,10 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         stk_ary_push(stk, value);
+        stk_ary_print(stk);
+        break;
+    case 'r':
+        stk_ary_pop(&stk);
         stk_ary_print(stk);
         break;
     case 'm':
