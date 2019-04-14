@@ -3,9 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void stk_ary_print(stk_ary_t *stk_ary)
+{
+    int n = stk_ary->top;
+    
+    while (n >= 0)
+    {
+        printf("%-32d%-32p\n", stk_ary->array[n], &stk_ary->array[n--]);
+    }
+}
+
 void menu()
 {
-    printf("- stk_ary -\n");
+    printf("- Stack(Array) -\n");
+    printf("Print(x)\n");
     printf("Create(c)\n");
     printf("Push(p)\n");
     printf("Menu(m)\n");
@@ -20,8 +31,11 @@ void controller(const char cmd)
 
     switch (cmd)
     {
+    case 'x':
+        stk_ary_print(stk);
+        break;
     case 'c':
-        printf("Capcity:");
+        printf("Capacity:");
         scanf("%d", &capacity);
         stk = stk_ary(capacity);
         break;
@@ -29,6 +43,7 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         stk_ary_push(stk, value);
+        stk_ary_print(stk);
         break;
     case 'm':
         menu();
