@@ -5,12 +5,8 @@
 
 void stk_ary_print(stk_ary_t *stk_ary)
 {
-    int n = stk_ary->top;
-    
-    while (n >= 0)
-    {
-        printf("%-32d%-32p\n", stk_ary->array[n], &stk_ary->array[n--]);
-    }
+    for (int i = stk_ary->top; i > -1; --i)
+        printf("%-32d%-32p\n", stk_ary->array[i], &stk_ary->array[i]);
 }
 
 void menu()

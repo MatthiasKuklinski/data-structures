@@ -1,5 +1,6 @@
 #include <stk_ary.h>
 
+#include <stdio.h>
 #include <stdlib.h>
 
 stk_ary_t *stk_ary(unsigned int capacity)
