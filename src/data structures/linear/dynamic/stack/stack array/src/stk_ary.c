@@ -21,6 +21,17 @@ int stk_ary_empty(stk_ary_t *stk_ary)
     return stk_ary->top < 0;
 }
 
+int stk_ary_full(stk_ary_t *stk_ary)
+{
+    if (stk_ary->top < 0) // Check if the stack holds at least one item(don't compare top with capacity at this point, since top would be casted into unsigned int).
+        return 0;
+
+    if (stk_ary->top < stk_ary->capacity - 1) // Check if there is free capacity available.
+        return 0;
+
+    return 1;
+}
+
 void stk_ary_push(stk_ary_t *stk_ary, int item)
 {
     if (!stk_ary)
