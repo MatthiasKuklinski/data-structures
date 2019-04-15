@@ -32,20 +32,21 @@ int stk_ary_full(stk_ary_t *stk_ary)
     return 1;
 }
 
-void stk_ary_push(stk_ary_t *stk_ary, int item)
+void stk_ary_push(stk_ary_t *stk_ary, const int item)
 {
-    if (!stk_ary)
-        return;
-
-    stk_ary->items[++stk_ary->top] = item; // Increment top and append the requested item.
+    if (stk_ary && !stk_ary_full(stk_ary))
+        stk_ary->items[++stk_ary->top] = item; // Increment top and append the requested value.
 }
 
 void stk_ary_pop(stk_ary_t **stk_ary)
 {
-    if (!stk_ary)
+    if (!stk_ary || stk_ary_empty(*stk_ary))
         return;
 
-    (*stk_ary)->items = realloc((*stk_ary)->items, (*stk_ary)->top-- * sizeof(int));
+    int *temp = NULL;
+
+    if (temp = realloc((*stk_ary)->items, (*stk_ary)->top-- * sizeof(int)))
+        (*stk_ary)->items = temp;
 }
 
 void stk_ary_delete(stk_ary_t **stk_ary)
