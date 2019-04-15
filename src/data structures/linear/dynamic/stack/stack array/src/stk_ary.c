@@ -23,7 +23,7 @@ int stk_ary_empty(stk_ary_t *stk_ary)
 
 int stk_ary_full(stk_ary_t *stk_ary)
 {
-    if (stk_ary->top < 0) // Check if the stack holds at least one item(don't compare top with capacity at this point, since top would be casted into unsigned int).
+    if (!stk_ary || stk_ary->top < 0) // Check if the stack holds at least one item(don't compare top with capacity at this point, since top would be casted into unsigned int).
         return 0;
 
     if (stk_ary->top < stk_ary->capacity - 1) // Check if there is free capacity available.
@@ -38,15 +38,12 @@ void stk_ary_push(stk_ary_t *stk_ary, const int item)
         stk_ary->items[++stk_ary->top] = item; // Increment top and append the requested value.
 }
 
-void stk_ary_pop(stk_ary_t **stk_ary)
+void stk_ary_pop(stk_ary_t *stk_ary)
 {
-    if (!stk_ary || stk_ary_empty(*stk_ary))
+    if (!stk_ary || stk_ary_empty(stk_ary)) // Check if items can be popped.
         return;
 
-    int *temp = NULL;
-
-    if (temp = realloc((*stk_ary)->items, (*stk_ary)->top-- * sizeof(int)))
-        (*stk_ary)->items = temp;
+    stk_ary->top--;
 }
 
 void stk_ary_delete(stk_ary_t **stk_ary)
@@ -54,7 +51,7 @@ void stk_ary_delete(stk_ary_t **stk_ary)
     if (!*stk_ary)
         return;
 
-    free((*stk_ary)->items);
-    free(*stk_ary);
+    free((*stk_ary)->items); // Deallocate the items array.
+    free(*stk_ary);          // Deallocate the stack.
     *stk_ary = NULL;
 }

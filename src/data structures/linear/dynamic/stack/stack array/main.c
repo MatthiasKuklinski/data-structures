@@ -5,12 +5,11 @@
 
 void stk_ary_print(stk_ary_t *stk_ary)
 {
-    if(!stk_ary)
+    if (!stk_ary)
         return;
 
     printf("%-32s%-32s\n", "Top", "Capacity");
-    printf("%-32d%-32d\n", stk_ary->top, stk_ary->capacity);
-    printf("--------------------------------\n");
+    printf("%-32d%-32d\n\n", stk_ary->top, stk_ary->capacity);
     printf("%-32s%-32s\n", "Item", "Memory Address");
     for (int i = stk_ary->top; i > -1; --i)
         printf("%-32d%-32p\n", stk_ary->items[i], &stk_ary->items[i]);
@@ -53,7 +52,7 @@ void controller(const char cmd)
         stk_ary_print(stk);
         break;
     case 'r':
-        stk_ary_pop(&stk);
+        stk_ary_pop(stk);
         stk_ary_print(stk);
         break;
     case 'e':
