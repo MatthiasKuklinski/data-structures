@@ -47,3 +47,13 @@ void stk_ary_pop(stk_ary_t **stk_ary)
 
     (*stk_ary)->items = realloc((*stk_ary)->items, (*stk_ary)->top-- * sizeof(int));
 }
+
+void stk_ary_delete(stk_ary_t **stk_ary)
+{
+    if (!*stk_ary)
+        return;
+
+    free((*stk_ary)->items);
+    free(*stk_ary);
+    *stk_ary = NULL;
+}
