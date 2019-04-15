@@ -13,6 +13,14 @@ stk_ary_t *stk_ary(unsigned int capacity)
     return stk_ary;
 }
 
+int stk_ary_empty(stk_ary_t *stk_ary)
+{
+    if (!stk_ary)
+        return 0;
+
+    return stk_ary->top < 0;
+}
+
 void stk_ary_push(stk_ary_t *stk_ary, int item)
 {
     if (!stk_ary)
