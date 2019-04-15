@@ -5,7 +5,13 @@
 
 void stk_ary_print(stk_ary_t *stk_ary)
 {
-    printf("%-32d%-32d\n", stk_ary->capacity, stk_ary->top);
+    if(!stk_ary)
+        return;
+
+    printf("%-32s%-32s\n", "Top", "Capacity");
+    printf("%-32d%-32d\n", stk_ary->top, stk_ary->capacity);
+    printf("--------------------------------\n");
+    printf("%-32s%-32s\n", "Item", "Memory Address");
     for (int i = stk_ary->top; i > -1; --i)
         printf("%-32d%-32p\n", stk_ary->items[i], &stk_ary->items[i]);
 }
@@ -13,12 +19,15 @@ void stk_ary_print(stk_ary_t *stk_ary)
 void menu()
 {
     printf("- Stack(Array) -\n");
-    printf("Print(x)\n");
+    printf("Print(q)\n");
     printf("Create(c)\n");
     printf("Push(p)\n");
     printf("Pop(r)\n");
+    printf("Empty(q)\n");
+    printf("Full(f)\n");
+    printf("Delete(d)\n");
     printf("Menu(m)\n");
-    printf("Exit(e)\n");
+    printf("Exit(x)\n");
 }
 
 void controller(const char cmd)
@@ -29,7 +38,7 @@ void controller(const char cmd)
 
     switch (cmd)
     {
-    case 'x':
+    case 'q':
         stk_ary_print(stk);
         break;
     case 'c':
@@ -47,10 +56,20 @@ void controller(const char cmd)
         stk_ary_pop(&stk);
         stk_ary_print(stk);
         break;
+    case 'e':
+        printf("%d\n", stk_ary_empty(stk));
+        break;
+    case 'f':
+        printf("%d\n", stk_ary_full(stk));
+        break;
+    case 'd':
+        stk_ary_delete(&stk);
+        break;
     case 'm':
         menu();
         break;
-    case 'e':
+    case 'x':
+        stk_ary_delete(&stk);
         exit(0);
     default:
         break;
