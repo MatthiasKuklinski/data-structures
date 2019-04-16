@@ -35,3 +35,14 @@ void stk_sll_traverse(stk_sll_node_t *node, const stk_sll_callback cb)
     node = node->successor; // Point to the successor of the current node.
   }
 }
+
+void stk_sll_push(stk_sll_node_t *node, const int value)
+{
+  if (!node)
+    return;
+
+  while (node->successor)
+    node = node->successor;
+
+  node->successor = stk_sll(value, NULL);
+}
