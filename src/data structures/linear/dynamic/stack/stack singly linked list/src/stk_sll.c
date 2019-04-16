@@ -26,3 +26,12 @@ void stk_sll_delete(stk_sll_node_t *node)
     free(temp_node);        // Deallocate the memory.
   }
 }
+
+void stk_sll_traverse(stk_sll_node_t *node, const stk_sll_callback cb)
+{
+  while (node) // Iterate through the list.
+  {
+    cb(node);               // Execute the callback.
+    node = node->successor; // Point to the successor of the current node.
+  }
+}
