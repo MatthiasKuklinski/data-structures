@@ -46,3 +46,15 @@ void stk_sll_push(stk_sll_node_t *node, const int value)
 
   node->successor = stk_sll(value, NULL);
 }
+
+void stk_sll_pop(stk_sll_node_t *node)
+{
+  if (!node)
+    return;
+
+  while (node->successor->successor)
+    node = node->successor;
+
+  free(node->successor);
+  node->successor = NULL;
+}
