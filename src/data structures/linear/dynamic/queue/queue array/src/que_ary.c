@@ -1,4 +1,4 @@
-#include <que_arr.h>
+#include <que_ary.h>
 
 #include <stdio.h>
 #include <stdlib.h>
