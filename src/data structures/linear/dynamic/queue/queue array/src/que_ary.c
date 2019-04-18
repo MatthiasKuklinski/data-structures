@@ -16,3 +16,13 @@ que_ary_t *que_ary(unsigned int capacity)
 
     return que_ary;
 }
+
+void que_ary_delete(que_ary_t **que_ary)
+{
+    if (!*que_ary)
+        return;
+
+    free((*que_ary)->items); // Deallocate the items array.
+    free(*que_ary);          // Deallocate the stack.
+    *que_ary = NULL;
+}
