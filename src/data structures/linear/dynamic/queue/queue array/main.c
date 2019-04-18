@@ -11,8 +11,8 @@ void que_ary_print(que_ary_t *que_ary)
     printf("%-32s\n", "Capacity");
     printf("%-32d\n\n", que_ary->capacity);
     printf("%-32s%-32s\n", "Item", "Memory Address");
-    for (int i = 0; i < que_ary->capacity; ++i)
-        printf("%-32d%-32p\n", que_ary->items[i], &que_ary->items[i]);
+    for (int i = 0; i < que_ary->length; ++i)
+        printf("%-32d%-32p\n", que_ary->elements[i], &que_ary->elements[i]);
 }
 
 void menu()

@@ -2,8 +2,8 @@
 
 typedef struct que_ary
 {
-    unsigned int capacity;
-    int *items;
+    unsigned int capacity, length;
+    int *elements;
 } que_ary_t;
 
 que_ary_t *que_ary(unsigned int capacity);
