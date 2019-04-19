@@ -72,14 +72,20 @@ void sll_pop(sll_node_t *node, const unsigned int index)
     free(temp_node);                              // Deallocate the memory at the address of the popped node.
 }
 
-sll_node_t *sll_pop_first(sll_node_t *node)
+void *sll_pop_first(sll_node_t **node)
 {
     if (!node) // Validate node.
         return NULL;
 
-    sll_node_t *temp_node = node->successor;
-    free(node);
-    return temp_node;
+    if (!((*node)->successor)) // Check if a successor exists.
+    {
+        sll_delete(*node); // Invoke destroy function since the only element of the list was requested to be popped.
+        return;
+    }
+
+    sll_node_t *temp_node = *node; // Store the address of the current node temporarily.
+    (*node) = (*node)->successor;  // Set the former (head)node to point to the next node.
+    free(temp_node);
 }
 
 void sll_pop_last(sll_node_t *node)
