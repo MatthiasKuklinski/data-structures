@@ -150,7 +150,7 @@ void sll_reverse(sll_node_t **node)
         *node = successor;                // Jump to the next node.
     }
 
-    *node = successor;
+    *node = predecessor;
 }
 
 void sll_traverse(sll_node_t *node, const sll_callback cb)
