@@ -133,14 +133,15 @@ void sll_traverse(sll_node_t *node, const sll_callback cb)
 
 int sll_length(sll_node_t *node)
 {
-    int length = 0; // Set the length to zero.
-    while (node)    // Iterate through the list.
-    {
-        ++length;               // Increment the counter on each iteration.
-        node = node->successor; // Point to the successor of the current node.
-    }
+    if (!node) // Validate node.
+        return 0;
 
-    return length; // Return the computed length.
+    unsigned long n = 1;
+
+    while ((node = node->successor)) // Traverse the list until the last node.
+        ++n;                         // Increment the count on each iteration.
+
+    return n;
 }
 
 sll_node_t *sll_reverse(sll_node_t *node)
