@@ -9,78 +9,72 @@ void sll_print(sll_node_t *node)
     printf("%d\n", node->value);
 }
 
-sll_node_t *sll_node(const int value, sll_node_t *successor)
-{
-    sll_node_t *temp_node = malloc(sizeof(sll_node_t)); // Allocate memory.
-
-    if (!temp_node) // Check if mempory was successfully allocated.
-        return NULL;
-
-    temp_node->value = value;         // Populate the node with the passed in data.
-    temp_node->successor = successor; // Declare the node to represent the end of the list.
-
-    return temp_node; // Return a pointer to the new node.
-}
-
 void sll_delete(sll_node_t *node)
 {
     sll_node_t *temp_node;
 
-    while (temp_node = node) // Iterate through the list and temporarly store the current node.
+    while ((temp_node = node)) // Iterate through the list and temporarly store the current node.
     {
         node = node->successor; // Point to the address of the successor of the current node.
         free(temp_node);        // Deallocate the memory.
+    }
+    node = NULL; // Set the head node to NULL.
+}
+
+void sll_insert(sll_node_t *node, const int value, const unsigned int index)
+{
+    if (!node) // Validate node.
+        return;
+
+    if (index >= sll_length(node)) // Check if index is greater or equal than the length of the list.
+        sll_append(node, value);   // Call the append function.
+    else if (index == 0)           // Check if index is 0.
+        sll_prepend(node, value);  // Call the prepend function.
+    else
+    {
+        for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
+            node = node->successor;
+
+        node->successor = sll_node(value, node, node->successor); // Insert the successing node and adjust the predecessor of the former successor.
     }
 }
 
 void sll_prepend(sll_node_t *node, const int value)
 {
-    if (!node)
+    if (!node) // Validate node.
         return;
 
-    sll_node_t *temp_node = node;                                            // Copy the node.
-    node->successor = sll_node(temp_node->value, temp_node->successor); // Point the successor of the head to the new (old head) node.
-    node->value = value;                                                     // Change the head node value to the requested value.
+    node->successor = sll_node(node->value, node->successor); // Create a copy of the node and assign the provided value ("move" the node to the second position).
+    node->value = value;                                      // Replace the old node value with the new node value.
 }
 
 void sll_append(sll_node_t *node, const int value)
 {
-    if (!node)
+    if (!node) // Validate node.
         return;
 
-    while (node->successor)
+    while (node->successor) // Traverse the list until the last node.
         node = node->successor;
 
-    node->successor = sll_node(value, NULL);
-}
-
-void sll_insert(sll_node_t *node, const int value, const unsigned int index)
-{
-    if (!node) // Check if the initial node exists.
-        return;
-
-    for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
-        node = node->successor;
-
-    node->successor = sll_node(value, node->successor); // Point the successor of the head to the new (old head) node.
+    node->successor = sll_node(value, node, NULL); // Append a new node at the end of the list.
 }
 
 void sll_pop(sll_node_t *node, const unsigned int index)
 {
-    if (!node)
+    if (!node) // Validate node.
         return;
 
     for (int i = 1; i < index; ++i) // Iterate through the list until the requested index is reached.
         node = node->successor;
 
-    sll_node_t *temp_node = node->successor;
-    node->successor = node->successor->successor;
-    free(temp_node);
+    sll_node_t *temp_node = node->successor;      // Store the address of the current node temporarily.
+    node->successor = node->successor->successor; // Update the successing node address.
+    free(temp_node);                              // Deallocate the memory at the address of the popped node.
 }
 
 sll_node_t *sll_pop_first(sll_node_t *node)
 {
-    if (!node)
+    if (!node) // Validate node.
         return NULL;
 
     sll_node_t *temp_node = node->successor;

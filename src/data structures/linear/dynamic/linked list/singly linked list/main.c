@@ -1,11 +1,11 @@
-#include "./include/singly-linked-list.h"
+#include <sll.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
 void menu()
 {
-    printf("--- Singly Linked List ---\n");
+    printf("- Singly Linked List -\n");
     printf("Menu(m)\n");
     printf("Construct(c)\n");
     printf("Destruct(d)\n");
