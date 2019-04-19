@@ -23,7 +23,7 @@ int que_ary_empty(que_ary_t *que_ary)
     if (!que_ary)
         return 0;
 
-    return que_ary->length < 0;
+    return que_ary->length < 1;
 }
 
 int que_ary_full(que_ary_t *que_ary)
