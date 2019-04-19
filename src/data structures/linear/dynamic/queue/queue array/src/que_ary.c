@@ -18,6 +18,25 @@ que_ary_t *que_ary(unsigned int capacity)
     return que_ary;
 }
 
+int que_ary_empty(que_ary_t *que_ary)
+{
+    if (!que_ary)
+        return 0;
+
+    return que_ary->length < 0;
+}
+
+int que_ary_full(que_ary_t *que_ary)
+{
+    if (!que_ary || que_ary->length < 0) // Check if the stack holds at least one item(don't compare top with capacity at this point, since top would be casted into unsigned int).
+        return 0;
+
+    if (que_ary->length < que_ary->capacity - 1) // Check if there is free capacity available.
+        return 0;
+
+    return 1;
+}
+
 void que_ary_delete(que_ary_t **que_ary)
 {
     if (!*que_ary)
