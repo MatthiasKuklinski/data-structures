@@ -5,15 +5,19 @@ CFLAGS := -c -Wall
 
 # Directories
 SRC_DIR = src
+INCLUDE_DIR = include
 
-singly-linked-list: singly-linked-list.o main.o
-	$(CC) singly-linked-list.o main.o -o singly-linked-list
+sll: sll_node.o sll.o main.o
+	$(CC) sll_node.o sll.o main.o -o sll
 
-singly-linked-list.o: $(SRC_DIR)/singly-linked-list.c
-	$(CC) $(CFLAGS) $(SRC_DIR)/singly-linked-list.c
+sll_node.o: $(SRC_DIR)/sll_node.c
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) $(SRC_DIR)/sll_node.c
+
+sll.o: $(SRC_DIR)/sll.c
+	$(CC) $(CFLAGS) $(SRC_DIR)/sll.c
 
 main.o: main.c
 	$(CC) $(CFLAGS) main.c
 
 clean:
-	rm -rf *o singly-linked-list
+	rm -rf *o sll
