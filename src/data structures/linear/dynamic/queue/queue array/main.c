@@ -21,6 +21,7 @@ void menu()
     printf("Print(q)\n");
     printf("Create(c)\n");
     printf("Enqueue(p)\n");
+    printf("Dequeue(r)\n");
     printf("Empty(e)\n");
     printf("Full(f)\n");
     printf("Delete(d)\n");
@@ -50,6 +51,10 @@ void controller(const char cmd)
         que_ary_enqueue(que, value);
         que_ary_print(que);
         break;
+    case 'r':
+        que_ary_dequeue(que);
+        que_ary_print(que);
+        break;
     case 'e':
         printf("%d\n", que_ary_empty(que));
         break;
@@ -63,6 +68,8 @@ void controller(const char cmd)
         menu();
         break;
     case 'x':
+        que_ary_delete(&que);
+        break;
         exit(0);
     default:
         break;

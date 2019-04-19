@@ -40,6 +40,12 @@ void que_ary_enqueue(que_ary_t *que_ary, int item)
         que_ary->elements[que_ary->length++] = item;
 }
 
+void que_ary_dequeue(que_ary_t *que_ary)
+{
+    if (que_ary && !que_ary_empty(que_ary))
+        que_ary->length--;
+}
+
 void que_ary_delete(que_ary_t **que_ary)
 {
     if (!*que_ary)
