@@ -3,12 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Callbacks
-void sll_print(sll_node_t *node)
-{
-    printf("%d\n", node->value);
-}
-
 void sll_delete(sll_node_t *node)
 {
     sll_node_t *temp_node;
@@ -72,7 +66,7 @@ void sll_pop(sll_node_t *node, const unsigned int index)
     free(temp_node);                              // Deallocate the memory at the address of the popped node.
 }
 
-void *sll_pop_first(sll_node_t **node)
+void sll_pop_first(sll_node_t **node)
 {
     if (!node) // Validate node.
         return NULL;
