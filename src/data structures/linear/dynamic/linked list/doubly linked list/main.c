@@ -67,17 +67,21 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         dll_insert(list, value, index);
+        dll_traverse(list, dll_print);
         break;
     case 'r':
         printf("Index:");
         scanf("%d", &index);
         dll_pop(list, index);
+        dll_traverse(list, dll_print);
         break;
     case 't':
         dll_pop_first(&list);
+        dll_traverse(list, dll_print);
         break;
     case 'z':
         dll_pop_last(list);
+        dll_traverse(list, dll_print);
         break;
     case 'g':
         printf("Index:");
@@ -91,9 +95,11 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         dll_set(list, index, value);
+        dll_traverse(list, dll_print);
         break;
     case 'o':
         dll_reverse(&list);
+        dll_traverse(list, dll_print);
         break;
     case 'l':
         printf("%lu\n", dll_length(list));
