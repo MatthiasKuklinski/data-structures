@@ -29,7 +29,7 @@ void sll_insert(sll_node_t *node, const int value, const unsigned int index)
         for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
             node = node->successor;
 
-        node->successor = sll_node(value, node, node->successor); // Insert the successing node and adjust the predecessor of the former successor.
+        node->successor = sll_node(value, node->successor); // Insert the successing node and adjust the predecessor of the former successor.
     }
 }
 
@@ -50,7 +50,7 @@ void sll_append(sll_node_t *node, const int value)
     while (node->successor) // Traverse the list until the last node.
         node = node->successor;
 
-    node->successor = sll_node(value, node, NULL); // Append a new node at the end of the list.
+    node->successor = sll_node(value, NULL); // Append a new node at the end of the list.
 }
 
 void sll_pop(sll_node_t *node, const unsigned int index)
@@ -69,7 +69,7 @@ void sll_pop(sll_node_t *node, const unsigned int index)
 void sll_pop_first(sll_node_t **node)
 {
     if (!node) // Validate node.
-        return NULL;
+        return;
 
     if (!((*node)->successor)) // Check if a successor exists.
     {
@@ -122,15 +122,6 @@ void sll_set(sll_node_t *node, const unsigned int index, const int value)
     node->value = value; // Update the value.
 }
 
-void sll_traverse(sll_node_t *node, const sll_callback cb)
-{
-    while (node) // Iterate through the list.
-    {
-        cb(node);               // Execute the callback.
-        node = node->successor; // Point to the successor of the current node.
-    }
-}
-
 int sll_length(sll_node_t *node)
 {
     if (!node) // Validate node.
@@ -144,19 +135,29 @@ int sll_length(sll_node_t *node)
     return n;
 }
 
-sll_node_t *sll_reverse(sll_node_t *node)
+void sll_reverse(sll_node_t **node)
 {
-    if (!node)
-        return node;
+    if (!node) // Validate node.
+        return;
 
     sll_node_t *predecessor = NULL;
     sll_node_t *successor;
-    while (node)
+    while (*node)
     {
-        successor = node->successor;
-        node->successor = predecessor;
-        predecessor = node;
-        node = successor;
+        successor = (*node)->successor;   // Store the address of the succeeding node.
+        (*node)->successor = predecessor; // Set the successor to its predecessor.
+        predecessor = *node;              // Update the predecessor.
+        *node = successor;                // Jump to the next node.
     }
-    return predecessor;
+
+    *node = successor;
+}
+
+void sll_traverse(sll_node_t *node, const sll_callback cb)
+{
+    while (node) // Iterate through the list.
+    {
+        cb(node);               // Execute the callback.
+        node = node->successor; // Point to the successor of the current node.
+    }
 }

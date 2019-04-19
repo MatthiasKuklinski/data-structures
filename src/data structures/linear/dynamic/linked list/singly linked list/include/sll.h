@@ -17,5 +17,5 @@ sll_node_t *sll_get(sll_node_t *node, const unsigned int index);
 void sll_set(sll_node_t *node, const unsigned int index, const int value);
 
 int sll_length(sll_node_t *node);
-sll_node_t *sll_reverse(sll_node_t *node);
+void sll_reverse(sll_node_t **node);
 void sll_traverse(sll_node_t *node, const sll_callback cb);
