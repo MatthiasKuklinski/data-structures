@@ -37,11 +37,11 @@ void controller(const char cmd)
     case 'c':
         printf("Value:");
         scanf("%d", &value);
-        sll_destruct(list);
-        list = sll_construct(value, NULL);
+        sll_delete(list);
+        list = sll_node(value, NULL);
         break;
     case 'd':
-        sll_destruct(list);
+        sll_delete(list);
         break;
     case 'b':
         printf("Value:");
@@ -93,7 +93,7 @@ void controller(const char cmd)
         list = sll_reverse(list);
         break;
     case 'e':
-        sll_destruct(list);
+        sll_delete(list);
         exit(0);
     default:
         break;

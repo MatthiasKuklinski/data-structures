@@ -1,4 +1,4 @@
-#include "../include/singly-linked-list.h"
+#include <sll.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +9,7 @@ void sll_print(sll_node_t *node)
     printf("%d\n", node->value);
 }
 
-sll_node_t *sll_construct(const int value, sll_node_t *successor)
+sll_node_t *sll_node(const int value, sll_node_t *successor)
 {
     sll_node_t *temp_node = malloc(sizeof(sll_node_t)); // Allocate memory.
 
@@ -22,7 +22,7 @@ sll_node_t *sll_construct(const int value, sll_node_t *successor)
     return temp_node; // Return a pointer to the new node.
 }
 
-void sll_destruct(sll_node_t *node)
+void sll_delete(sll_node_t *node)
 {
     sll_node_t *temp_node;
 
@@ -39,7 +39,7 @@ void sll_prepend(sll_node_t *node, const int value)
         return;
 
     sll_node_t *temp_node = node;                                            // Copy the node.
-    node->successor = sll_construct(temp_node->value, temp_node->successor); // Point the successor of the head to the new (old head) node.
+    node->successor = sll_node(temp_node->value, temp_node->successor); // Point the successor of the head to the new (old head) node.
     node->value = value;                                                     // Change the head node value to the requested value.
 }
 
@@ -51,7 +51,7 @@ void sll_append(sll_node_t *node, const int value)
     while (node->successor)
         node = node->successor;
 
-    node->successor = sll_construct(value, NULL);
+    node->successor = sll_node(value, NULL);
 }
 
 void sll_insert(sll_node_t *node, const int value, const unsigned int index)
@@ -62,7 +62,7 @@ void sll_insert(sll_node_t *node, const int value, const unsigned int index)
     for (int i = 1; i < index; ++i) // Iterate through the list until the requested index(-1) is reached.
         node = node->successor;
 
-    node->successor = sll_construct(value, node->successor); // Point the successor of the head to the new (old head) node.
+    node->successor = sll_node(value, node->successor); // Point the successor of the head to the new (old head) node.
 }
 
 void sll_pop(sll_node_t *node, const unsigned int index)
