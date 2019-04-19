@@ -90,19 +90,25 @@ void *sll_pop_first(sll_node_t **node)
 
 void sll_pop_last(sll_node_t *node)
 {
-    if (!node)
+    if (!node) // Validate node.
         return;
 
-    while (node->successor->successor)
+    if (!node->successor) // Check if a successor exists.
+    {
+        sll_delete(node); // Invoke destroy function since the only element of the list was requested to be popped.
+        return;
+    }
+
+    while (node->successor->successor) // Traverse the list until the forelast node.
         node = node->successor;
 
-    free(node->successor);
-    node->successor = NULL;
+    free(node->successor);  // Deallocate the memory at the address of the popped node.
+    node->successor = NULL; // Set the successor to NULL in order to mark the end of the list.
 }
 
 sll_node_t *sll_get(sll_node_t *node, const unsigned int index)
 {
-    if (!node)
+    if (!node) // Validate node.
         return NULL;
 
     for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
@@ -113,13 +119,13 @@ sll_node_t *sll_get(sll_node_t *node, const unsigned int index)
 
 void sll_set(sll_node_t *node, const unsigned int index, const int value)
 {
-    if (!node)
+    if (!node) // Validate node.
         return;
 
     for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
         node = node->successor;
 
-    node->value = value;
+    node->value = value; // Update the value.
 }
 
 void sll_traverse(sll_node_t *node, const sll_callback cb)
