@@ -28,13 +28,16 @@ int que_ary_empty(que_ary_t *que_ary)
 
 int que_ary_full(que_ary_t *que_ary)
 {
-    if (!que_ary || que_ary->length < 0) // Check if the stack holds at least one item(don't compare top with capacity at this point, since top would be casted into unsigned int).
-        return 0;
-
-    if (que_ary->length < que_ary->capacity - 1) // Check if there is free capacity available.
+    if (!que_ary || que_ary->length < 1 || que_ary->length < que_ary->capacity) // Check if the stack holds at least one item.
         return 0;
 
     return 1;
+}
+
+void que_ary_enqueue(que_ary_t *que_ary, int item)
+{
+    if (que_ary && !que_ary_full(que_ary))
+        que_ary->elements[que_ary->length++] = item;
 }
 
 void que_ary_delete(que_ary_t **que_ary)
