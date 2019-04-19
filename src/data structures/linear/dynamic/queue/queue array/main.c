@@ -50,6 +50,12 @@ void controller(const char cmd)
         que_ary_enqueue(que, value);
         que_ary_print(que);
         break;
+    case 'e':
+        printf("%d\n", que_ary_empty(que));
+        break;
+    case 'f':
+        printf("%d\n", que_ary_full(que));
+        break;
     case 'd':
         que_ary_delete(&que);
         break;
