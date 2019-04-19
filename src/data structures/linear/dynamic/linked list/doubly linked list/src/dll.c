@@ -21,7 +21,7 @@ void dll_insert(dll_node_t *node, const int value, const unsigned int index)
     }
 }
 
-void dll_destroy(dll_node_t *node)
+void dll_delete(dll_node_t *node)
 {
     dll_node_t *temp_node;
 
@@ -86,7 +86,7 @@ void dll_pop_first(dll_node_t **node)
 
     if (!((*node)->successor)) // Check if a successor exists.
     {
-        dll_destroy(*node); // Invoke destroy function since the only element of the list was requested to be popped.
+        dll_delete(*node); // Invoke destroy function since the only element of the list was requested to be popped.
         return;
     }
 
@@ -104,7 +104,7 @@ void dll_pop_last(dll_node_t *node)
 
     if (!node->successor) // Check if a successor exists.
     {
-        dll_destroy(node); // Invoke destroy function since the only element of the list was requested to be popped.
+        dll_delete(node); // Invoke destroy function since the only element of the list was requested to be popped.
         return;
     }
 
