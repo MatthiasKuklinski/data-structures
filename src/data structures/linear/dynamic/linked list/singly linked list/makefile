@@ -14,10 +14,10 @@ sll_node.o: $(SRC_DIR)/sll_node.c
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) $(SRC_DIR)/sll_node.c
 
 sll.o: $(SRC_DIR)/sll.c
-	$(CC) $(CFLAGS) $(SRC_DIR)/sll.c
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) $(SRC_DIR)/sll.c
 
 main.o: main.c
-	$(CC) $(CFLAGS) main.c
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) main.c
 
 clean:
 	rm -rf *o sll
