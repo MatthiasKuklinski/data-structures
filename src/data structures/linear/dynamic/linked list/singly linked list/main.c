@@ -3,12 +3,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void sll_print(sll_node_t *sll_node)
+{
+    if (!sll_node)
+        return;
+
+    printf("%-32d%-32p%-32p\n", sll_node->value, sll_node, sll_node->successor);
+}
+
 void menu()
 {
     printf("- Singly Linked List -\n");
-    printf("Menu(m)\n");
-    printf("Construct(c)\n");
-    printf("Destruct(d)\n");
+    printf("Print(q)\n");
+    printf("Create(c)\n");
     printf("Prepend(b)\n");
     printf("Append(a)\n");
     printf("Insert(i)\n");
@@ -17,9 +24,10 @@ void menu()
     printf("Pop last(z)\n");
     printf("Get(g)\n");
     printf("Set(s)\n");
+    printf("Reverse(o)\n");
     printf("Length(l)\n");
-    printf("Print(p)\n");
-    printf("Reverse(v)");
+    printf("Delete(d)\n");
+    printf("Menu(m)\n");
     printf("Exit(e)\n");
 }
 
@@ -31,8 +39,9 @@ void controller(const char cmd)
 
     switch (cmd)
     {
-    case 'm':
-        menu();
+    case 'q':
+        printf("%-32s%-32s%-32s\n", "Value", "Memory Address", "Successor Memory Address");
+        sll_traverse(list, sll_print);
         break;
     case 'c':
         printf("Value:");
@@ -40,18 +49,17 @@ void controller(const char cmd)
         sll_delete(list);
         list = sll_node(value, NULL);
         break;
-    case 'd':
-        sll_delete(list);
-        break;
     case 'b':
         printf("Value:");
         scanf("%d", &value);
         sll_prepend(list, value);
+        sll_traverse(list, sll_print);
         break;
     case 'a':
         printf("Value:");
         scanf("%d", &value);
         sll_append(list, value);
+        sll_traverse(list, sll_print);
         break;
     case 'i':
         printf("Index:");
@@ -59,17 +67,21 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         sll_insert(list, value, index);
+        sll_traverse(list, sll_print);
         break;
     case 'r':
         printf("Index:");
         scanf("%d", &index);
         sll_pop(list, index);
+        sll_traverse(list, sll_print);
         break;
     case 't':
-        list = sll_pop_first(list);
+        sll_pop_first(&list);
+        sll_traverse(list, sll_print);
         break;
     case 'z':
         sll_pop_last(list);
+        sll_traverse(list, sll_print);
         break;
     case 'g':
         printf("Index:");
@@ -82,17 +94,22 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         sll_set(list, index, value);
+        sll_traverse(list, sll_print);
+        break;
+    case 'o':
+        sll_reverse(&list);
+        sll_traverse(list, sll_print);
         break;
     case 'l':
         printf("%d\n", sll_length(list));
         break;
-    case 'p':
-        sll_traverse(list, sll_print);
+    case 'd':
+        sll_delete(list);
         break;
-    case 'v':
-        list = sll_reverse(list);
+    case 'm':
+        menu();
         break;
-    case 'e':
+    case 'x':
         sll_delete(list);
         exit(0);
     default:
