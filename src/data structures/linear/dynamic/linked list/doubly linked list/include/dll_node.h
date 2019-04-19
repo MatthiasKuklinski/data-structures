@@ -7,4 +7,4 @@ typedef struct node
     struct node *successor;
 } dll_node_t;
 
-dll_node_t *dll_node(const int value, dll_node_t *predecessor, dll_node_t *successor);
+dll_node_t *dll_node(const int value, const dll_node_t *predecessor, const dll_node_t *successor);
