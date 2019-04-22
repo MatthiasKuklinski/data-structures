@@ -7,14 +7,14 @@ void bubble_sort(int ary[], int n)
     while (swapped)
     {
         swapped = 0;
-        for (int i = 0; i < n - 1; ++i)
+        for (unsigned int i = 0; i < n - 1; ++i)
         {
-            if (ary[i] > ary[i + 1])
+            if (ary[i] > ary[i + 1]) // Check if the current element is greater than its successing element.
             {
-                temp = ary[i];
-                ary[i] = ary[i + 1];
-                ary[i + 1] = temp;
-                swapped = 1;
+                temp = ary[i];       // Store the current element temporarily.
+                ary[i] = ary[i + 1]; // Assigne the successing element to the current element.
+                ary[i + 1] = temp;   // Assigne the temporary element to the successing element.
+                swapped = 1;         // Set the swapped flag.
             }
         }
     }
