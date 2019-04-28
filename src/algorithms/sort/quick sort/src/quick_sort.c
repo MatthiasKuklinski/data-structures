@@ -13,11 +13,11 @@ int partition(int ary[], const int lm, const int rm)
     {
         int pivot, i;
         pivot = ary[rm]; // Set the pivot based on the parameter rm (rightmark): Lomuto partition scheme.
-        i = lm - 1;      // Set the index for the leftmark.
+        i = lm - 1;      // Set the tracking index based on the leftmark.
         for (int j = lm; j <= rm - 1; ++j)
             if (ary[j] < pivot)           // Check if the current element is smaller than the pivot.
                 swap(&ary[++i], &ary[j]); // Increment i and swap the elements.
-        swap(&ary[i + 1], &ary[rm]);
-        return ++i;
+        swap(&ary[++i], &ary[rm]);        // Place the pivot at the correct position.
+        return i;
     }
 }
