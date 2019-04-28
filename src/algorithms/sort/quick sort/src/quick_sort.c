@@ -9,15 +9,12 @@ void swap(int *x, int *y)
 
 int partition(int ary[], const int lm, const int rm)
 {
-    if (lm < rm) // Check if leftmark is smaller than rightmark.
-    {
-        int pivot, i;
-        pivot = ary[rm]; // Set the pivot based on the parameter rm (rightmark): Lomuto partition scheme.
-        i = lm - 1;      // Set the tracking index based on the leftmark.
-        for (int j = lm; j <= rm - 1; ++j)
-            if (ary[j] < pivot)           // Check if the current element is smaller than the pivot.
-                swap(&ary[++i], &ary[j]); // Increment i and swap the elements.
-        swap(&ary[++i], &ary[rm]);        // Place the pivot at the correct position.
-        return i;
-    }
+    int pivot, i;
+    pivot = ary[rm];                   // Set the pivot based on the parameter rm (rightmark): Lomuto partition scheme.
+    i = lm - 1;                        // Set the tracking index based on the leftmark.
+    for (int j = lm; j <= rm - 1; ++j) // Iterate through the array.
+        if (ary[j] < pivot)            // Check if the current element is smaller than the pivot.
+            swap(&ary[++i], &ary[j]);  // Increment i and swap the elements.
+    swap(&ary[++i], &ary[rm]);         // Increment i and place the pivot at the correct position.
+    return i;
 }
