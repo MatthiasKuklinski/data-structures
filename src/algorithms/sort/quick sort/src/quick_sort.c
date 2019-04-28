@@ -18,3 +18,13 @@ int partition(int ary[], const int lm, const int rm)
     swap(&ary[++i], &ary[rm]);         // Increment i and place the pivot at the correct position.
     return i;
 }
+
+void quick_sort(int ary[], const int lm, const int rm)
+{
+    if (lm < rm)
+    {
+        int pivot = partition(ary, lm, rm);
+        quick_sort(ary, lm, pivot - 1);
+        quick_sort(ary, pivot + 1, rm);
+    }
+}
