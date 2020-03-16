@@ -1,3 +1,5 @@
 #pragma once
 
-void bubble_sort(int ary[], int n);
+#include <stdlib.h>
+
+void bubble_sort(size_t ary[], const size_t n);
