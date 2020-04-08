@@ -3,7 +3,7 @@
 void merge(size_t ary[], size_t l_ary[], const size_t l_n, size_t r_ary[], const size_t r_n)
 {
     size_t l,r,m = l = r = 0;   // Stores the index of each array(l_ary, r_ary, ary(merged))
-    while(l < l_n && r < r_n)
+    while(l < l_n && r < r_n)   // Compare the elements of both sub arrays and swap if necessary.
     {
         if(l_ary[l] < r_ary[r])
             ary[m++] = l_ary[l++];
@@ -11,7 +11,7 @@ void merge(size_t ary[], size_t l_ary[], const size_t l_n, size_t r_ary[], const
             ary[m++] = r_ary[r++];
     }
 
-    while(l < l_n)
+    while(l < l_n)              // Add 
         ary[m++] = l_ary[l++];
     while(r < r_n)
         ary[m++] = r_ary[r++];
