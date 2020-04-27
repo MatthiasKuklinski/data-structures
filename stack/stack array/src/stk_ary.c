@@ -13,12 +13,12 @@ stk_ary_t *stk_ary(const unsigned int capacity)
     return stk_ary;
 }
 
-int stk_ary_is_empty(stk_ary_t *stk_ary)
+int stk_ary_is_empty(const stk_ary_t *stk_ary)
 {
     return stk_ary->i < 0; // Check if the stk_ary index is smaller than 0 and return the result.
 }
 
-int stk_ary_is_full(stk_ary_t *stk_ary)
+int stk_ary_is_full(const stk_ary_t *stk_ary)
 {
     return stk_ary->i == stk_ary->capacity - 1; // Check if the index is of the same size as the capacity -1 and return the result.
 }
