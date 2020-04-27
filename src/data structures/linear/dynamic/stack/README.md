@@ -14,22 +14,22 @@ The basic implementation of a stack stores an index(```i```), which is increment
 ```c
 typedef struct stk_ary
 {
-    int i;        // Store the index of the top element on the stack.
-    int capacity; // Store the maximum capacity of elements the stack can hold.
-    int *items;   // Point to the first element of the stack(element at the bottom of the stack).
+    int i;                 // Store the index of the top element on the stack.
+    unsigned int capacity; // Store the maximum capacity of elements the stack can hold.
+    int *elements;         // Point to the first element of the stack(element at the bottom of the stack).
 } stk_ary_t;
 
-stk_ary_t *stk_ary(int capacity); // Construct the stack.
+stk_ary_t *stk_ary(const unsigned int capacity); // Construct the stack structure.
 ```
 
 #### Implementation
 ```c
-stk_ary_t *stk_ary(int capacity)
+stk_ary_t *stk_ary(const unsigned int capacity)
 {
-    stk_ary_t *stk_ary = malloc(sizeof(stk_ary_t));           // Allocate memory for the stack itself.
-    stk_ary->capacity = capacity;                             // Set capacity.
-    stk_ary->i = -1;                                          // Set the index to < 0 (empty).
-    stk_ary->items = malloc(stk_ary->capacity * sizeof(int)); // Allocate memory for the related array in accordance to the capacity.
+    stk_ary_t *stk_ary = malloc(sizeof(stk_ary_t));              // Allocate memory for the stack itself.
+    stk_ary->capacity = capacity;                                // Set capacity.
+    stk_ary->i = -1;                                             // Set the index to < 0 (empty).
+    stk_ary->elements = malloc(stk_ary->capacity * sizeof(int)); // Allocate memory for the related array in accordance to the capacity.
 
     return stk_ary;
 }
@@ -44,6 +44,7 @@ stk_ary_t *stk_ary(int capacity)
 
 #### Interface
 ```c
+stk_ary_t *stk_ary(const unsigned int capacity);                   // Construct the stack structure.
 int stk_ary_is_empty(stk_ary_t *stk_ary);                          // Check if the stack is empty.
 int stk_ary_is_full(stk_ary_t *stk_ary);                           // Check if the stack is full.
 void stk_ary_push(stk_ary_t *stk_ary, const unsigned int element); // Add an element onto the top of the stack.
@@ -56,9 +57,6 @@ void stk_ary_delete(stk_ary_t **stk_ary);                          // Free the a
 ```c
 int stk_ary_is_empty(stk_ary_t *stk_ary)
 {
-    if (!stk_ary) // Check if stk_ary is defined.
-        return -1;
-
     return stk_ary->i < 0; // Check if the stk_ary index is smaller than 0 and return the result.
 }
 ```
@@ -66,23 +64,14 @@ int stk_ary_is_empty(stk_ary_t *stk_ary)
 ```c
 int stk_ary_is_full(stk_ary_t *stk_ary)
 {
-    if (!stk_ary) // Check if stk_ary is defined.
-        return -1;
-
-    if (stk_ary->i < stk_ary->capacity - 1) // Return 0 if the stk_ary index is smaller than stk_ary capacity.
-        return 0;
-
-    return 1;
+    return stk_ary->i == stk_ary->capacity - 1; // Check if the index is of the same size as the capacity -1 and return the result.
 }
 ```
 
 ```c
 void stk_ary_push(stk_ary_t *stk_ary, const unsigned int element)
 {
-    if (!stk_ary) // Check if stk_ary is defined.
-        return;
-
-    if (!stk_ary_is_full(stk_ary))                 // Check if the stack has available capacity to store one more element.
+    if (stk_ary && !stk_ary_is_full(stk_ary))      // Check if the stack has available capacity to store one more element.
         stk_ary->elements[++stk_ary->i] = element; // Increment the index and append the requested element.
 }
 ```
@@ -90,23 +79,15 @@ void stk_ary_push(stk_ary_t *stk_ary, const unsigned int element)
 ```c
 void stk_ary_pop(stk_ary_t *stk_ary)
 {
-    if (!stk_ary || stk_ary_is_empty(stk_ary)) // Check if stk_ary is defined or if there are available elements to be removed.
-        return;
-
-    stk_ary->i--; // Decrement the index(element is not removed).
+    if (stk_ary && !stk_ary_is_empty(stk_ary)) // Check if stk_ary is defined or if there are available elements to be removed.
+        stk_ary->i--;                          // Decrement the index(element is not removed).
 }
 ```
 
 ```c
 int stk_ary_peek(stk_ary_t *stk_ary)
 {
-    if (!stk_ary) // Check if stk_ary is defined.
-        return -1;
-
-    if (stk_ary->i < 0)
-        return -1;
-
-    return stk_ary->elements[stk_ary->i];
+    return stk_ary->elements[stk_ary->i]; // Access and return the element at the top of the stack.
 }
 ```
 
@@ -118,6 +99,6 @@ void stk_ary_delete(stk_ary_t **stk_ary)
 
     free((*stk_ary)->elements); // Deallocate the elements array.
     free(*stk_ary);             // Deallocate the stack.
-    *stk_ary = NULL;            // Point the pointer to NULL(avoid a dangling pointer).
+    *stk_ary = NULL;            // Point the pointer to NULL(avoid).
 }
 ```
