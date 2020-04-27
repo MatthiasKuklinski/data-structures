@@ -20,7 +20,7 @@ int stk_ary_is_empty(stk_ary_t *stk_ary)
 
 int stk_ary_is_full(stk_ary_t *stk_ary)
 {
-    return stk_ary->i == stk_ary->capacity - 1;
+    return stk_ary->i == stk_ary->capacity - 1; // Check if the index is of the same size as the capacity -1 and return the result.
 }
 
 void stk_ary_push(stk_ary_t *stk_ary, const unsigned int element)
@@ -37,7 +37,7 @@ void stk_ary_pop(stk_ary_t *stk_ary)
 
 int stk_ary_peek(stk_ary_t *stk_ary)
 {
-    return stk_ary->elements[stk_ary->i];
+    return stk_ary->elements[stk_ary->i]; // Access and return the element at the top of the stack.
 }
 
 void stk_ary_delete(stk_ary_t **stk_ary)
