@@ -4,7 +4,7 @@
 
 typedef struct stk_ary
 {
-    unsigned int i;        // Store the index of the top element on the stack.
+    int i;                 // Store the index of the top element on the stack.
     unsigned int capacity; // Store the maximum capacity of elements the stack can hold.
     int *elements;         // Point to the first element of the stack(element at the bottom of the stack).
 } stk_ary_t;
