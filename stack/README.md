@@ -99,6 +99,6 @@ void stk_ary_delete(stk_ary_t **stk_ary)
 
     free((*stk_ary)->elements); // Deallocate the elements array.
     free(*stk_ary);             // Deallocate the stack.
-    *stk_ary = NULL;            // Point the pointer to NULL(avoid).
+    *stk_ary = NULL;            // Avoid a dangling pointer.
 }
 ```
