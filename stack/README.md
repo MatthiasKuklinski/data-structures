@@ -1,6 +1,6 @@
 # Stack
 
-A stack is a linear collection of data elements, where insertion and deletion of items takes place at the top of the stack. A stack implementation follows the LIFO (Last In First Out) prinicple. 
+A stack is a linear collection of data elements, where insertion and deletion of elements takes place at the top of the stack. A stack implementation follows the LIFO (Last In First Out) prinicple. 
 
 ## Usage
 Since a stack enforces sequential rules of access, a common area of application is a history trace(e.g. browser-history), where the last visited website is pushed onto the top of the stack. Each time the back button is pressed, the element(URL) at the top of the stack is removed.
@@ -8,7 +8,7 @@ Another common use case for a stack is to reverse a word: pushing each letter on
 
 ## Implementation
 ### Stack
-The basic implementation of a stack stores an index(```i```), which is incremented each time a new element is pushed onto the top of the stack and decremented each time an element is popped of the top of the stack. In combination with the ```capacity```, the index(```i```) is used to return information whether the stack is full or not. Pointer ```*items``` points to the first element of the array and therefore allows access to each item by traversing through the stack.
+The basic implementation of a stack stores an index(```i```), which is incremented each time a new element is pushed onto the top of the stack and decremented each time an element is popped of the top of the stack. In combination with the ```capacity```, the index(```i```) is used to return information whether the stack is full or not. Pointer ```*elements``` points to the first element of the array and therefore allows access to each item by traversing through the stack.
 
 #### Interface
 ```c
