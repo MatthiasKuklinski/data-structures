@@ -2,13 +2,14 @@
 
 typedef struct que_ary
 {
-    unsigned int capacity, length;
-    int *elements;
+    unsigned int capacity, length; // Store the maximum capacity and current length of the queue.
+    int front, rear;
+    int *elements;                 // Point to the first element of the queue(element at the bottom of the queue).
 } que_ary_t;
 
-que_ary_t *que_ary(unsigned int capacity);
-int que_ary_empty(que_ary_t *que_ary);
-int que_ary_full(que_ary_t *que_ary);
-void que_ary_enqueue(que_ary_t *que_ary, int item);
-void que_ary_dequeue(que_ary_t *que_ary);
-void que_ary_delete(que_ary_t **que_ary);
+que_ary_t *que_ary(const unsigned int capacity);    // Construct the queue structure.
+int que_ary_is_empty(const que_ary_t *que_ary);     // Check if the queue is empty.
+int que_ary_is_full(const que_ary_t *que_ary);      // Check if the queue is full.
+void que_ary_enqueue(que_ary_t *que_ary, int item); // Add an element at the end of the queue.
+void que_ary_dequeue(que_ary_t *que_ary);           // Remove an element from the front of the queue.
+void que_ary_delete(que_ary_t **que_ary);           // Free the allocated memory.

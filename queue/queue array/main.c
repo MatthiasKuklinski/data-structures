@@ -11,7 +11,7 @@ void que_ary_print(que_ary_t *que_ary)
     printf("%-32s\n", "Capacity");
     printf("%-32d%-32d\n\n", que_ary->length, que_ary->capacity);
     printf("%-32s%-32s\n", "Item", "Memory Address");
-    for (int i = 0; i < que_ary->length; ++i)
+    for (int i = que_ary->front; i <= que_ary->rear && que_ary->length > 0; ++i)
         printf("%-32d%-32p\n", que_ary->elements[i], &que_ary->elements[i]);
 }
 
@@ -56,10 +56,10 @@ void controller(const char cmd)
         que_ary_print(que);
         break;
     case 'e':
-        printf("%d\n", que_ary_empty(que));
+        printf("%d\n", que_ary_is_empty(que));
         break;
     case 'f':
-        printf("%d\n", que_ary_full(que));
+        printf("%d\n", que_ary_is_full(que));
         break;
     case 'd':
         que_ary_delete(&que);
