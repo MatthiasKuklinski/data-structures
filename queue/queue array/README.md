@@ -8,10 +8,17 @@ A common area of application are buffers(e.g. I/O buffer), where the buffer has 
 ## Implementation
 ### Queue
 A queue stores two index variables(```rear``` and ```front```), which are initialized with -1(representing an empty queue) representing the lower and upper bound. Each time a new element is enqueued, ```rear``` gets incremented by one. ```front``` gets incremented on the first enqueue and decremented each time an element is dequeued.
-Additionally ```capacity``` stores information about the maximum capacity of elements the queue can hold. ```length``` returns the current length of the queue. 
+Furthermore ```capacity``` stores information about the maximum capacity of elements the queue can hold. ```length``` returns the current length of the queue. 
 Pointer ```*elements``` points to the first element of the array and therefore allows access to each item by traversing through the queue.
 
-#### Interface
+### Operations
+`is_empty`: Check if the queue is empty.
+`is_full`: Check if the queue is full.
+`enqueue`: Add an element at the rear of the queue.
+`dequeue`: Remove an element at the front of the queue.
+`peek`: Get the element at the front of the queue.
+
+### Interface
 ```c
 typedef struct stk_ary
 {
@@ -23,7 +30,7 @@ typedef struct stk_ary
 stk_ary_t *stk_ary(const unsigned int capacity); // Construct the stack structure.
 ```
 
-#### Implementation
+### Implementation
 ```c
 stk_ary_t *stk_ary(const unsigned int capacity)
 {
@@ -36,14 +43,7 @@ stk_ary_t *stk_ary(const unsigned int capacity)
 }
 ```
 
-### Operations
-`is_empty`: Check if the stack is empty.  
-`is_full`: Check if the stack is full.  
-`push`: Add an element onto the top of the stack.  
-`pop`: Remove an element of the top of the stack.  
-`peek`: Get the element on the top of the stack.
-
-#### Interface
+### Interface
 ```c
 stk_ary_t *stk_ary(const unsigned int capacity);                   // Construct the stack structure.
 int stk_ary_is_empty(stk_ary_t *stk_ary);                          // Check if the stack is empty.
@@ -54,7 +54,7 @@ int stk_ary_peek(stk_ary_t *stk_ary);                              // Get the el
 void stk_ary_delete(stk_ary_t **stk_ary);                          // Free the allocated memory.
 ```
 
-#### Implementation
+### Implementation
 ```c
 int stk_ary_is_empty(stk_ary_t *stk_ary)
 {
