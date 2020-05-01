@@ -48,6 +48,11 @@ void que_ary_dequeue(que_ary_t *que_ary)
     }
 }
 
+int que_ary_peek(que_ary_t *que_ary)
+{
+    return que_ary->elements[que_ary->front]; // Access and return the element at the front of the queue.
+}
+
 void que_ary_delete(que_ary_t **que_ary)
 {
     if (!*que_ary)
