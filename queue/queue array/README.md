@@ -6,17 +6,16 @@ A queue is a linear collection of data elements, where insertion and deletion of
 A common area of application are buffers(e.g. I/O buffer), where the buffer has a specific capacity of data it can hold. Each bit in the buffer is processed in the exact same order it was inserted at the front of the buffer. Once the buffer reaches its maximum capacity, elements at the front/start of the buffer have to be processed/written out(e.g. a flush) in order to allow for new elements to be inserted at the rear/end of the buffer.
 
 ## Implementation
-### Queue
 A queue stores two index variables(```rear``` and ```front```), which are initialized with -1(empty queue) representing the lower and upper bound. Each time a new element is enqueued, ```rear``` gets incremented by one. ```front``` gets incremented on the first enqueue and decremented each time an element is dequeued.
 Furthermore ```capacity``` stores information about the maximum capacity of elements the queue can hold. ```length``` returns the current length of the queue. 
 Pointer ```*elements``` points to the first element of the array and therefore allows access to each item by traversing through the queue.
 
 ### Operations
-`is_empty`: Check if the queue is empty.
-`is_full`: Check if the queue is full.
-`enqueue`: Add an element at the rear of the queue.
-`dequeue`: Remove an element at the front of the queue.
-`peek`: Get the element at the front of the queue.
+`is_empty`: Check if the queue is empty.  
+`is_full`: Check if the queue is full.  
+`enqueue`: Add an element at the rear of the queue.  
+`dequeue`: Remove an element at the front of the queue.  
+`peek`: Get the element at the front of the queue.  
 
 ### Interface
 ```c
