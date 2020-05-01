@@ -20,86 +20,93 @@ Pointer ```*elements``` points to the first element of the array and therefore a
 
 ### Interface
 ```c
-typedef struct stk_ary
+typedef struct que_ary
 {
-    int i;                 // Store the index of the top element on the stack.
-    unsigned int capacity; // Store the maximum capacity of elements the stack can hold.
-    int *elements;         // Point to the first element of the stack(element at the bottom of the stack).
-} stk_ary_t;
+    unsigned int capacity, length; // Store the maximum capacity and current length of the queue.
+    int front, rear;               // Store the lower and upper bound indice respectively.
+    int *elements;                 // Point to the first element of the queue(element at the front of the queue).
+} que_ary_t;
 
-stk_ary_t *stk_ary(const unsigned int capacity); // Construct the stack structure.
+que_ary_t *que_ary(const unsigned int capacity);       // Construct the queue structure.
+int que_ary_is_empty(const que_ary_t *que_ary);        // Check if the queue is empty.
+int que_ary_is_full(const que_ary_t *que_ary);         // Check if the queue is full.
+void que_ary_enqueue(que_ary_t *que_ary, int element); // Add an element at the end of the queue.
+void que_ary_dequeue(que_ary_t *que_ary);              // Remove an element from the front of the queue.
+int que_ary_peek(que_ary_t *que_ary);                  // Get the element at the front of the queue.
+void que_ary_delete(que_ary_t **que_ary);              // Free the allocated memory.
 ```
 
 ### Implementation
 ```c
-stk_ary_t *stk_ary(const unsigned int capacity)
+que_ary_t *que_ary(const unsigned int capacity)
 {
-    stk_ary_t *stk_ary = malloc(sizeof(stk_ary_t));              // Allocate memory for the stack itself.
-    stk_ary->capacity = capacity;                                // Set capacity.
-    stk_ary->i = -1;                                             // Set the index to < 0 (empty).
-    stk_ary->elements = malloc(stk_ary->capacity * sizeof(int)); // Allocate memory for the related array in accordance to the capacity.
+    que_ary_t *que_ary = malloc(sizeof(que_ary_t));              // Allocate memory for the queue structure itself.
+    que_ary->capacity = capacity;                                // Set the maximum capacity the queue can hold.
+    que_ary->length = 0;                                         // Initialize the length to 0.
+    que_ary->front = que_ary->rear = -1;                         // Set the lower and upper bound indice to -1(represent an empty queue).
+    que_ary->elements = malloc(que_ary->capacity * sizeof(int)); // Allocate memory for the related array in accordance to the capacity.
 
-    return stk_ary;
-}
-```
-
-### Interface
-```c
-stk_ary_t *stk_ary(const unsigned int capacity);                   // Construct the stack structure.
-int stk_ary_is_empty(stk_ary_t *stk_ary);                          // Check if the stack is empty.
-int stk_ary_is_full(stk_ary_t *stk_ary);                           // Check if the stack is full.
-void stk_ary_push(stk_ary_t *stk_ary, const unsigned int element); // Add an element onto the top of the stack.
-void stk_ary_pop(stk_ary_t *stk_ary);                              // Remove an element of the top of the stack.
-int stk_ary_peek(stk_ary_t *stk_ary);                              // Get the element on the top of the stack.
-void stk_ary_delete(stk_ary_t **stk_ary);                          // Free the allocated memory.
-```
-
-### Implementation
-```c
-int stk_ary_is_empty(stk_ary_t *stk_ary)
-{
-    return stk_ary->i < 0; // Check if the stk_ary index is smaller than 0 and return the result.
+    return que_ary;
 }
 ```
 
 ```c
-int stk_ary_is_full(stk_ary_t *stk_ary)
+int que_ary_is_empty(const que_ary_t *que_ary)
 {
-    return stk_ary->i == stk_ary->capacity - 1; // Check if the index is of the same size as the capacity -1 and return the result.
+    return que_ary->length < 1; // Check if the queue length is smaller than one and return the result.
 }
 ```
 
 ```c
-void stk_ary_push(stk_ary_t *stk_ary, const unsigned int element)
+int que_ary_is_full(const que_ary_t *que_ary)
 {
-    if (stk_ary && !stk_ary_is_full(stk_ary))      // Check if the stack has available capacity to store one more element.
-        stk_ary->elements[++stk_ary->i] = element; // Increment the index and append the requested element.
+    return que_ary->rear == que_ary->capacity - 1; // Check if the upper bound index is of the same size as the capacity substracted by one and return the result.
 }
 ```
 
 ```c
-void stk_ary_pop(stk_ary_t *stk_ary)
+void que_ary_enqueue(que_ary_t *que_ary, int element)
 {
-    if (stk_ary && !stk_ary_is_empty(stk_ary)) // Check if stk_ary is defined or if there are available elements to be removed.
-        stk_ary->i--;                          // Decrement the index(element is not removed).
+    if (que_ary && !que_ary_is_full(que_ary)) // Check if the queue is defined and whether it has available capacity in order to store one more element.
+    {
+        if (que_ary->front == -1) // Check if the queue is enqueued for the first time(doesn't hold any elements).
+            que_ary->front++;     // Increment the lower bound.
+
+        que_ary->elements[++que_ary->rear] = element; // Increment the upper bound and store the element afterwards.
+        que_ary->length++;                            // Increment the length.
+    }
 }
 ```
 
 ```c
-int stk_ary_peek(stk_ary_t *stk_ary)
+void que_ary_dequeue(que_ary_t *que_ary)
 {
-    return stk_ary->elements[stk_ary->i]; // Access and return the element at the top of the stack.
+    if (que_ary && !que_ary_is_empty(que_ary)) // Check if the queue is defined and whether it stores at least one element to be removed.
+    {
+        que_ary->front++;  // Increment the lower bound(do not remove/overwrite the element effectively, but prevent access to it).
+        que_ary->length--; // Decrement the length.
+
+        if (que_ary->front > que_ary->rear)      // Check if the lower bound overtook the upper bound(signal an empty queue).
+            que_ary->front = que_ary->rear = -1; // Set the lower and upper bound indice to -1(represent an empty queue).
+    }
 }
 ```
 
 ```c
-void stk_ary_delete(stk_ary_t **stk_ary)
+int que_ary_peek(que_ary_t *que_ary)
 {
-    if (!*stk_ary) // Check if stk_ary is defined.
+    return que_ary->elements[que_ary->front]; // Access and return the element at the front of the queue.
+}
+```
+
+```c
+void que_ary_delete(que_ary_t **que_ary)
+{
+    if (!*que_ary)
         return;
 
-    free((*stk_ary)->elements); // Deallocate the elements array.
-    free(*stk_ary);             // Deallocate the stack.
-    *stk_ary = NULL;            // Avoid a dangling pointer.
+    free((*que_ary)->elements); // Deallocate the elements array.
+    free(*que_ary);             // Deallocate the queue.
+    *que_ary = NULL;            // Avoid a dangling pointer.
 }
 ```
