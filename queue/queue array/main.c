@@ -3,16 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void que_ary_print(que_ary_t *que_ary)
+void que_ary_print(int element)
 {
-    if (!que_ary)
-        return;
-
-    printf("%-32s\n", "Capacity");
-    printf("%-32d%-32d\n\n", que_ary->length, que_ary->capacity);
-    printf("%-32s%-32s\n", "Item", "Memory Address");
-    for (int i = que_ary->front; i <= que_ary->rear && que_ary->length > 0; ++i)
-        printf("%-32d%-32p\n", que_ary->elements[i], &que_ary->elements[i]);
+    printf("%-32d%-32p\n", element, &element);
 }
 
 void menu()
@@ -32,48 +25,54 @@ void menu()
 
 void controller(const char cmd)
 {
-    int value;
-    unsigned int capacity;
+    int value, capacity = 0;
     static que_ary_t *que = NULL;
+    status_code_t status_code = success;
 
     switch (cmd)
     {
     case 'q':
-        que_ary_print(que);
+        que_ary_traverse(que, que_ary_print, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'c':
         printf("Capacity:");
         scanf("%d", &capacity);
-        que = que_ary(capacity);
+        que = que_ary(capacity, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'p':
         printf("Value:");
         scanf("%d", &value);
-        que_ary_enqueue(que, value);
-        que_ary_print(que);
+        que_ary_enqueue(que, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'r':
-        que_ary_dequeue(que);
-        que_ary_print(que);
+        que_ary_dequeue(que, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'g':
-        printf("%d\n", que_ary_peek(que));
+        printf("%d\n", que_ary_peek(que, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'e':
-        printf("%d\n", que_ary_is_empty(que));
+        printf("%d\n", que_ary_is_empty(que, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'f':
-        printf("%d\n", que_ary_is_full(que));
+        printf("%d\n", que_ary_is_full(que, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'd':
-        que_ary_delete(&que);
+        que_ary_delete(&que, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        que_ary_delete(&que);
-        break;
+        que_ary_delete(&que, &status_code);
+        printf("Status: %d\n", status_code);
         exit(0);
     default:
         break;
@@ -82,13 +81,13 @@ void controller(const char cmd)
 
 int main()
 {
-    char cmd;
+    char cmd = '\0';
 
     menu();
     while (1)
     {
         printf("Cmd:");
-        scanf(" %s", &cmd);
+        scanf("%s", &cmd);
         controller(cmd);
     }
 }
