@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void stk_ary_print(int element)
+void stk_ary_print(int *element)
 {
-    printf("%-32d%-32p\n", element, &element);
+    printf("%-32d%-32p\n", *element, element);
 }
 
 void menu()

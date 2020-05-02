@@ -106,7 +106,7 @@ int stk_ary_peek(const stk_ary_t *stk_ary, status_code_t *status_code)
     return stk_ary->elements[stk_ary->top]; // Access and return the element at the top of the stack.
 }
 
-void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int), status_code_t *status_code)
+void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int*), status_code_t *status_code)
 {
     if (!stk_ary) // Check if the stack pointer is defined.
     {
@@ -117,11 +117,12 @@ void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int), status_code_t *status
     if (stk_ary_is_empty(stk_ary, status_code)) // Check if the stack array stores at least one removable element.
     {
         *status_code = stk_ary_empty; // Set the correspoding status code.
-        return -1;
+        return;
     }
 
-    for (int i = stk_ary->top; i > -1; --i)
-        fp(stk_ary->elements[i]);
+    for (int i = stk_ary->top; i > -1; --i) {
+        fp(&stk_ary->elements[i]);
+    }
 
     *status_code = success; // Set the correspoding status code.
 }
