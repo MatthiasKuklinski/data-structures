@@ -38,32 +38,40 @@ void controller(const char cmd)
         printf("Capacity:");
         scanf("%d", &capacity);
         stk = stk_ary(capacity, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'p':
         printf("Value:");
         scanf("%d", &value);
         stk_ary_push(stk, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'r':
         stk_ary_pop(stk, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'g':
         printf("%d\n", stk_ary_peek(stk, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'e':
         printf("%d\n", stk_ary_is_empty(stk, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'f':
         printf("%d\n", stk_ary_is_full(stk, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'd':
         stk_ary_delete(&stk, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'm':
         menu();
         break;
     case 'x':
         stk_ary_delete(&stk, &status_code);
+        printf("Status: %d\n", status_code);
         exit(0);
     default:
         break;
@@ -72,13 +80,13 @@ void controller(const char cmd)
 
 int main()
 {
-    char cmd;
+    char cmd = '\0';
 
     menu();
     while (1)
     {
         printf("Cmd:");
-        scanf(" %s", &cmd);
+        scanf("%s", &cmd);
         controller(cmd);
     }
 }
