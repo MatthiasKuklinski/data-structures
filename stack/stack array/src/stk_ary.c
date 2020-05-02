@@ -88,7 +88,7 @@ void stk_ary_pop(stk_ary_t *stk_ary, status_code_t *status_code)
     *status_code = success; // Set the correspoding status code.
 }
 
-int stk_ary_peek(stk_ary_t *stk_ary, status_code_t *status_code)
+int stk_ary_peek(const stk_ary_t *stk_ary, status_code_t *status_code)
 {
     if (!stk_ary) // Check if the stack pointer is defined.
     {
@@ -106,7 +106,7 @@ int stk_ary_peek(stk_ary_t *stk_ary, status_code_t *status_code)
     return stk_ary->elements[stk_ary->top]; // Access and return the element at the top of the stack.
 }
 
-void stk_ary_traverse(const stk_ary_t *stk_ary, void (*fp)(int), status_code_t *status_code)
+void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int), status_code_t *status_code)
 {
     if (!stk_ary) // Check if the stack pointer is defined.
     {
