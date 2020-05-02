@@ -3,17 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void cir_que_ary_print(cir_que_ary_t *cir_que_ary)
+void cir_que_ary_print(int *element)
 {
-    if (!cir_que_ary || !(cir_que_ary->length > 0))
-        return;
-
-    printf("%-32s\n", "Capacity");
-    printf("%-32d%-32d\n\n", cir_que_ary->length, cir_que_ary->capacity);
-    printf("%-32s%-32s\n", "Item", "Memory Address");
-    for (int i = cir_que_ary->front; i != cir_que_ary->rear; i = (i + 1) % cir_que_ary->capacity)
-        printf("%-32d%-32p\n", cir_que_ary->elements[i], &cir_que_ary->elements[i]); 
-    printf("%-32d%-32p\n", cir_que_ary->elements[cir_que_ary->rear], &cir_que_ary->elements[cir_que_ary->rear]); 
+    printf("%-32d%-32p\n", *element, element);
 }
 
 void menu()
@@ -33,48 +25,54 @@ void menu()
 
 void controller(const char cmd)
 {
-    int value;
-    unsigned int capacity;
+    int value, capacity = 0;
     static cir_que_ary_t *que = NULL;
+    status_code_t status_code = success;
 
     switch (cmd)
     {
     case 'q':
-        cir_que_ary_print(que);
+        cir_que_ary_traverse(que, cir_que_ary_print, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'c':
         printf("Capacity:");
         scanf("%d", &capacity);
-        que = cir_que_ary(capacity);
+        que = cir_que_ary(capacity, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'p':
         printf("Value:");
         scanf("%d", &value);
-        cir_que_ary_enqueue(que, value);
-        cir_que_ary_print(que);
+        cir_que_ary_enqueue(que, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'r':
-        cir_que_ary_dequeue(que);
-        cir_que_ary_print(que);
+        cir_que_ary_dequeue(que, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'g':
-        printf("%d\n", cir_que_ary_peek(que));
+        printf("%d\n", cir_que_ary_peek(que, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'e':
-        printf("%d\n", cir_que_ary_is_empty(que));
+        printf("%d\n", cir_que_ary_is_empty(que, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'f':
-        printf("%d\n", cir_que_ary_is_full(que));
+        printf("%d\n", cir_que_ary_is_full(que, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'd':
-        cir_que_ary_delete(&que);
+        cir_que_ary_delete(&que, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        cir_que_ary_delete(&que);
-        break;
+        cir_que_ary_delete(&que, &status_code);
+        printf("Status: %d\n", status_code);
         exit(0);
     default:
         break;
@@ -83,13 +81,13 @@ void controller(const char cmd)
 
 int main()
 {
-    char cmd;
+    char cmd = '\0';
 
     menu();
     while (1)
     {
         printf("Cmd:");
-        scanf(" %s", &cmd);
+        scanf("%s", &cmd);
         controller(cmd);
     }
 }
