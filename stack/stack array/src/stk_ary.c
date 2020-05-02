@@ -33,7 +33,7 @@ int stk_ary_is_empty(const stk_ary_t *stk_ary, status_code_t *status_code)
     if (!stk_ary) // Check if the stack pointer is defined.
     {
         *status_code = stk_ary_ptr_is_null; // Set the correspoding status code.
-        return;
+        return -1;
     }
 
     *status_code = success;  // Set the correspoding status code.
@@ -45,7 +45,7 @@ int stk_ary_is_full(const stk_ary_t *stk_ary, status_code_t *status_code)
     if (!stk_ary) // Check if the stack pointer is defined.
     {
         *status_code = stk_ary_ptr_is_null; // Set the correspoding status code.
-        return;
+        return -1;
     }
 
     *status_code = success;                       // Set the correspoding status code.
@@ -62,7 +62,7 @@ void stk_ary_push(stk_ary_t *stk_ary, const int element, status_code_t *status_c
 
     if (stk_ary_is_full(stk_ary, status_code)) // Check if the stack array has available capacity in order to store one more element.
     {
-        *status_code = stk_ary_is_full; // Set the correspoding status code.
+        *status_code = stk_ary_full; // Set the correspoding status code.
         return;
     }
 
@@ -80,7 +80,7 @@ void stk_ary_pop(stk_ary_t *stk_ary, status_code_t *status_code)
 
     if (stk_ary_is_empty(stk_ary, status_code)) // Check if the stack array stores at least one removable element.
     {
-        *status_code = stk_ary_is_empty; // Set the correspoding status code.
+        *status_code = stk_ary_empty; // Set the correspoding status code.
         return;
     }
 
@@ -92,25 +92,39 @@ int stk_ary_peek(stk_ary_t *stk_ary, status_code_t *status_code)
 {
     if (!stk_ary) // Check if the stack pointer is defined.
     {
-        status_code = stk_ary_ptr_is_null; // Set the correspoding status code.
-        return;
+        *status_code = stk_ary_ptr_is_null; // Set the correspoding status code.
+        return -1;
     }
 
     if (stk_ary_is_empty(stk_ary, status_code)) // Check if the stack array stores at least one removable element.
     {
-        status_code = stk_ary_is_empty; // Set the correspoding status code.
-        return;
+        *status_code = stk_ary_empty; // Set the correspoding status code.
+        return -1;
     }
 
     *status_code = success;                 // Set the correspoding status code.
     return stk_ary->elements[stk_ary->top]; // Access and return the element at the top of the stack.
 }
 
+void stk_ary_traverse(const stk_ary_t *stk_ary, void (*fp)(int), status_code_t *status_code)
+{
+    if (!stk_ary) // Check if the stack pointer is defined.
+    {
+        *status_code = stk_ary_ptr_is_null; // Set the correspoding status code.
+        return;
+    }
+
+    for (int i = stk_ary->top; i > -1; --i)
+        fp(stk_ary->elements[i]);
+
+    *status_code = success; // Set the correspoding status code.
+}
+
 void stk_ary_delete(stk_ary_t **stk_ary, status_code_t *status_code)
 {
     if (!stk_ary) // Check if the stack pointer is defined.
     {
-        status_code = stk_ary_ptr_is_null; // Set the correspoding status code.
+        *status_code = stk_ary_ptr_is_null; // Set the correspoding status code.
         return;
     }
 
