@@ -33,6 +33,7 @@ void controller(const char cmd)
     {
     case 'q':
         stk_ary_traverse(stk, stk_ary_print, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'c':
         printf("Capacity:");
