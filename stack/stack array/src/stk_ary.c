@@ -114,6 +114,12 @@ void stk_ary_traverse(const stk_ary_t *stk_ary, void (*fp)(int), status_code_t *
         return;
     }
 
+    if (stk_ary_is_empty(stk_ary, status_code)) // Check if the stack array stores at least one removable element.
+    {
+        *status_code = stk_ary_empty; // Set the correspoding status code.
+        return -1;
+    }
+
     for (int i = stk_ary->top; i > -1; --i)
         fp(stk_ary->elements[i]);
 
@@ -122,7 +128,7 @@ void stk_ary_traverse(const stk_ary_t *stk_ary, void (*fp)(int), status_code_t *
 
 void stk_ary_delete(stk_ary_t **stk_ary, status_code_t *status_code)
 {
-    if (!stk_ary) // Check if the stack pointer is defined.
+    if (!*stk_ary) // Check if the stack pointer is defined.
     {
         *status_code = stk_ary_ptr_is_null; // Set the correspoding status code.
         return;
