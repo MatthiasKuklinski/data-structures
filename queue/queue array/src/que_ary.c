@@ -113,7 +113,7 @@ int que_ary_peek(const que_ary_t *que_ary, status_code_t *status_code)
     return que_ary->elements[que_ary->front]; // Access and return the element at the front of the queue.
 }
 
-void que_ary_traverse(que_ary_t *que_ary, void (*fp)(int), status_code_t *status_code)
+void que_ary_traverse(que_ary_t *que_ary, void (*fp)(int *), status_code_t *status_code)
 {
     if (!que_ary) // Check if the queue pointer is defined.
     {
@@ -128,7 +128,7 @@ void que_ary_traverse(que_ary_t *que_ary, void (*fp)(int), status_code_t *status
     }
 
     for (int i = que_ary->front; i <= que_ary->rear; i++)
-        fp(que_ary->elements[i]);
+        fp(&que_ary->elements[i]);
 
     *status_code = success; // Set the correspoding status code.
 }
