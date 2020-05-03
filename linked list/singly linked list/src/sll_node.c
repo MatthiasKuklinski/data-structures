@@ -3,15 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-sll_node_t *sll_node(const int value, sll_node_t *successor)
+sll_node_t *sll_node(const int element, sll_node_t *next)
 {
-    sll_node_t *temp_node = malloc(sizeof(sll_node_t)); // Allocate memory.
-
-    if (!temp_node) // Check if mempory was successfully allocated.
+    sll_node_t *sll_node = NULL;                  // Initialize a null pointer for the node structure itself.
+    if (!(sll_node = malloc(sizeof(sll_node_t)))) // Try to allocate sufficient memory on the heap.
         return NULL;
 
-    temp_node->value = value;         // Populate the node with the passed in data.
-    temp_node->successor = successor; // Declare the node to represent the end of the list.
-
-    return temp_node; // Return a pointer to the new node.
+    sll_node->element = element; // Initialize the nodes element with the passed in element value.
+    sll_node->next = next;       // Store the memory address of the the successing node.
+    return sll_node;
 }
