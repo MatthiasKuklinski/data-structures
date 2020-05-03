@@ -5,10 +5,7 @@
 
 void sll_print(sll_node_t *sll_node)
 {
-    if (!sll_node)
-        return;
-
-    printf("%-32d%-32p%-32p\n", sll_node->value, sll_node, sll_node->successor);
+    printf("%-32d%-32p%-32p\n", sll_node->element, sll_node, sll_node->next);
 }
 
 void menu()
@@ -36,81 +33,86 @@ void controller(const char cmd)
     int value;
     unsigned int index;
     static sll_node_t *list = NULL;
+    status_code_t status_code = success;
 
     switch (cmd)
     {
     case 'q':
-        printf("%-32s%-32s%-32s\n", "Value", "Memory Address", "Successor Memory Address");
-        sll_traverse(list, sll_print);
+        sll_traverse(list, sll_print, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'c':
         printf("Value:");
         scanf("%d", &value);
-        sll_delete(list);
+        sll_delete(list, &status_code);
         list = sll_node(value, NULL);
+        printf("Status: %d\n", status_code);
         break;
     case 'b':
         printf("Value:");
         scanf("%d", &value);
-        sll_prepend(list, value);
-        sll_traverse(list, sll_print);
+        sll_prepend(list, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'a':
         printf("Value:");
         scanf("%d", &value);
-        sll_append(list, value);
-        sll_traverse(list, sll_print);
+        sll_append(list, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'i':
         printf("Index:");
         scanf("%d", &index);
         printf("Value:");
         scanf("%d", &value);
-        sll_insert(list, value, index);
-        sll_traverse(list, sll_print);
+        sll_insert(list, value, index, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'r':
         printf("Index:");
         scanf("%d", &index);
-        sll_pop(list, index);
-        sll_traverse(list, sll_print);
+        sll_pop(list, index, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 't':
-        sll_pop_first(&list);
-        sll_traverse(list, sll_print);
+        sll_pop_first(&list, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'z':
-        sll_pop_last(list);
-        sll_traverse(list, sll_print);
+        sll_pop_last(list, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'g':
         printf("Index:");
         scanf("%d", &index);
-        printf("%p\n", sll_get(list, index));
+        printf("%p\n", sll_get(list, index, &status_code));
         break;
     case 's':
         printf("Index:");
         scanf("%d", &index);
         printf("Value:");
         scanf("%d", &value);
-        sll_set(list, index, value);
-        sll_traverse(list, sll_print);
+        sll_set(list, index, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'o':
-        sll_reverse(&list);
-        sll_traverse(list, sll_print);
+        sll_reverse(&list, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'l':
-        printf("%d\n", sll_length(list));
+        printf("%d\n", sll_length(list, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'd':
-        sll_delete(list);
+        sll_delete(list, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        sll_delete(list);
+        sll_delete(list, &status_code);
+        printf("Status: %d\n", status_code);
         exit(0);
     default:
         break;
@@ -119,13 +121,13 @@ void controller(const char cmd)
 
 int main()
 {
-    char cmd;
+    char cmd = '\0';
 
     menu();
     while (1)
     {
         printf("Cmd:");
-        scanf(" %s", &cmd);
+        scanf("%s", &cmd);
         controller(cmd);
     }
 }
