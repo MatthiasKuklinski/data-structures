@@ -1,13 +1,7 @@
 #pragma once
 
+#include "sll_status_codes.h"
 #include "sll_node.h"
-
-typedef enum status_code
-{
-    success = 0,
-    sll_node_ptr_is_null = -1,
-    insufficient_heap_mem = -2,
-} status_code_t;
 
 int sll_length(sll_node_t *sll_head_node, status_code_t *status_code);
 void sll_delete(sll_node_t *sll_head_node, status_code_t *status_code);
