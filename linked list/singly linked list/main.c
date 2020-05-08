@@ -45,7 +45,7 @@ void controller(const char cmd)
         printf("Value:");
         scanf("%d", &value);
         sll_delete(list, &status_code);
-        list = sll_node(value, NULL);
+        list = sll_node(value, NULL, &status_code);
         printf("Status: %d\n", status_code);
         break;
     case 'b':
