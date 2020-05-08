@@ -56,7 +56,7 @@ void sll_insert(sll_node_t *sll_head_node, const int element, const unsigned int
         for (int i = 1; i < index; ++i)          // Traverse through the list until the requested index minus one is reached.
             sll_head_node = sll_head_node->next; // Store the pointer to the successing node.
 
-        sll_head_node->next = sll_node(element, sll_head_node->next); // Insert the successing node into the list by pointing the predecessing node of the former successing node to it.
+        sll_head_node->next = sll_node(element, sll_head_node->next, status_code); // Insert the successing node into the list by pointing the predecessing node of the former successing node to it.
     }
 
     *status_code = success; // Set the correspoding status code.
@@ -70,7 +70,7 @@ void sll_prepend(sll_node_t *sll_head_node, const int element, status_code_t *st
         return;
     }
 
-    sll_head_node->next = sll_node(sll_head_node->element, sll_head_node->next); // Create a copy of the node and assign the provided value (place the node to the second position(index of 1)).
+    sll_head_node->next = sll_node(sll_head_node->element, sll_head_node->next, status_code); // Create a copy of the node and assign the provided value (place the node to the second position(index of 1)).
     sll_head_node->element = element;                                            // Replace the old node element with the new node element.
 
     *status_code = success; // Set the correspoding status code.
@@ -87,7 +87,7 @@ void sll_append(sll_node_t *sll_head_node, const int element, status_code_t *sta
     while (sll_head_node->next)              // Traverse through the list until the last node is reached.
         sll_head_node = sll_head_node->next; // Set the sll_head_node pointer to its successing node.
 
-    sll_head_node->next = sll_node(element, NULL); // Append a new node at the end of the list.
+    sll_head_node->next = sll_node(element, NULL, status_code); // Append a new node at the end of the list.
     *status_code = success;                        // Set the correspoding status code.
 }
 
