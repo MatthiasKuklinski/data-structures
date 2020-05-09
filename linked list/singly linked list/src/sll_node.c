@@ -13,7 +13,7 @@ sll_node_t *sll_node(const int element, sll_node_t *next, status_code_t *status_
     }
 
     sll_node->element = element; // Initialize the nodes element with the passed in element value.
-    sll_node->next = next;       // Store the memory address of the the successing node.
+    sll_node->next = next;       // Store the memory address of the the succeeding node.
 
     *status_code = success; // Set the correspoding status code.
     return sll_node;
