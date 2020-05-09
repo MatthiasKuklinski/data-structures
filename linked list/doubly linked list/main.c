@@ -5,10 +5,7 @@
 
 void dll_print(dll_node_t *dll_node)
 {
-    if (!dll_node)
-        return;
-
-    printf("%-32d%-32p%-32p%-32p\n", dll_node->value, dll_node, dll_node->predecessor, dll_node->successor);
+    printf("%-32d%-32p%-32p%-32p\n", dll_node->element, dll_node, dll_node->prev, dll_node->next);
 }
 
 void menu()
@@ -36,82 +33,87 @@ void controller(const char cmd)
     int value;
     unsigned int index;
     static dll_node_t *list = NULL;
+    status_code_t status_code = success;
 
     switch (cmd)
     {
     case 'q':
-        printf("%-32s%-32s%-32s%-32s\n", "Value", "Memory Address", "Predecessor Memory Address", "Successor Memory Address");
-        dll_traverse(list, dll_print);
+        dll_traverse(list, dll_print, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'c':
         printf("Value:");
         scanf("%d", &value);
-        dll_delete(list);
-        list = dll_node(value, NULL, NULL);
+        dll_delete(&list, &status_code);
+        list = dll_node(value, NULL, NULL, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'b':
         printf("Value:");
         scanf("%d", &value);
-        dll_prepend(list, value);
-        dll_traverse(list, dll_print);
+        dll_prepend(list, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'a':
         printf("Value:");
         scanf("%d", &value);
-        dll_append(list, value);
-        dll_traverse(list, dll_print);
+        dll_append(list, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'i':
         printf("Index:");
         scanf("%d", &index);
         printf("Value:");
         scanf("%d", &value);
-        dll_insert(list, value, index);
-        dll_traverse(list, dll_print);
+        dll_insert(list, value, index, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'r':
         printf("Index:");
         scanf("%d", &index);
-        dll_pop(list, index);
-        dll_traverse(list, dll_print);
+        dll_pop(&list, index, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 't':
-        dll_pop_first(&list);
-        dll_traverse(list, dll_print);
+        dll_pop_first(&list, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'z':
-        dll_pop_last(list);
-        dll_traverse(list, dll_print);
+        dll_pop_last(&list, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'g':
         printf("Index:");
         scanf("%d", &index);
-        dll_node_t *temp_node = dll_get(list, index);
-        printf("%-32d%-32p%-32p%-32p\n", temp_node->value, temp_node, temp_node->predecessor, temp_node->successor);
+        printf("%d\n", dll_get(list, index, &status_code)->element);
         break;
     case 's':
         printf("Index:");
         scanf("%d", &index);
         printf("Value:");
         scanf("%d", &value);
-        dll_set(list, index, value);
-        dll_traverse(list, dll_print);
+        dll_set(list, index, value, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'o':
-        dll_reverse(&list);
-        dll_traverse(list, dll_print);
+        dll_reverse(&list, &status_code);
+        printf("Status: %d\n", status_code);
         break;
     case 'l':
-        printf("%lu\n", dll_length(list));
+        printf("%d\n", dll_length(list, &status_code));
+        printf("Status: %d\n", status_code);
         break;
     case 'd':
-        dll_delete(list);
+        dll_delete(&list, &status_code);
+        printf("LIST: %p\n", list);
+        printf("Status: %d\n", status_code);
         break;
     case 'm':
         menu();
         break;
-    case 'e':
-        dll_delete(list);
+    case 'x':
+        dll_delete(&list, &status_code);
+        printf("Status: %d\n", status_code);
         exit(0);
     default:
         break;
@@ -120,13 +122,13 @@ void controller(const char cmd)
 
 int main()
 {
-    char cmd;
+    char cmd = '\0';
 
     menu();
     while (1)
     {
         printf("Cmd:");
-        scanf(" %s", &cmd);
+        scanf("%s", &cmd);
         controller(cmd);
     }
 }
