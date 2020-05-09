@@ -44,7 +44,7 @@ void controller(const char cmd)
     case 'c':
         printf("Value:");
         scanf("%d", &value);
-        sll_delete(list, &status_code);
+        sll_delete(&list, &status_code);
         list = sll_node(value, NULL, &status_code);
         printf("Status: %d\n", status_code);
         break;
@@ -71,7 +71,7 @@ void controller(const char cmd)
     case 'r':
         printf("Index:");
         scanf("%d", &index);
-        sll_pop(list, index, &status_code);
+        sll_pop(&list, index, &status_code);
         printf("Status: %d\n", status_code);
         break;
     case 't':
@@ -79,13 +79,13 @@ void controller(const char cmd)
         printf("Status: %d\n", status_code);
         break;
     case 'z':
-        sll_pop_last(list, &status_code);
+        sll_pop_last(&list, &status_code);
         printf("Status: %d\n", status_code);
         break;
     case 'g':
         printf("Index:");
         scanf("%d", &index);
-        printf("%p\n", sll_get(list, index, &status_code));
+        printf("%d\n", sll_get(list, index, &status_code)->element);
         break;
     case 's':
         printf("Index:");
@@ -104,14 +104,15 @@ void controller(const char cmd)
         printf("Status: %d\n", status_code);
         break;
     case 'd':
-        sll_delete(list, &status_code);
+        sll_delete(&list, &status_code);
+        printf("LIST: %p\n", list);
         printf("Status: %d\n", status_code);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        sll_delete(list, &status_code);
+        sll_delete(&list, &status_code);
         printf("Status: %d\n", status_code);
         exit(0);
     default:
