@@ -3,11 +3,11 @@
 #include <stdlib.h>
 
 #include "ht_sll_status_codes.h"
-#include "ht_entry_sll.h"
+#include "ht_node_sll.h"
 
 typedef struct ht_sll
 {
-    ht_entry_sll_t **entries;
+    ht_node_sll_t **entries;
 } ht_sll_t;
 
 ht_sll_t *ht_sll(size_t capacity, status_code_t *status_code);

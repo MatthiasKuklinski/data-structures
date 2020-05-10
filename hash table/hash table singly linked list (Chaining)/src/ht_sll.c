@@ -17,20 +17,30 @@ ht_sll_t *ht_sll(size_t capacity, status_code_t *status_code)
         return NULL;
     }
 
-    for (size_t i = 0; i < capacity; ++i) // Iterate through the hash table entries and set each entry to null.
+    for (size_t i = 0; i < capacity; ++i) // Iterate through the hash table entries and set each node to null.
         ht->entries[i] = NULL;
 
-    *status_code = success;
+    *status_code = success; // Set the correspoding status code.
     return ht;
 }
 
 void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_t *status_code)
 {
-    unsigned int slot = 123213123;
+    unsigned int hash_index = 1;
 
-    if (ht->entries[slot])
+    if (!ht->entries[hash_index]) // Check if the hash table already contains an node at the generated hash index.
     {
-        ht->entries[slot] = ht_entry_sll(key, element, status_code);
+        ht->entries[hash_index] = ht_node_sll(key, element, status_code); // Create a new node and map it to the slot position.
+
+        *status_code = success; // Set the correspoding status code.
         return;
     }
+
+    ht_node_sll_t *ht_node = ht->entries[hash_index];
+    while (!ht_node) // Iterate through the hash table node entries.
+        ht_node = ht_node->next;
+
+    ht_node->next = ht_node_sll(key, element, status_code);
+
+    *status_code = success; // Set the correspoding status code.
 }
