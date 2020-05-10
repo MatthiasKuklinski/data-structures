@@ -102,21 +102,21 @@ void dll_pop(dll_node_t **dll_head_node, const unsigned int index, status_code_t
         return;
     }
 
-    if (index >= dll_length(*dll_head_node, status_code))
+    if (index >= dll_length(*dll_head_node, status_code)) // Check if the requested index is in range.
     {
         *status_code = index_out_of_bounds; // Set the correspoding status code.
         return;
     }
 
-    if (index == 0)
+    if (index == 0) // Check if the requested index is at the beginning of the list.
     {
-        dll_pop_first(dll_head_node, status_code);
+        dll_pop_first(dll_head_node, status_code); // Pop the first node from the list.
         return;
     }
 
-    if (index == dll_length(*dll_head_node, status_code) - 1)
+    if (index == dll_length(*dll_head_node, status_code) - 1) // Check if the requested index is at the end of the list.
     {
-        dll_pop_last(dll_head_node, status_code);
+        dll_pop_last(dll_head_node, status_code); // Pop the last node from the list.
         return;
     }
 
@@ -148,8 +148,8 @@ void dll_pop_first(dll_node_t **dll_head_node, status_code_t *status_code)
 
     dll_node_t *temp_node = *dll_head_node;  // Temporarily store the address of the head node.
     *dll_head_node = (*dll_head_node)->next; // Set the former (head)node to point to the next node.
-    (*dll_head_node)->prev = NULL;
-    free(temp_node); // Deallocate the memory at the address of the popped node.
+    (*dll_head_node)->prev = NULL;           // Set the preceding node pointer to null, since this will mark the new head node of the list.
+    free(temp_node);                         // Deallocate the memory at the address of the popped node.
 
     *status_code = success; // Set the correspoding status code.
 }
@@ -228,18 +228,20 @@ void dll_reverse(dll_node_t **dll_head_node, status_code_t *status_code)
         return;
     }
 
-    dll_node_t *current = *dll_head_node; // Store the address of the head node temporarily.
-    dll_node_t *temp_node = NULL;
+    dll_node_t *temp_prev_node = NULL;              // Temporarily store the address of the preceding node (for the first element of the list it has to be null).
+    dll_node_t *temp_current_node = *dll_head_node; // Temporarily store the address of the current node.
 
-    while (current)
+    while (temp_current_node)
     {
-        temp_node = current->prev;     // Store the address of the preceding node.
-        current->prev = current->next; // Change the address of the the preceding node to the succeeding node.
-        current->next = temp_node;     // Change the address of the succesing node to the previously stored address of the preceding node.
-        current = current->prev;       // Change the address of the current node to the currents preceding node (former succeeding node).
+        temp_prev_node = temp_current_node->prev;          // Store the address of the preceding node.
+        temp_current_node->prev = temp_current_node->next; // Point the preceding node to the succeeding node.
+        temp_current_node->next = temp_prev_node;          // Point the succesing node to the previously stored address of the preceding node.
+        temp_current_node = temp_current_node->prev;       // Iterate onto the next node by changing the address of the current node to the currents preceding node (former succeeding node).
     }
 
-    *dll_head_node = temp_node->prev; // Set the head node to the former tail node.
+    *dll_head_node = temp_prev_node->prev; // Point the new head node the former tail node.
+
+    *status_code = success; // Set the correspoding status code.
 }
 
 void dll_traverse(dll_node_t *dll_head_node, void (*fp)(dll_node_t *), status_code_t *status_code)
