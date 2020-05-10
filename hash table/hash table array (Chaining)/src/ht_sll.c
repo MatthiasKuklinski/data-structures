@@ -1,10 +1,8 @@
-#include "ht_ary.h";
+#include "ht_sll.h";
 
-#include <stdlib.h>
-
-ht_ary_t *ht_ary(size_t capacity, status_code_t *status_code)
+ht_sll_t *ht_sll(size_t capacity, status_code_t *status_code)
 {
-    ht_ary_t *ht = NULL;            // Initialize a null pointer for the hash table structure itself.
+    ht_sll_t *ht = NULL;            // Initialize a null pointer for the hash table structure itself.
     if (!(ht = malloc(sizeof(ht)))) // Try to allocate sufficient memory on the heap.
     {
         *status_code = insufficient_heap_mem; // Set the correspoding status code.
@@ -24,4 +22,15 @@ ht_ary_t *ht_ary(size_t capacity, status_code_t *status_code)
 
     *status_code = success;
     return ht;
+}
+
+void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_t *status_code)
+{
+    unsigned int slot = 123213123;
+
+    if (ht->entries[slot])
+    {
+        ht->entries[slot] = ht_entry_sll(key, element, status_code);
+        return;
+    }
 }
