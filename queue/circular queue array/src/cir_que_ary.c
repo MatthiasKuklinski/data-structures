@@ -73,6 +73,7 @@ void cir_que_ary_enqueue(cir_que_ary_t *cir_que_ary, int element, status_code_t 
 
     cir_que_ary->rear = (cir_que_ary->rear + 1) % cir_que_ary->capacity; // Set the higher bound index accordingly.
     cir_que_ary->elements[cir_que_ary->rear] = element;                  // Increment the upper bound and store the element afterwards at the incremented index.
+    
     *status_code = success;                                              // Set the correspoding status code.
 }
 
@@ -134,6 +135,7 @@ void cir_que_ary_traverse(cir_que_ary_t *cir_que_ary, void (*fp)(int *), status_
         fp(&cir_que_ary->elements[i]);
 
     fp(&cir_que_ary->elements[cir_que_ary->rear]); // Access the last element in the queue array, since it was ignored.
+    
     *status_code = success;                        // Set the correspoding status code.
 }
 
@@ -148,5 +150,6 @@ void cir_que_ary_delete(cir_que_ary_t **cir_que_ary, status_code_t *status_code)
     free((*cir_que_ary)->elements); // Deallocate the elements array.
     free(*cir_que_ary);             // Deallocate the queue.
     *cir_que_ary = NULL;            // Avoid a dangling pointer.
+    
     *status_code = success;         // Set the correspoding status code.
 }

@@ -70,6 +70,7 @@ void que_ary_enqueue(que_ary_t *que_ary, int element, status_code_t *status_code
         que_ary->front++;     // Increment the lower bound on initial initialization.
 
     que_ary->elements[++que_ary->rear] = element; // Increment the upper bound and store the element afterwards at the incremented index.
+    
     *status_code = success;                       // Set the correspoding status code.
 }
 
@@ -144,5 +145,6 @@ void que_ary_delete(que_ary_t **que_ary, status_code_t *status_code)
     free((*que_ary)->elements); // Deallocate the elements array.
     free(*que_ary);             // Deallocate the queue.
     *que_ary = NULL;            // Avoid a dangling pointer.
+
     *status_code = success;     // Set the correspoding status code.
 }
