@@ -12,3 +12,4 @@ typedef struct ht_sll
 
 ht_sll_t *ht_sll(size_t capacity, status_code_t *status_code);
 void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_t *status_code);
+char *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code);

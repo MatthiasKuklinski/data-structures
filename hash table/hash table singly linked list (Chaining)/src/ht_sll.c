@@ -26,6 +26,12 @@ ht_sll_t *ht_sll(size_t capacity, status_code_t *status_code)
 
 void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_t *status_code)
 {
+    if (!ht) // Check if the table pointer is defined.
+    {
+        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
+        return;
+    }
+
     unsigned int hash_index = 1;
 
     if (!ht->entries[hash_index]) // Check if the hash table already contains an node at the generated hash index.
@@ -50,14 +56,49 @@ void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_
                 return;
             }
             strcpy(ht_node->element, element); // Populate the node element by copying the element argument into it.
+
+            *status_code = success; // Set the correspoding status code.
             return;
         }
 
         temp_ht_node = ht_node_sll; // Temporarily store the current node.
-        ht_node = ht_node->next;    // Point the current node to its succeeding node.
+        ht_node = ht_node->next;    // Get the successing node.
     }
 
     temp_ht_node->next = ht_node_sll(key, element, status_code); // Append a new node at the end of the list, since no duplicate key was found.
 
     *status_code = success; // Set the correspoding status code.
+}
+
+char *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code)
+{
+    if (!ht) // Check if the table pointer is defined.
+    {
+        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
+        return;
+    }
+
+    unsigned int hash_index = 1;
+
+    if (!ht->entries[hash_index])
+    {
+        *status_code = success; // Set the correspoding status code.
+        return NULL;
+    }
+
+    ht_node_sll_t *ht_node = ht->entries[hash_index];
+
+    while (!ht_node)
+    {
+        if (strcmp(ht_node->key, key) == 0) // Check if the list already contains the key.
+        {
+            *status_code = success; // Set the correspoding status code.
+            return ht_node->element;
+        }
+
+        ht_node = ht_node->next; // Get the successing node.
+    }
+
+    *status_code = success; // Set the correspoding status code.
+    return NULL;
 }
