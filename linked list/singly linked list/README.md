@@ -1,0 +1,6 @@
+# Singly Linked List
+A singly linked list is a linear collection of data elements (usually refered to as nodes) which together represent a sequence, whose order is not given by their physical placement in memory. Each node contains a stored element and a reference/pointer to the next node. The entry point of the list is called the head of the list. The last node in the list is refered to as the tail of the list. If the list im empty, the head node is a null reference.
+
+## Usage
+Since a list is a linear collection of data elements, whose order is not given by their physical placement in memory, insert or delete operations don't require reallocation or reorganization of the entire data structure, because the data items don't need to be stored contiguously. Accessing any node from the list(except the head) requires traversing through each node of the list, until the required node is reached. Additionally a list node comes with a memory overhead of storing a reference/pointer besides the element itself.
+Therefore a list can be used as an efficient data structure where insert or delete operations are more common than traverse operations and the memory overhead is negligible.
