@@ -36,11 +36,28 @@ void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_
         return;
     }
 
+    ht_node_sll_t *temp_ht_node;
     ht_node_sll_t *ht_node = ht->entries[hash_index];
     while (!ht_node) // Iterate through the hash table node entries.
-        ht_node = ht_node->next;
+    {
+        if (strcmp(ht_node->key, key) == 0) // Check if the list already contains the key.
+        {
+            free(ht_node->element);                                // Deallocate the memory.
+            ht_node->element = NULL;                               // Avoid a dangling pointer.
+            if (!(ht_node->element = malloc(strlen(element) + 1))) // Try to allocate sufficient memory on the heap.
+            {
+                *status_code = insufficient_heap_mem; // Set the correspoding status code.
+                return;
+            }
+            strcpy(ht_node->element, element); // Populate the node element by copying the element argument into it.
+            return;
+        }
 
-    ht_node->next = ht_node_sll(key, element, status_code);
+        temp_ht_node = ht_node_sll; // Temporarily store the current node.
+        ht_node = ht_node->next;    // Point the current node to its succeeding node.
+    }
+
+    temp_ht_node->next = ht_node_sll(key, element, status_code); // Append a new node at the end of the list, since no duplicate key was found.
 
     *status_code = success; // Set the correspoding status code.
 }
