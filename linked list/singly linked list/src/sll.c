@@ -99,21 +99,21 @@ void sll_pop(sll_node_t **sll_head_node, const unsigned int index, status_code_t
         return;
     }
 
-    if (index >= sll_length(*sll_head_node, status_code))
+    if (index >= sll_length(*sll_head_node, status_code)) // Check if the requested index is in range.
     {
         *status_code = index_out_of_bounds; // Set the correspoding status code.
         return;
     }
 
-    if (index == 0)
+    if (index == 0) // Check if the requested index is at the beginning of the list.
     {
-        sll_pop_first(sll_head_node, status_code);
+        sll_pop_first(sll_head_node, status_code); // Pop the first node from the list.
         return;
     }
 
-    if (index == sll_length(*sll_head_node, status_code) - 1)
+    if (index == sll_length(*sll_head_node, status_code) - 1) // Check if the requested index is at the end of the list.
     {
-        sll_pop_last(sll_head_node, status_code);
+        sll_pop_last(sll_head_node, status_code); // Pop the last node from the list.
         return;
     }
 
@@ -124,7 +124,8 @@ void sll_pop(sll_node_t **sll_head_node, const unsigned int index, status_code_t
     sll_node_t *temp_popped_node = temp_node->next; // Temporarily store the address of the node to be popped.
     temp_node->next = temp_node->next->next;        // Update the succeeding node address.
     free(temp_popped_node);                         // Deallocate the memory at the address of the popped node.
-    *status_code = success;                         // Set the correspoding status code.
+
+    *status_code = success; // Set the correspoding status code.
 }
 
 void sll_pop_first(sll_node_t **sll_head_node, status_code_t *status_code)
@@ -211,7 +212,8 @@ void sll_set(sll_node_t *sll_head_node, const unsigned int index, const int elem
         sll_head_node = sll_head_node->next;
 
     sll_head_node->element = element; // Update the value.
-    *status_code = success;           // Set the correspoding status code.
+
+    *status_code = success; // Set the correspoding status code.
 }
 
 void sll_reverse(sll_node_t **sll_head_node, status_code_t *status_code)
@@ -222,17 +224,19 @@ void sll_reverse(sll_node_t **sll_head_node, status_code_t *status_code)
         return;
     }
 
-    sll_node_t *prev;
-    sll_node_t *next;
+    sll_node_t *temp_prev_node = NULL; // Temporarily store the address of the preceding node (for the first element of the list it has to be null).
+    sll_node_t *temp_next_node;
+
     while (*sll_head_node)
     {
-        next = (*sll_head_node)->next; // Store the address of the succeeding node.
-        (*sll_head_node)->next = prev; // Set the successor to its predecessor.
-        prev = *sll_head_node;         // Update the predecessor.
-        *sll_head_node = next;         // Jump to the next node.
+        temp_next_node = (*sll_head_node)->next; // Temporarily store the address of the succeeding node.
+        (*sll_head_node)->next = temp_prev_node; // Point the succeeding node to its former succeeding node.
+        temp_prev_node = *sll_head_node;         // Temporarily store the address of the current node, which will be represented as the preceding node in the next iteration.
+        *sll_head_node = temp_next_node;         // Iterate onto the next node.
     }
 
-    *sll_head_node = prev;
+    *sll_head_node = temp_prev_node; // Point the new head node the former tail node.
+
     *status_code = success; // Set the correspoding status code.
 }
 
@@ -244,11 +248,11 @@ void sll_traverse(sll_node_t *sll_head_node, void (*fp)(sll_node_t *), status_co
         return;
     }
 
-    printf("%p %p\n", sll_head_node, sll_head_node->next);
     while (sll_head_node) // Iterate through the list.
     {
         fp(sll_head_node);                   // Execute the callback.
         sll_head_node = sll_head_node->next; // Point to the successor of the current node.
     }
+
     *status_code = success; // Set the correspoding status code.
 }
