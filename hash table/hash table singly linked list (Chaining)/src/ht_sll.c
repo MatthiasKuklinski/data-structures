@@ -33,7 +33,7 @@ unsigned long hash(const unsigned long capacity, const char *key)
     unsigned long hash = 5381;
     int c;
 
-    while (c = *key++)
+    while ((c = *key++))
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 
     return hash % capacity;
@@ -59,7 +59,7 @@ void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_
     ht_node_sll_t *temp_ht_node;
     ht_node_sll_t *ht_node = ht->nodes[hash_index];
 
-    while (ht_node) // Iterate through the hash table node nodes.
+    while (ht_node) // Iterate through the hash tables node(entry) nodes.
     {
         if (strcmp(ht_node->key, key) == 0) // Check if the list already contains the key.
         {
@@ -117,7 +117,7 @@ char *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code)
     return NULL;
 }
 
-void sll_traverse(ht_sll_t *ht, void (*fp)(ht_node_sll_t *), status_code_t *status_code)
+void ht_sll_traverse(ht_sll_t *ht, void (*fp)(ht_node_sll_t *), status_code_t *status_code)
 {
     if (!ht) // Check if the table pointer is defined.
     {
