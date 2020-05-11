@@ -3,9 +3,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void ht_sll_print(ht_node_sll_t *ht_node_sll)
+{
+    if (ht_node_sll)
+    {
+        printf("%-32s", ht_node_sll->key);
+        while (ht_node_sll)
+        {
+            printf("%-32s", ht_node_sll->element);
+            ht_node_sll = ht_node_sll->next;
+        }
+        printf("\n");
+    }
+    else
+    {
+        printf("%-32s\n", "\0");
+    }
+}
+
 void menu()
 {
     printf("- Hash Table (Singly Linked List (Chaining)) -\n");
+    printf("Print(q)\n");
     printf("Create(c)\n");
     printf("Set(s)\n");
     printf("Get(g)\n");
@@ -23,6 +42,10 @@ void controller(const char cmd)
 
     switch (cmd)
     {
+    case 'q':
+        ht_sll_traverse(ht, ht_sll_print, &status_code);
+        printf("Status: %d\n", status_code);
+        break;
     case 'c':
         printf("Capacity:");
         scanf("%lu", &capacity);
