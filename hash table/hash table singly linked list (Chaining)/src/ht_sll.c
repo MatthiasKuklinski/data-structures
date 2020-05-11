@@ -27,6 +27,18 @@ ht_sll_t *ht_sll(const unsigned long capacity, status_code_t *status_code)
     return ht;
 }
 
+// djb2
+unsigned long hash(const unsigned long capacity, const char *key)
+{
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *key++)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash % capacity;
+}
+
 void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_t *status_code)
 {
     if (!ht) // Check if the table pointer is defined.
@@ -35,8 +47,7 @@ void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_
         return;
     }
 
-    unsigned int hash_index = 1;
-
+    unsigned long hash_index = hash(ht->capacity, key);
     if (!ht->nodes[hash_index]) // Check if the hash table already contains an node at the generated hash index.
     {
         ht->nodes[hash_index] = ht_node_sll(key, element, status_code); // Create a new node and map it to the slot position.
@@ -82,8 +93,7 @@ char *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code)
         return NULL;
     }
 
-    unsigned int hash_index = 1;
-
+    unsigned long hash_index = hash(ht->capacity, key);
     if (!ht->nodes[hash_index])
     {
         *status_code = success; // Set the correspoding status code.
