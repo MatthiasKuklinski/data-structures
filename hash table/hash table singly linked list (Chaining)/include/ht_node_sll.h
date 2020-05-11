@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "ht_sll_status_codes.h"
 
