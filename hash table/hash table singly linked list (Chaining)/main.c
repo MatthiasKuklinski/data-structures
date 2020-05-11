@@ -16,7 +16,8 @@ void menu()
 void controller(const char cmd)
 {
     unsigned long capacity = 0;
-    char key[48], element[48];
+    char key[32], element[32];
+    char *result;
     static ht_sll_t *ht = NULL;
     status_code_t status_code = success;
 
@@ -39,7 +40,8 @@ void controller(const char cmd)
     case 'g':
         printf("Key:");
         scanf("%s", key);
-        printf("%s\n", ht_sll_get(ht, key, &status_code));
+        result = ht_sll_get(ht, key, &status_code);
+        result ? printf("%s\n", result) : printf("%s\n", "\0");
         printf("Status: %d\n", status_code);
         break;
     case 'm':
