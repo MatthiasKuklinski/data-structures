@@ -17,3 +17,4 @@ void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_
 ht_node_sll_t *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code);
 void ht_sll_traverse(ht_sll_t *ht, void (*fp)(ht_node_sll_t *), status_code_t *status_code);
 void ht_sll_remove(ht_sll_t *ht, const char *key, status_code_t *status_code);
+void ht_sll_delete(ht_sll_t **ht, status_code_t *status_code);

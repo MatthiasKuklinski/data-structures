@@ -186,3 +186,35 @@ void ht_sll_remove(ht_sll_t *ht, const char *key, status_code_t *status_code)
 
     *status_code = key_does_not_exist; // Set the correspoding status code.
 }
+
+void ht_sll_delete(ht_sll_t **ht, status_code_t *status_code)
+{
+    if (!*ht) // Check if the table pointer is defined.
+    {
+        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
+        return;
+    }
+
+    ht_node_sll_t *temp_ht_node_sll, *temp_next_ht_node_sll;
+    for (unsigned long i = 0; i < (*ht)->capacity; ++i)
+    {
+        temp_ht_node_sll = (*ht)->nodes[i];
+        while (temp_ht_node_sll)
+        {
+            free(temp_ht_node_sll->key);
+            free(temp_ht_node_sll->element);
+            temp_ht_node_sll->key = NULL;     // Avoid a dangling pointer (defensive programming).
+            temp_ht_node_sll->element = NULL; // Avoid a dangling pointer (defensive programming).
+
+            temp_next_ht_node_sll = temp_ht_node_sll->next;
+            free(temp_ht_node_sll);
+            temp_ht_node_sll = NULL; // Avoid a dangling pointer (defensive programming).
+            temp_ht_node_sll = temp_next_ht_node_sll;
+        }
+    }
+
+    free((*ht)->nodes);
+    (*ht)->nodes = NULL;
+    (*ht) = NULL;              // Avoid a dangling pointer (defensive programming).
+    *status_code = success; // Set the correspoding status code.
+}
