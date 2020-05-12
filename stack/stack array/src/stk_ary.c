@@ -1,6 +1,6 @@
 #include "stk_ary.h"
 
-stk_ary_t *stk_ary(const int capacity, status_t *status)
+stk_ary_t *stk_ary_alloc(const int capacity, status_t *status)
 {
     stk_ary_t *stk_ary = NULL;
     if (!(stk_ary = malloc(sizeof(stk_ary_t))))
@@ -23,24 +23,24 @@ stk_ary_t *stk_ary(const int capacity, status_t *status)
     return stk_ary;
 }
 
-int stk_ary_is_empty(const stk_ary_t *stk_ary, status_t *status)
+unsigned short stk_ary_is_empty(const stk_ary_t *stk_ary, status_t *status)
 {
     if (!stk_ary)
     {
         *status = stk_ary_ptr_is_null;
-        return -1;
+        return 1;
     }
 
     *status = success;
     return stk_ary->top < 0;
 }
 
-int stk_ary_is_full(const stk_ary_t *stk_ary, status_t *status)
+unsigned short stk_ary_is_full(const stk_ary_t *stk_ary, status_t *status)
 {
     if (!stk_ary)
     {
         *status = stk_ary_ptr_is_null;
-        return -1;
+        return 0;
     }
 
     *status = success;
@@ -101,7 +101,7 @@ int stk_ary_peek(const stk_ary_t *stk_ary, status_t *status)
     return stk_ary->elements[stk_ary->top];
 }
 
-void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int *), status_t *status)
+void stk_ary_traverse(const stk_ary_t *stk_ary, void (*fp)(int *), status_t *status)
 {
     if (!stk_ary)
     {
@@ -123,7 +123,7 @@ void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int *), status_t *status)
     *status = success;
 }
 
-void stk_ary_deallocate(stk_ary_t **stk_ary, status_t *status)
+void stk_ary_dealloc(stk_ary_t **stk_ary, status_t *status)
 {
     if (!*stk_ary)
     {

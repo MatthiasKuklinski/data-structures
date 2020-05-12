@@ -11,37 +11,36 @@ A basic implementation of a stack stores an index (```top```), which is incremen
 ```c
 typedef struct stk_ary
 {
-    int top;
-    int capacity;
+    int top, capacity;
     int *elements;
 } stk_ary_t;
 ```
 
 ### Constructor
 ```c
-*stk_ary(const int capacity, status_code_t *status_code)
+*stk_ary_alloc(const int capacity, status_code_t *status_code)
 ```
 
 ### Destructor
 ```c
-stk_ary_deallocate(stk_ary_t **stk_ary, status_code_t *status_code)
+stk_ary_dealloc(stk_ary_t **stk_ary, status_code_t *status_code)
 ```
 
-### Operations
-```is_empty```: Check if the stack is empty.  
-```is_full```: Check if the stack is full.  
+### Operations 
 ```push```: Add the element onto the top of the stack.  
 ```pop```: Remove the element of the top of the stack.  
 ```peek```: Get the element on the top of the stack.  
 ```traverse```: Iterate through the stack elements.
+```is_empty```: Check if the stack is empty.  
+```is_full```: Check if the stack is full. 
 
 ```c
-int stk_ary_is_empty(const stk_ary_t *stk_ary, status_code_t *status_code);
-int stk_ary_is_full(const stk_ary_t *stk_ary, status_code_t *status_code);
 void stk_ary_push(stk_ary_t *stk_ary, const int element, status_code_t *status_code);
 void stk_ary_pop(stk_ary_t *stk_ary, status_code_t *status_code);
 int stk_ary_peek(const stk_ary_t *stk_ary, status_code_t *status_code);
 void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int *), status_code_t *status_code);
+unsigned short stk_ary_is_empty(const stk_ary_t *stk_ary, status_code_t *status_code);
+unsigned short stk_ary_is_full(const stk_ary_t *stk_ary, status_code_t *status_code);
 ```
 
 ## Implementation
@@ -53,7 +52,7 @@ Set the stack top index to -1 (empty).
 Set the corresponding status code and return a pointer to the stack.
 
 ```c
-stk_ary_t *stk_ary(const int capacity, status_t *status)
+stk_ary_t *stk_ary_alloc(const int capacity, status_t *status)
 {
     stk_ary_t *stk_ary = NULL;
     if (!(stk_ary = malloc(sizeof(stk_ary_t))))
@@ -85,7 +84,7 @@ Set the stack structure pointer to null, in order to avoid a dangling pointer (d
 Set the corresponding status code.
 
 ```c
-void stk_ary_deallocate(stk_ary_t **stk_ary, status_t *status)
+void stk_ary_dealloc(stk_ary_t **stk_ary, status_t *status)
 {
     if (!*stk_ary)
     {
@@ -101,42 +100,6 @@ void stk_ary_deallocate(stk_ary_t **stk_ary, status_t *status)
 ```
 
 ### Operations
-#### is_empty
-Validate the input arguments. On failure, set the corresponding status code and return -1.
-Set the corresponding status code.
-Return whether the stacks top index is smaller than 0 (empty) or greater than 0 (non empty).
-```c
-int stk_ary_is_empty(const stk_ary_t *stk_ary, status_t *status)
-{
-    if (!stk_ary)
-    {
-        *status = stk_ary_ptr_is_null;
-        return -1;
-    }
-
-    *status = success;
-    return stk_ary->top < 0;
-}
-```
-
-#### is_full
-Validate the input arguments. On failure, set the corresponding status code and return -1.
-Set the corresponding status code.
-Return whether the stacks top index is equal to the stacks capacity -1 (full) or not (not full).
-```c
-int stk_ary_is_full(const stk_ary_t *stk_ary, status_t *status)
-{
-    if (!stk_ary)
-    {
-        *status = stk_ary_ptr_is_null;
-        return -1;
-    }
-
-    *status = success;
-    return stk_ary->top == stk_ary->capacity - 1;
-}
-```
-
 #### push
 Validate the input arguments. On failure, set the corresponding status code and return.
 Validate that the stack is not full. On failure, set the corresponding status code and return.
@@ -242,5 +205,41 @@ void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int *), status_t *status)
     }
 
     *status = success;
+}
+```
+
+#### is_empty
+Validate the input arguments. On failure, set the corresponding status code and return -1.
+Set the corresponding status code.
+Return whether the stacks top index is smaller than 0 (empty) or greater than 0 (non empty).
+```c
+unsigned short stk_ary_is_empty(const stk_ary_t *stk_ary, status_t *status)
+{
+    if (!stk_ary)
+    {
+        *status = stk_ary_ptr_is_null;
+        return -1;
+    }
+
+    *status = success;
+    return stk_ary->top < 0;
+}
+```
+
+#### is_full
+Validate the input arguments. On failure, set the corresponding status code and return -1.
+Set the corresponding status code.
+Return whether the stacks top index is equal to the stacks capacity -1 (full) or not (not full).
+```c
+unsigned short stk_ary_is_full(const stk_ary_t *stk_ary, status_t *status)
+{
+    if (!stk_ary)
+    {
+        *status = stk_ary_ptr_is_null;
+        return -1;
+    }
+
+    *status = success;
+    return stk_ary->top == stk_ary->capacity - 1;
 }
 ```

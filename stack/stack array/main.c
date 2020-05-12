@@ -12,7 +12,7 @@ void menu()
 {
     printf("- Stack(Array) -\n");
     printf("Print(q)\n");
-    printf("Create(c)\n");
+    printf("Allocate(a)\n");
     printf("Push(p)\n");
     printf("Pop(r)\n");
     printf("Peek(g)\n");
@@ -35,10 +35,10 @@ void controller(const char cmd)
         stk_ary_traverse(stk, stk_ary_print, &status_code);
         printf("Status: %d\n", status_code);
         break;
-    case 'c':
+    case 'a':
         printf("Capacity:");
         scanf("%d", &capacity);
-        stk = stk_ary(capacity, &status_code);
+        stk = stk_ary_alloc(capacity, &status_code);
         printf("Status: %d\n", status_code);
         break;
     case 'p':
@@ -64,14 +64,14 @@ void controller(const char cmd)
         printf("Status: %d\n", status_code);
         break;
     case 'd':
-        stk_ary_delete(&stk, &status_code);
+        stk_ary_dealloc(&stk, &status_code);
         printf("Status: %d\n", status_code);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        stk_ary_delete(&stk, &status_code);
+        stk_ary_dealloc(&stk, &status_code);
         printf("Status: %d\n", status_code);
         exit(0);
     default:
