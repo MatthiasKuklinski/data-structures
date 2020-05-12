@@ -27,7 +27,7 @@ void controller(const char cmd)
 {
     int value, capacity = 0;
     static stk_ary_t *stk = NULL;
-    status_code_t status_code = success;
+    status_t status_code = success;
 
     switch (cmd)
     {
