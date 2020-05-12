@@ -21,6 +21,7 @@ void menu()
     printf("Set(s)\n");
     printf("Get(g)\n");
     printf("Remove(r)\n");
+    printf("Delete(d)\n");
     printf("Menu(m)\n");
     printf("Exit(x)\n");
 }
@@ -65,6 +66,10 @@ void controller(const char cmd)
         printf("Key:");
         scanf("%s", key);
         ht_sll_remove(ht, key, &status_code);
+        printf("Status: %d\n", status_code);
+        break;
+    case 'd':
+        ht_sll_delete(&ht, &status_code);
         printf("Status: %d\n", status_code);
         break;
     case 'm':
