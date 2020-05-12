@@ -85,7 +85,7 @@ void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_
     *status_code = success; // Set the correspoding status code.
 }
 
-char *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code)
+ht_node_sll_t *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code)
 {
     if (!ht) // Check if the table pointer is defined.
     {
@@ -96,8 +96,8 @@ char *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code)
     unsigned long hash_index = hash(ht->capacity, key);
     if (!ht->nodes[hash_index])
     {
-        *status_code = success; // Set the correspoding status code.
-        return NULL;
+        *status_code = key_does_not_exist; // Set the correspoding status code.
+        return ht->nodes[hash_index];
     }
 
     ht_node_sll_t *ht_node = ht->nodes[hash_index];
@@ -107,7 +107,7 @@ char *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code)
         if (strcmp(ht_node->key, key) == 0) // Check if the list already contains the key.
         {
             *status_code = success; // Set the correspoding status code.
-            return ht_node->element;
+            return ht_node;
         }
 
         ht_node = ht_node->next; // Get the successing node.
@@ -131,4 +131,58 @@ void ht_sll_traverse(ht_sll_t *ht, void (*fp)(ht_node_sll_t *), status_code_t *s
     }
 
     *status_code = success; // Set the correspoding status code.
+}
+
+void ht_sll_remove(ht_sll_t *ht, const char *key, status_code_t *status_code)
+{
+    if (!ht) // Check if the table pointer is defined.
+    {
+        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
+        return;
+    }
+
+    unsigned long hash_index = hash(ht->capacity, key);
+
+    if (!ht->nodes[hash_index]) // Check if the hash table contains a node at the generated hash index.
+    {
+        *status_code = key_does_not_exist; // Set the correspoding status code.
+        return;
+    }
+
+    unsigned long index = 0;
+    ht_node_sll_t *temp_ht_node = ht->nodes[hash_index];
+    ht_node_sll_t *temp_prev_ht_node = NULL;
+
+    while (temp_ht_node) // Iterate through the hash tables node(entry) nodes.
+    {
+        if (strcmp(temp_ht_node->key, key) == 0) // Check if the list already contains the key.
+        {
+            if (index == 0 && !temp_ht_node->next) // Check for a first element without a succeeding node.
+                ht->nodes[hash_index] = NULL;      // Point the head node to null, since the list will be empty after removing.
+
+            if (index == 0 && temp_ht_node->next)           // Check for a first element with a succeeding node.
+                ht->nodes[hash_index] = temp_ht_node->next; // Point the head node to the succeeding node, since the first element will be removed.
+
+            if (index != 0 && !temp_ht_node->next) // Check for a last element without a succeeding node.
+                temp_prev_ht_node->next = NULL;    // Point the previous nodes successor node to null, since the former successing node will be removed.
+
+            if (index != 0 && temp_ht_node->next)             // Check for elements inside the list.
+                temp_prev_ht_node->next = temp_ht_node->next; // Point the previous nodes successor node to the current node, since the former successing node will be removed.
+
+            free(temp_ht_node->key);      // Deallocate the memory for the key.
+            free(temp_ht_node->element);  // Deallocate the memory for the element.
+            free(temp_ht_node);           // Deallocate the memory for the removed node itself.
+            temp_ht_node->key = NULL;     // Avoid a dangling pointer (defensive programming).
+            temp_ht_node->element = NULL; // Avoid a dangling pointer (defensive programming).
+
+            *status_code = success; // Set the correspoding status code.
+            return;
+        }
+
+        temp_prev_ht_node = temp_ht_node;  // Temporarily store the current node.
+        temp_ht_node = temp_ht_node->next; // Get the successing node.
+        index++;
+    }
+
+    *status_code = key_does_not_exist; // Set the correspoding status code.
 }

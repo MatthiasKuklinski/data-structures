@@ -5,20 +5,12 @@
 
 void ht_sll_print(ht_node_sll_t *ht_node_sll)
 {
-    if (ht_node_sll)
+    while (ht_node_sll)
     {
-        printf("%-32s", ht_node_sll->key);
-        while (ht_node_sll)
-        {
-            printf("%-32s", ht_node_sll->element);
-            ht_node_sll = ht_node_sll->next;
-        }
-        printf("\n");
+        printf("%s: %-32s ", ht_node_sll->key, ht_node_sll->element);
+        ht_node_sll = ht_node_sll->next;
     }
-    else
-    {
-        printf("%-32s\n", "\0");
-    }
+    printf("\n");
 }
 
 void menu()
@@ -28,6 +20,7 @@ void menu()
     printf("Create(c)\n");
     printf("Set(s)\n");
     printf("Get(g)\n");
+    printf("Remove(r)\n");
     printf("Menu(m)\n");
     printf("Exit(x)\n");
 }
@@ -36,7 +29,7 @@ void controller(const char cmd)
 {
     unsigned long capacity = 0;
     char key[32], element[32];
-    char *result;
+    ht_node_sll_t *result;
     static ht_sll_t *ht = NULL;
     status_code_t status_code = success;
 
@@ -64,7 +57,14 @@ void controller(const char cmd)
         printf("Key:");
         scanf("%s", key);
         result = ht_sll_get(ht, key, &status_code);
-        result ? printf("%s\n", result) : printf("%s\n", "\0");
+        if (result)
+            printf("%s\n", result->element);
+        printf("Status: %d\n", status_code);
+        break;
+    case 'r':
+        printf("Key:");
+        scanf("%s", key);
+        ht_sll_remove(ht, key, &status_code);
         printf("Status: %d\n", status_code);
         break;
     case 'm':
