@@ -18,4 +18,4 @@ void stk_ary_push(stk_ary_t *stk_ary, const int element, status_t *status);     
 void stk_ary_pop(stk_ary_t *stk_ary, status_t *status);                         // Remove an element of the top of the stack.
 int stk_ary_peek(const stk_ary_t *stk_ary, status_t *status);                   // Get the element on the top of the stack.
 void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int *), status_t *status); // Traverse through the stack elements array and call the passed in function
-void stk_ary_delete(stk_ary_t **stk_ary, status_t *status);                     // Free the allocated memory.
+void stk_ary_deallocate(stk_ary_t **stk_ary, status_t *status);                     // Free the allocated memory.

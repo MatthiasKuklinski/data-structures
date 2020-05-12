@@ -123,7 +123,7 @@ void stk_ary_traverse(stk_ary_t *stk_ary, void (*fp)(int *), status_t *status)
     *status = success;
 }
 
-void stk_ary_delete(stk_ary_t **stk_ary, status_t *status)
+void stk_ary_deallocate(stk_ary_t **stk_ary, status_t *status)
 {
     if (!*stk_ary)
     {

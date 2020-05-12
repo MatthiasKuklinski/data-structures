@@ -24,7 +24,7 @@ typedef struct stk_ary
 
 ### Destructor
 ```c
-stk_ary_delete(stk_ary_t **stk_ary, status_code_t *status_code)
+stk_ary_deallocate(stk_ary_t **stk_ary, status_code_t *status_code)
 ```
 
 ### Operations
@@ -85,7 +85,7 @@ Set the stack structure pointer to null, in order to avoid a dangling pointer (d
 Set the corresponding status code.
 
 ```c
-void stk_ary_delete(stk_ary_t **stk_ary, status_t *status)
+void stk_ary_deallocate(stk_ary_t **stk_ary, status_t *status)
 {
     if (!*stk_ary)
     {

@@ -29,9 +29,9 @@ void stk_sll_delete(stk_sll_node_t *node)
 
 void stk_sll_traverse(stk_sll_node_t *node, const stk_sll_callback cb)
 {
-    while (node) // Iterate through the list.
+    while (node)
     {
-        cb(node);               // Execute the callback.
+        cb(node);
         node = node->successor; // Point to the successor of the current node.
     }
 }
