@@ -16,6 +16,7 @@ stk_ary_t *stk_ary_alloc(const int capacity, status_t *status)
         *status = insufficient_heap_mem;
         return NULL;
     }
+
     stk_ary->capacity = capacity;
     stk_ary->top = -1;
 
@@ -62,6 +63,7 @@ void stk_ary_push(stk_ary_t *stk_ary, const int element, status_t *status)
     }
 
     stk_ary->elements[++stk_ary->top] = element;
+
     *status = success;
 }
 
@@ -80,6 +82,7 @@ void stk_ary_pop(stk_ary_t *stk_ary, status_t *status)
     }
 
     stk_ary->top--;
+
     *status = success;
 }
 
@@ -134,5 +137,6 @@ void stk_ary_dealloc(stk_ary_t **stk_ary, status_t *status)
     free((*stk_ary)->elements);
     free(*stk_ary);
     *stk_ary = NULL;
+
     *status = success;
 }
