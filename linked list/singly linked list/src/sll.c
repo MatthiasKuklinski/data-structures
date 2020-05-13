@@ -1,229 +1,102 @@
 #include "sll.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 
-int sll_length(sll_node_t *sll_head_node, status_code_t *status_code)
+size_t sll_length(const sll_node_t *sll_head_node)
 {
-    if (!sll_head_node) // Check if the list pointer is defined.
+    size_t n = 0;
+    while (sll_head_node)
     {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return 0;
+        n++;
+        sll_head_node = sll_head_node->next;
     }
-
-    unsigned long n = 1;                          // Length has to be at least one, since at least one node exists.
-    while ((sll_head_node = sll_head_node->next)) // Traverse through the list until the last node is reached.
-        n++;                                      // Increment the count after each iteration.
-
-    *status_code = success; // Set the correspoding status code.
     return n;
 }
 
-void sll_delete(sll_node_t **sll_head_node, status_code_t *status_code)
+void sll_dealloc(sll_node_t **sll_head_node)
 {
-    if (!(*sll_head_node)) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
-
-    sll_node_t *temp_head_node;
-    while ((temp_head_node = *sll_head_node)) // Iterate through the list and temporarily store the current node.
-    {
-        *sll_head_node = (*sll_head_node)->next; // Store the pointer to the succeeding node.
-        free(temp_head_node);                    // Deallocate the memory for the current node.
-        temp_head_node = NULL;                   // Avoid a dangling pointer.
-    }
-
-    *status_code = success; // Set the correspoding status code.
+    sll_traverse(sll_head_node, sll_node_dealloc);
 }
 
-void sll_insert(sll_node_t *sll_head_node, const int element, const unsigned int index, status_code_t *status_code)
+void sll_insert(sll_node_t *sll_head_node, const size_t element, const size_t index)
 {
-    if (!sll_head_node) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
+    for (int i = 1; i < index; ++i)
+        sll_head_node = sll_head_node->next;
 
-    if (index >= sll_length(sll_head_node, status_code))  // Check if the element to be inserted should be appended to the list.
-        sll_append(sll_head_node, element, status_code);  // Call the append function.
-    else if (index == 0)                                  // Check if the element to be inserted should be prepended to the list.
-        sll_prepend(sll_head_node, element, status_code); // Call the prepend function.
-    else
-    {
-        for (int i = 1; i < index; ++i)          // Traverse through the list until the requested index minus one is reached.
-            sll_head_node = sll_head_node->next; // Store the pointer to the succeeding node.
-
-        sll_head_node->next = sll_node(element, sll_head_node->next, status_code); // Insert the succeeding node into the list by pointing the preceding node of the former succeeding node to it.
-    }
-
-    *status_code = success; // Set the correspoding status code.
+    sll_head_node->next = sll_node_alloc(element, sll_head_node->next);
 }
 
-void sll_prepend(sll_node_t *sll_head_node, const int element, status_code_t *status_code)
+void sll_prepend(sll_node_t *sll_head_node, const size_t element)
 {
-    if (!sll_head_node) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
-
-    sll_head_node->next = sll_node(sll_head_node->element, sll_head_node->next, status_code); // Create a copy of the node and assign the provided value (place the node to the second position(index of 1)).
-    sll_head_node->element = element;                                                         // Replace the old node element with the new node element.
-
-    *status_code = success; // Set the correspoding status code.
+    sll_head_node->next = sll_node_alloc(sll_head_node->element, sll_head_node->next);
+    sll_head_node->element = element;
 }
 
-void sll_append(sll_node_t *sll_head_node, const int element, status_code_t *status_code)
+void sll_append(sll_node_t *sll_head_node, const size_t element)
 {
-    if (!sll_head_node) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
+    while (sll_head_node->next)
+        sll_head_node = sll_head_node->next;
 
-    while (sll_head_node->next)              // Traverse through the list until the last node is reached.
-        sll_head_node = sll_head_node->next; // Set the sll_head_node pointer to its succeeding node.
-
-    sll_head_node->next = sll_node(element, NULL, status_code); // Append a new node at the end of the list.
-
-    *status_code = success; // Set the correspoding status code.
+    sll_head_node->next = sll_node_alloc(element, NULL);
 }
 
-void sll_pop(sll_node_t **sll_head_node, const unsigned int index, status_code_t *status_code)
+void sll_pop(sll_node_t **sll_head_node, const size_t index)
 {
-    if (!(*sll_head_node)) // Check if the list pointer is defined.
+    if (index == 0)
     {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
+        sll_pop_first(sll_head_node);
         return;
     }
 
-    if (index >= sll_length(*sll_head_node, status_code)) // Check if the requested index is in range.
+    if (index == sll_length(*sll_head_node) - 1)
     {
-        *status_code = index_out_of_bounds; // Set the correspoding status code.
+        sll_pop_last(sll_head_node);
         return;
     }
 
-    if (index == 0) // Check if the requested index is at the beginning of the list.
-    {
-        sll_pop_first(sll_head_node, status_code); // Pop the first node from the list.
-        return;
-    }
-
-    if (index == sll_length(*sll_head_node, status_code) - 1) // Check if the requested index is at the end of the list.
-    {
-        sll_pop_last(sll_head_node, status_code); // Pop the last node from the list.
-        return;
-    }
-
-    sll_node_t *temp_node = *sll_head_node; // Temporarily store the address of the head node.
-    for (int i = 1; i < index; ++i)         // Iterate through the list until the requested index is reached.
+    sll_node_t *temp_node = *sll_head_node;
+    for (int i = 1; i < index; ++i)
         temp_node = temp_node->next;
 
     sll_node_t *temp_popped_node = temp_node->next; // Temporarily store the address of the node to be popped.
     temp_node->next = temp_node->next->next;        // Update the succeeding node address.
-    free(temp_popped_node);                         // Deallocate the memory at the address of the popped node.
-
-    *status_code = success; // Set the correspoding status code.
+    sll_node_dealloc(&temp_popped_node);            // Deallocate the memory at the address of the popped node.
 }
 
-void sll_pop_first(sll_node_t **sll_head_node, status_code_t *status_code)
+void sll_pop_first(sll_node_t **sll_head_node)
 {
-    if (!(*sll_head_node)) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
-
-    if (!((*sll_head_node)->next)) // Check if a successor exists.
-    {
-        sll_delete(sll_head_node, status_code); // Delete the entire list, since the only existing node was requested to be popped.
-        return;
-    }
-
-    sll_node_t *temp_node = *sll_head_node;  // Temporarily store the address of the head node.
-    *sll_head_node = (*sll_head_node)->next; // Set the former (head)node to point to the next node.
-    free(temp_node);                         // Deallocate the memory at the address of the popped node.
-
-    *status_code = success; // Set the correspoding status code.
+    sll_node_t *temp_sll_head_node = *sll_head_node;
+    *sll_head_node = (*sll_head_node)->next;
+    sll_node_dealloc(&temp_sll_head_node);
 }
 
-void sll_pop_last(sll_node_t **sll_head_node, status_code_t *status_code)
+void sll_pop_last(sll_node_t **sll_head_node)
 {
-    if (!(*sll_head_node)) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
+    sll_node_t *temp_sll_head_node = *sll_head_node;
+    while (temp_sll_head_node->next->next)
+        temp_sll_head_node = temp_sll_head_node->next;
 
-    if (!((*sll_head_node)->next)) // Check if a successor exists.
-    {
-        sll_delete(sll_head_node, status_code); // Delete the entire list, since the only existing node was requested to be popped.
-        return;
-    }
-
-    sll_node_t *temp_node = *sll_head_node; // Temporarily store the address of the head node.
-    while (temp_node->next->next)           // Traverse the list until the forelast node.
-        temp_node = temp_node->next;
-
-    free(temp_node->next);  // Deallocate the memory at the address of the popped node.
-    temp_node->next = NULL; // Set the successor to NULL in order to mark the end of the list.
-
-    *status_code = success; // Set the correspoding status code.
+    sll_node_dealloc(&temp_sll_head_node->next);
 }
 
-sll_node_t *sll_get(sll_node_t *sll_head_node, const unsigned int index, status_code_t *status_code)
+sll_node_t *sll_get(const sll_node_t *sll_head_node, const size_t index)
 {
-    if (!sll_head_node) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return NULL;
-    }
-
-    if (index >= sll_length(sll_head_node, status_code))
-    {
-        *status_code = index_out_of_bounds; // Set the correspoding status code.
-        return NULL;
-    }
-
-    for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
+    for (size_t i = 0; i < index; ++i)
         sll_head_node = sll_head_node->next;
 
-    *status_code = success; // Set the correspoding status code.
-    return sll_head_node;
+    return (sll_node_t *)sll_head_node;
 }
 
-void sll_set(sll_node_t *sll_head_node, const unsigned int index, const int element, status_code_t *status_code)
+void sll_set(sll_node_t *sll_head_node, const size_t index, const size_t element)
 {
-    if (!sll_head_node) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
-
-    if (index >= sll_length(sll_head_node, status_code))
-    {
-        *status_code = index_out_of_bounds; // Set the correspoding status code.
-        return;
-    }
-
-    for (int i = 0; i < index; ++i) // Iterate through the list until the requested index is reached.
+    for (size_t i = 0; i < index; ++i)
         sll_head_node = sll_head_node->next;
 
-    sll_head_node->element = element; // Update the value.
-
-    *status_code = success; // Set the correspoding status code.
+    sll_head_node->element = element;
 }
 
-void sll_reverse(sll_node_t **sll_head_node, status_code_t *status_code)
+void sll_reverse(sll_node_t **sll_head_node)
 {
-    if (!(*sll_head_node)) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
-
     sll_node_t *temp_prev_node = NULL; // Temporarily store the address of the preceding node (for the first element of the list it has to be null).
     sll_node_t *temp_next_node;
 
@@ -236,23 +109,19 @@ void sll_reverse(sll_node_t **sll_head_node, status_code_t *status_code)
     }
 
     *sll_head_node = temp_prev_node; // Point the new head node the former tail node.
-
-    *status_code = success; // Set the correspoding status code.
 }
 
-void sll_traverse(sll_node_t *sll_head_node, void (*fp)(sll_node_t *), status_code_t *status_code)
+void sll_traverse(sll_node_t **sll_head_node, void (*fp)(sll_node_t **sll_node))
 {
-    if (!sll_head_node) // Check if the list pointer is defined.
-    {
-        *status_code = sll_node_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
+    // Temporarily copy the head pointer.
+    sll_node_t *temp_sll_head_node = *sll_head_node;
+    // Temporarily store the address of the succeeding node.
+    sll_node_t *temp_next_sll_node = temp_sll_head_node;
 
-    while (sll_head_node) // Iterate through the list.
+    while (temp_next_sll_node)
     {
-        fp(sll_head_node);                   // Execute the callback.
-        sll_head_node = sll_head_node->next; // Point to the successor of the current node.
+        temp_next_sll_node = temp_sll_head_node->next;
+        fp(&temp_sll_head_node);
+        temp_sll_head_node = temp_next_sll_node;
     }
-
-    *status_code = success; // Set the correspoding status code.
 }

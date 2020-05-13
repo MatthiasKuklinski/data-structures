@@ -1,11 +1,10 @@
-#include <sll.h>
-
 #include <stdio.h>
-#include <stdlib.h>
 
-void sll_print(sll_node_t *sll_node)
+#include "sll.h"
+
+void sll_print(sll_node_t **sll_node)
 {
-    printf("%-32d%-32p%-32p\n", sll_node->element, sll_node, sll_node->next);
+    printf("%-32d%-32p%-32p\n", (*sll_node)->element, (*sll_node), (*sll_node)->next);
 }
 
 void menu()
@@ -30,91 +29,75 @@ void menu()
 
 void controller(const char cmd)
 {
-    int value;
-    unsigned int index;
+    size_t index, element;
     static sll_node_t *list = NULL;
-    status_code_t status_code = success;
 
     switch (cmd)
     {
     case 'q':
-        sll_traverse(list, sll_print, &status_code);
-        printf("Status: %d\n", status_code);
+        sll_traverse(&list, sll_print);
         break;
     case 'c':
-        printf("Value:");
-        scanf("%d", &value);
-        sll_delete(&list, &status_code);
-        list = sll_node(value, NULL, &status_code);
-        printf("Status: %d\n", status_code);
+        printf("Element:");
+        scanf("%zu", &element);
+        sll_dealloc(&list);
+        list = sll_node_alloc(element, NULL);
         break;
     case 'b':
-        printf("Value:");
-        scanf("%d", &value);
-        sll_prepend(list, value, &status_code);
-        printf("Status: %d\n", status_code);
+        printf("Element:");
+        scanf("%zu", &element);
+        sll_prepend(list, element);
         break;
     case 'a':
-        printf("Value:");
-        scanf("%d", &value);
-        sll_append(list, value, &status_code);
-        printf("Status: %d\n", status_code);
+        printf("Element:");
+        scanf("%zu", &element);
+        sll_append(list, element);
         break;
     case 'i':
         printf("Index:");
-        scanf("%d", &index);
-        printf("Value:");
-        scanf("%d", &value);
-        sll_insert(list, value, index, &status_code);
-        printf("Status: %d\n", status_code);
+        scanf("%zu", &index);
+        printf("Element:");
+        scanf("%zu", &element);
+        sll_insert(list, element, index);
         break;
     case 'r':
         printf("Index:");
-        scanf("%d", &index);
-        sll_pop(&list, index, &status_code);
-        printf("Status: %d\n", status_code);
+        scanf("%zu", &index);
+        sll_pop(&list, index);
         break;
     case 't':
-        sll_pop_first(&list, &status_code);
-        printf("Status: %d\n", status_code);
+        sll_pop_first(&list);
         break;
     case 'z':
-        sll_pop_last(&list, &status_code);
-        printf("Status: %d\n", status_code);
+        sll_pop_last(&list);
         break;
     case 'g':
         printf("Index:");
-        scanf("%d", &index);
-        printf("%d\n", sll_get(list, index, &status_code)->element);
+        scanf("%zu", &index);
+        printf("%d\n", sll_get(list, index)->element);
         break;
     case 's':
         printf("Index:");
-        scanf("%d", &index);
-        printf("Value:");
-        scanf("%d", &value);
-        sll_set(list, index, value, &status_code);
-        printf("Status: %d\n", status_code);
+        scanf("%zu", &index);
+        printf("Element:");
+        scanf("%zu", &element);
+        sll_set(list, index, element);
         break;
     case 'o':
-        sll_reverse(&list, &status_code);
-        printf("Status: %d\n", status_code);
+        sll_reverse(&list);
         break;
     case 'l':
-        printf("%d\n", sll_length(list, &status_code));
-        printf("Status: %d\n", status_code);
+        printf("%zu\n", sll_length(list));
         break;
     case 'd':
-        sll_delete(&list, &status_code);
-        printf("LIST: %p\n", list);
-        printf("Status: %d\n", status_code);
+        sll_dealloc(&list);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        sll_delete(&list, &status_code);
-        printf("Status: %d\n", status_code);
         exit(0);
+        break;
     default:
         break;
     }
