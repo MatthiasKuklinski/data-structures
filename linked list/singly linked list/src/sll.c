@@ -1,7 +1,5 @@
 #include "sll.h"
 
-#include <stdio.h>
-
 size_t sll_length(const sll_node_t *sll_head_node)
 {
     size_t n = 0;

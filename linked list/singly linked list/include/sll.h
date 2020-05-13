@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdlib.h>
-
 #include "sll_node.h"
 
 void sll_dealloc(sll_node_t **sll_head_node);
