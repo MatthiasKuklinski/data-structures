@@ -1,4 +1,4 @@
-# Queue
+# Linear Queue (Array-Based)
 A queue is a linear collection of data elements, where insertion and deletion of elements takes place at the front and the rear of the queue. A queue implementation follows the FIFO (First In First Out) principle.
 
 ## Common area of application
