@@ -5,25 +5,25 @@
 
 lin_que_ary_t *lin_que_ary_alloc(const int capacity, status_t *status)
 {
-    lin_que_ary_t *lin_que_ary = NULL;                  // Initialize a null pointer for the queue structure itself.
-    if (!(lin_que_ary = malloc(sizeof(lin_que_ary_t)))) // Try to allocate sufficient memory on the heap.
+    lin_que_ary_t *lin_que_ary = NULL;
+    if (!(lin_que_ary = malloc(sizeof(lin_que_ary_t))))
     {
-        *status = insufficient_heap_mem; // Set the correspoding status code.
-        return lin_que_ary;              // lin_que_ary will be null, since there is no sufficient memory on the heap.
+        *status = insufficient_heap_mem;
+        return lin_que_ary;
     }
 
-    lin_que_ary->elements = NULL;                                  // Initialize a null pointer for the elements array.
-    if (!(lin_que_ary->elements = malloc(capacity * sizeof(int)))) // Try to allocate sufficient memory on the heap.
+    lin_que_ary->elements = NULL;
+    if (!(lin_que_ary->elements = malloc(capacity * sizeof(int))))
     {
-        free(lin_que_ary);               // Free the allocated memory for the queue structure itself.
-        *status = insufficient_heap_mem; // Set the correspoding status code.
+        free(lin_que_ary);
+        *status = insufficient_heap_mem;
         return NULL;
     }
 
-    lin_que_ary->capacity = capacity;            // Set the capacity the queue can hold.
-    lin_que_ary->front = lin_que_ary->rear = -1; // Set the lower and upper bound indice to -1(represent an empty queue).
+    lin_que_ary->capacity = capacity;
+    lin_que_ary->front = lin_que_ary->rear = -1;
 
-    *status = success; // Set the correspoding status code.
+    *status = success;
     return lin_que_ary;
 }
 
