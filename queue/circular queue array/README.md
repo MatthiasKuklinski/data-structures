@@ -1,111 +1,263 @@
-# Queue
+# Circular Queue (Array-Based)
+A queue is a linear collection of data elements, where insertion and deletion of elements takes place at the front and the rear of the queue. A queue implementation follows the FIFO (First In First Out) principle.
 
-A queue is a linear collection of data elements, where insertion and deletion of elements takes place at the front and the rear of the queue. A queue implementation follows the FIFO (First In First Out) prinicple.
+## Common area of application
+A common area of application can be a buffer (e.g. I/O buffer), where the buffer has a specific capacity of data it can hold. The FIFO (First In First Out) principle ensures that each bit in the buffer is processed in the exact same order it was inserted at. Once the buffer reaches its maximum capacity, elements at the front of the buffer have to be processed (e.g. a flush) in order to allow for new elements to be inserted at the rear of the buffer.
 
-## Usage
-A common area of application are buffers(e.g. I/O buffer), where the buffer has a specific capacity of data it can hold. Each bit in the buffer is processed in the exact same order it was inserted at the front of the buffer. Once the buffer reaches its maximum capacity, elements at the front/start of the buffer have to be processed/written out(e.g. a flush) in order to allow for new elements to be inserted at the rear/end of the buffer.
-
-## Implementation
-A queue stores two index variables(```rear``` and ```front```), which are initialized with -1(empty queue) representing the lower and upper bound. Each time a new element is enqueued, ```rear``` gets incremented by one. ```front``` gets incremented on the first enqueue and decremented each time an element is dequeued.
-Furthermore ```capacity``` stores information about the maximum capacity of elements the queue can hold. ```length``` returns the current length of the queue. 
+## Interface
+A basic implementation of a queue stores two index variables (```rear``` and ```front```) which represent the lower and upper bound respectively. Each time a new element is enqueued, ```rear``` is incremented by one. ```front``` is incremented on the first enqueue and decremented each time an element is dequeued.
+The maximum amount of elements the queue can hold is stored in the ```capacity``` variable.
 Pointer ```*elements``` points to the first element of the array and therefore allows access to each item by traversing through the queue.
 
+```c
+typedef struct cir_que_ary
+{
+    int capacity, front, rear;
+    int *elements;
+} cir_que_ary_t;
+```
+
+### Constructor
+```c
+cir_que_ary_t *cir_que_ary_alloc(const int capacity, status_t *status);
+```
+
+### Destructor
+```c
+void cir_que_ary_dealloc(cir_que_ary_t **cir_que_ary, status_t *status);
+```
+
 ### Operations
-`is_empty`: Check if the queue is empty.  
-`is_full`: Check if the queue is full.  
 `enqueue`: Add an element at the rear of the queue.  
-`dequeue`: Remove an element at the front of the queue.  
+`dequeue`: Remove the element at the front of the queue.  
 `peek`: Get the element at the front of the queue.  
+`traverse`: Iterate through the queue elements.  
+`is_empty`: Check if the queue is empty.  
+`is_full`: Check if the queue is full. 
 
-### Interface
 ```c
-typedef struct que_ary
-{
-    unsigned int capacity, length; // Store the maximum capacity and current length of the queue.
-    int front, rear;               // Store the lower and upper bound indice respectively.
-    int *elements;                 // Point to the first element of the queue(element at the front of the queue).
-} que_ary_t;
-
-que_ary_t *que_ary(const unsigned int capacity);       // Construct the queue structure.
-int que_ary_is_empty(const que_ary_t *que_ary);        // Check if the queue is empty.
-int que_ary_is_full(const que_ary_t *que_ary);         // Check if the queue is full.
-void que_ary_enqueue(que_ary_t *que_ary, int element); // Add an element at the end of the queue.
-void que_ary_dequeue(que_ary_t *que_ary);              // Remove an element from the front of the queue.
-int que_ary_peek(que_ary_t *que_ary);                  // Get the element at the front of the queue.
-void que_ary_delete(que_ary_t **que_ary);              // Free the allocated memory.
+void cir_que_ary_enqueue(cir_que_ary_t *cir_que_ary, int element, status_t *status);
+void cir_que_ary_dequeue(cir_que_ary_t *cir_que_ary, status_t *status);
+int cir_que_ary_peek(const cir_que_ary_t *cir_que_ary, status_t *status);
+void cir_que_ary_traverse(const cir_que_ary_t *cir_que_ary, void (*fp)(int *), status_t *status);
+unsigned short cir_que_ary_is_empty(const cir_que_ary_t *cir_que_ary, status_t *status);
+unsigned short cir_que_ary_is_full(const cir_que_ary_t *cir_que_ary, status_t *status);
 ```
 
-### Implementation
-```c
-que_ary_t *que_ary(const unsigned int capacity)
-{
-    que_ary_t *que_ary = malloc(sizeof(que_ary_t));              // Allocate memory for the queue structure itself.
-    que_ary->capacity = capacity;                                // Set the maximum capacity the queue can hold.
-    que_ary->length = 0;                                         // Initialize the length to 0.
-    que_ary->front = que_ary->rear = -1;                         // Set the lower and upper bound indice to -1(represent an empty queue).
-    que_ary->elements = malloc(que_ary->capacity * sizeof(int)); // Allocate memory for the related array in accordance to the capacity.
-
-    return que_ary;
-}
-```
+## Implementation
+### Constructor
+Create a null pointer for the queue structure. Try to allocate memory for it. On success, point to the allocated memory, otherwise set the corresponding status code and return null.
+Create a null pointer for the queue elements. Try to allocate memory for it. On success, point to the allocated memory, otherwise deallocate the memory for the queue structure and set the corresponding status code and return null.
+Set the queue capacity according to the capacity argument.
+Set the queue front and rear index to -1 (empty).
+Set the corresponding status code and return a pointer to the queue.
 
 ```c
-int que_ary_is_empty(const que_ary_t *que_ary)
+cir_que_ary_t *cir_que_ary(const int capacity, status_t *status)
 {
-    return que_ary->length < 1; // Check if the queue length is smaller than one and return the result.
-}
-```
-
-```c
-int que_ary_is_full(const que_ary_t *que_ary)
-{
-    return que_ary->rear == que_ary->capacity - 1; // Check if the upper bound index is of the same size as the capacity substracted by one and return the result.
-}
-```
-
-```c
-void que_ary_enqueue(que_ary_t *que_ary, int element)
-{
-    if (que_ary && !que_ary_is_full(que_ary)) // Check if the queue is defined and whether it has available capacity in order to store one more element.
+    cir_que_ary_t *cir_que_ary = NULL;
+    if (!(cir_que_ary = malloc(sizeof(cir_que_ary_t))))
     {
-        if (que_ary->front == -1) // Check if the queue is enqueued for the first time(doesn't hold any elements).
-            que_ary->front++;     // Increment the lower bound.
-
-        que_ary->elements[++que_ary->rear] = element; // Increment the upper bound and store the element afterwards.
-        que_ary->length++;                            // Increment the length.
+        *status = insufficient_heap_mem;
+        return cir_que_ary;
     }
-}
-```
 
-```c
-void que_ary_dequeue(que_ary_t *que_ary)
-{
-    if (que_ary && !que_ary_is_empty(que_ary)) // Check if the queue is defined and whether it stores at least one element to be removed.
+    cir_que_ary->elements = NULL;
+    if (!(cir_que_ary->elements = malloc(cir_que_ary->capacity * sizeof(int))))
     {
-        que_ary->front++;  // Increment the lower bound(do not remove/overwrite the element effectively, but prevent access to it).
-        que_ary->length--; // Decrement the length.
-
-        if (que_ary->front > que_ary->rear)      // Check if the lower bound overtook the upper bound(signal an empty queue).
-            que_ary->front = que_ary->rear = -1; // Set the lower and upper bound indice to -1(represent an empty queue).
+        free(cir_que_ary);
+        *status = insufficient_heap_mem;
+        return NULL;
     }
+
+    cir_que_ary->capacity = capacity;
+    cir_que_ary->front = cir_que_ary->rear = -1;
+
+    *status = success;
+    return cir_que_ary;
 }
 ```
 
-```c
-int que_ary_peek(que_ary_t *que_ary)
-{
-    return que_ary->elements[que_ary->front]; // Access and return the element at the front of the queue.
-}
-```
+### Destructor
+Validate the input arguments. On failure, set the corresponding status code and return.
+Deallocate the memory for the queue elements.
+Deallocate the memory for the queue structure.
+Set the queue structure pointer to null, in order to avoid a dangling pointer (defensive programming).
+Set the corresponding status code.
 
 ```c
-void que_ary_delete(que_ary_t **que_ary)
+void cir_que_ary_dealloc(cir_que_ary_t **cir_que_ary, status_t *status)
 {
-    if (!*que_ary)
+    if (!*cir_que_ary)
+    {
+        *status = cir_que_ary_ptr_is_null;
         return;
+    }
 
-    free((*que_ary)->elements); // Deallocate the elements array.
-    free(*que_ary);             // Deallocate the queue.
-    *que_ary = NULL;            // Avoid a dangling pointer.
+    free((*cir_que_ary)->elements);
+    free(*cir_que_ary);
+    *cir_que_ary = NULL;
+
+    *status = success;
+}
+```
+
+### Operations
+#### enqueue
+Validate the input arguments. On failure, set the corresponding status code and return.
+Validate that the queue is not full. On failure, set the corresponding status code and return.
+Check if the queue holds at least one element. If the queue doesn't, increment the queues front index.
+Determine the rear index. If the front index is on level with the rear index, set the rear index to the next available index starting after the front index.
+Assign the element to the corresponding memory address.
+Set the corresponding status code.
+
+```c
+void cir_que_ary_enqueue(cir_que_ary_t *cir_que_ary, int element, status_t *status)
+{
+    if (!cir_que_ary)
+    {
+        *status = cir_que_ary_ptr_is_null;
+        return;
+    }
+
+    if (cir_que_ary_is_full(cir_que_ary, status))
+    {
+        *status = cir_que_ary_full;
+        return;
+    }
+
+    if (cir_que_ary->front == -1)
+        cir_que_ary->front++;
+
+    cir_que_ary->rear = (cir_que_ary->rear + 1) % cir_que_ary->capacity;
+    cir_que_ary->elements[cir_que_ary->rear] = element;
+    
+    *status = success;
+}
+```
+
+#### dequeue
+Validate the input arguments. On failure, set the corresponding status code and return.
+Validate that the queue is not empty. On failure, set the corresponding status code and return.
+Check if the queue holds at least one element. If the queue doesn't, increment the queues front index.
+Prevent access to the index by decrementing it.
+Check if the lower bound (front) overtook the upper bound (rear). If the lower bound overtook the upper bound, set the front and rear index to -1 (empty), since the queue holds no accessible elements. Otherwise determine the front index. If the rear index is on level with the front index, set the front index to the next available index starting after the rear index.
+Set the corresponding status code.
+
+```c
+void cir_que_ary_dequeue(cir_que_ary_t *cir_que_ary, status_t *status)
+{
+    if (!cir_que_ary)
+    {
+        *status = cir_que_ary_ptr_is_null;
+        return;
+    }
+
+    if (cir_que_ary_is_empty(cir_que_ary, status))
+    {
+        *status = cir_que_ary_empty;
+        return;
+    }
+
+    if (cir_que_ary->front == cir_que_ary->rear)
+        cir_que_ary->front = cir_que_ary->rear = -1;
+    else
+        cir_que_ary->front = (cir_que_ary->front + 1) % cir_que_ary->capacity;
+
+    *status = success;
+}
+```
+
+#### peek
+Validate the input arguments. On failure, set the corresponding status code and return.
+Validate that the queue is not empty. On failure, set the corresponding status code and return.
+Set the corresponding status code.
+Return the element at the lower bound (front) of the queue.
+
+```c
+int cir_que_ary_peek(const cir_que_ary_t *cir_que_ary, status_t *status)
+{
+    if (!cir_que_ary)
+    {
+        *status = cir_que_ary_ptr_is_null;
+        return -1;
+    }
+
+    if (cir_que_ary_is_empty(cir_que_ary, status))
+    {
+        *status = cir_que_ary_empty;
+        return -1;
+    }
+
+    *status = success;
+    return cir_que_ary->elements[cir_que_ary->front];
+}
+```
+
+#### traverse
+Validate the input arguments. On failure, set the corresponding status code and return.
+Validate that the queue is not empty. On failure, set the corresponding status code and return.
+Iterate through the queue elements and pass each element to the callback function.
+Set the corresponding status code.
+
+```c
+void cir_que_ary_traverse(const cir_que_ary_t *cir_que_ary, void (*fp)(int *), status_t *status)
+{
+    if (!cir_que_ary)
+    {
+        *status = cir_que_ary_ptr_is_null;
+        return;
+    }
+
+    if (cir_que_ary_is_empty(cir_que_ary, status))
+    {
+        *status = cir_que_ary_empty;
+        return;
+    }
+
+    for (int i = cir_que_ary->front; i != cir_que_ary->rear; i = (i + 1) % cir_que_ary->capacity)
+        fp(&cir_que_ary->elements[i]);
+
+    fp(&cir_que_ary->elements[cir_que_ary->rear]);
+    
+    *status = success;
+}
+```
+
+#### is_empty
+Validate the input arguments. On failure, set the corresponding status code and return -1.
+Set the corresponding status code.
+Return whether the queues rear index is equal to -1 (empty) or greater than -1 (non empty).
+
+```c
+unsigned short cir_que_ary_is_empty(const cir_que_ary_t *cir_que_ary, status_t *status)
+{
+    if (!cir_que_ary)
+    {
+        *status = cir_que_ary_ptr_is_null;
+        return -1;
+    }
+
+    *status = success;
+    return cir_que_ary->rear == -1;
+}
+```
+
+#### is_full
+Validate the input arguments. On failure, set the corresponding status code and return -1.
+Set the corresponding status code.
+Return whether the queues rear index is equal to the queues capacity -1, as well as if the lower bound index is at least zero (check for a non-circular order of the elements) (full) or if the lower bound (front) is one index ahead of the upper bound (rear) (check for circular order of the elements) (full).
+
+```c
+unsigned short cir_que_ary_is_full(const cir_que_ary_t *cir_que_ary, status_t *status)
+{
+    if (!cir_que_ary)
+    {
+        *status = cir_que_ary_ptr_is_null;
+        return -1;
+    }
+
+    *status = success;
+    return (cir_que_ary->rear == cir_que_ary->capacity - 1 && cir_que_ary->front == 0) || cir_que_ary->front == cir_que_ary->rear + 1;
 }
 ```
