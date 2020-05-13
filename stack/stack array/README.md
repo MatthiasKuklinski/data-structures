@@ -1,4 +1,4 @@
-# Stack
+# Stack (Array-Based)
 A stack is a linear collection of data elements, where insertion and deletion of elements takes place at the top of the stack. A stack implementation follows the LIFO (Last In First Out) principle. 
 
 ## Common area of application
