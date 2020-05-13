@@ -3,14 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void dll_print(dll_node_t *dll_node)
+void dll_print(dll_node_t **dll_node)
 {
-    printf("%-32d%-32p%-32p%-32p\n", dll_node->element, dll_node, dll_node->prev, dll_node->next);
+    printf("%-32zu%-32p%-32p%-32p\n", (*dll_node)->element, (*dll_node), (*dll_node)->prev, (*dll_node)->next);
 }
 
 void menu()
 {
-    printf("- Doubly Linked List -\n");
+    printf("- Singly Linked List -\n");
     printf("Print(q)\n");
     printf("Create(c)\n");
     printf("Prepend(b)\n");
@@ -30,91 +30,75 @@ void menu()
 
 void controller(const char cmd)
 {
-    int value;
-    unsigned int index;
+    size_t index, element;
     static dll_node_t *list = NULL;
-    status_code_t status_code = success;
 
     switch (cmd)
     {
     case 'q':
-        dll_traverse(list, dll_print, &status_code);
-        printf("Status: %d\n", status_code);
+        dll_traverse(&list, dll_print);
         break;
     case 'c':
-        printf("Value:");
-        scanf("%d", &value);
-        dll_delete(&list, &status_code);
-        list = dll_node(value, NULL, NULL, &status_code);
-        printf("Status: %d\n", status_code);
+        printf("Element:");
+        scanf("%zu", &element);
+        dll_dealloc(&list);
+        list = dll_node_alloc(element, NULL, NULL);
         break;
     case 'b':
-        printf("Value:");
-        scanf("%d", &value);
-        dll_prepend(list, value, &status_code);
-        printf("Status: %d\n", status_code);
+        printf("Element:");
+        scanf("%zu", &element);
+        dll_prepend(list, element);
         break;
     case 'a':
-        printf("Value:");
-        scanf("%d", &value);
-        dll_append(list, value, &status_code);
-        printf("Status: %d\n", status_code);
+        printf("Element:");
+        scanf("%zu", &element);
+        dll_append(list, element);
         break;
     case 'i':
         printf("Index:");
-        scanf("%d", &index);
-        printf("Value:");
-        scanf("%d", &value);
-        dll_insert(list, value, index, &status_code);
-        printf("Status: %d\n", status_code);
+        scanf("%zu", &index);
+        printf("Element:");
+        scanf("%zu", &element);
+        dll_insert(list, element, index);
         break;
     case 'r':
         printf("Index:");
-        scanf("%d", &index);
-        dll_pop(&list, index, &status_code);
-        printf("Status: %d\n", status_code);
+        scanf("%zu", &index);
+        dll_pop(&list, index);
         break;
     case 't':
-        dll_pop_first(&list, &status_code);
-        printf("Status: %d\n", status_code);
+        dll_pop_first(&list);
         break;
     case 'z':
-        dll_pop_last(&list, &status_code);
-        printf("Status: %d\n", status_code);
+        dll_pop_last(&list);
         break;
     case 'g':
         printf("Index:");
-        scanf("%d", &index);
-        printf("%d\n", dll_get(list, index, &status_code)->element);
+        scanf("%zu", &index);
+        printf("%zu\n", dll_get(list, index)->element);
         break;
     case 's':
         printf("Index:");
-        scanf("%d", &index);
-        printf("Value:");
-        scanf("%d", &value);
-        dll_set(list, index, value, &status_code);
-        printf("Status: %d\n", status_code);
+        scanf("%zu", &index);
+        printf("Element:");
+        scanf("%zu", &element);
+        dll_set(list, index, element);
         break;
     case 'o':
-        dll_reverse(&list, &status_code);
-        printf("Status: %d\n", status_code);
+        dll_reverse(&list);
         break;
     case 'l':
-        printf("%d\n", dll_length(list, &status_code));
-        printf("Status: %d\n", status_code);
+        printf("%zu\n", dll_length(list));
         break;
     case 'd':
-        dll_delete(&list, &status_code);
-        printf("LIST: %p\n", list);
-        printf("Status: %d\n", status_code);
+        dll_dealloc(&list);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        dll_delete(&list, &status_code);
-        printf("Status: %d\n", status_code);
         exit(0);
+        break;
     default:
         break;
     }
