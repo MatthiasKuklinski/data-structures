@@ -1,8 +1,8 @@
 # Queue
-A queue is a linear collection of data elements, where insertion and deletion of elements takes place at the front and the rear of the queue. A queue implementation follows the FIFO (First In First Out) prinicple.
+A queue is a linear collection of data elements, where insertion and deletion of elements takes place at the front and the rear of the queue. A queue implementation follows the FIFO (First In First Out) principle.
 
 ## Common area of application
-A common area of application can be a buffer (e.g. I/O buffer), where the buffer has a specific capacity of data it can hold. The FIFO (First In First Out) prinicple ensures that each bit in the buffer is processed in the exact same order it was inserted at. Once the buffer reaches its maximum capacity, elements at the front of the buffer have to be processed (e.g. a flush) in order to allow for new elements to be inserted at the rear of the buffer.
+A common area of application can be a buffer (e.g. I/O buffer), where the buffer has a specific capacity of data it can hold. The FIFO (First In First Out) principle ensures that each bit in the buffer is processed in the exact same order it was inserted at. Once the buffer reaches its maximum capacity, elements at the front of the buffer have to be processed (e.g. a flush) in order to allow for new elements to be inserted at the rear of the buffer.
 
 ## Interface
 A basic implementation of a queue stores two index variables (```rear``` and ```front```) which represent the lower and upper bound respectively. Each time a new element is enqueued, ```rear``` is incremented by one. ```front``` is incremented on the first enqueue and decremented each time an element is dequeued.
@@ -46,8 +46,8 @@ unsigned short lin_que_ary_is_full(const lin_que_ary_t *lin_que_ary, status_t *s
 
 ## Implementation
 ### Constructor
-Create a null pointer for the queue structure. Try to allocate memory for it. On success, point to the allocted memory, otherwise set the corresponding status code and return null.
-Create a null pointer for the queue elements. Try to allocate memory for it. On success, point to the allocted memory, otherwise deallocate the memory for the queue structure and set the corresponding status code and return null.
+Create a null pointer for the queue structure. Try to allocate memory for it. On success, point to the allocated memory, otherwise set the corresponding status code and return null.
+Create a null pointer for the queue elements. Try to allocate memory for it. On success, point to the allocated memory, otherwise deallocate the memory for the queue structure and set the corresponding status code and return null.
 Set the queue capacity according to the capacity argument.
 Set the queue front and rear index to -1 (empty).
 Set the corresponding status code and return a pointer to the queue.
@@ -73,7 +73,7 @@ lin_que_ary_t *lin_que_ary_alloc(const int capacity, status_t *status)
     lin_que_ary->capacity = capacity;
     lin_que_ary->front = lin_que_ary->rear = -1;
 
-    *status = success; // Set the correspoding status code.
+    *status = success;
     return lin_que_ary;
 }
 ```
@@ -130,7 +130,7 @@ void lin_que_ary_enqueue(lin_que_ary_t *lin_que_ary, int element, status_t *stat
 
     lin_que_ary->elements[++lin_que_ary->rear] = element;
 
-    *status = success; // Set the correspoding status code.
+    *status = success;
 }
 ```
 
@@ -162,7 +162,7 @@ void lin_que_ary_dequeue(lin_que_ary_t *lin_que_ary, status_t *status)
     if (lin_que_ary->front > lin_que_ary->rear)
         lin_que_ary->front = lin_que_ary->rear = -1;
 
-    *status = success; // Set the correspoding status code.
+    *status = success;
 }
 ```
 

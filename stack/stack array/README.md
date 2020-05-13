@@ -1,5 +1,5 @@
 # Stack
-A stack is a linear collection of data elements, where insertion and deletion of elements takes place at the top of the stack. A stack implementation follows the LIFO (Last In First Out) prinicple. 
+A stack is a linear collection of data elements, where insertion and deletion of elements takes place at the top of the stack. A stack implementation follows the LIFO (Last In First Out) principle. 
 
 ## Common area of application
 Since a stack enforces sequential rules of access, a common area of application can be a history trace (e.g. browser-history), where the last visited website is pushed onto the top of the stack as an element (URL). Each time the back button is pressed, the element (URL) at the top of the stack is removed.
@@ -45,8 +45,8 @@ unsigned short stk_ary_is_full(const stk_ary_t *stk_ary, status_code_t *status_c
 
 ## Implementation
 ### Constructor
-Create a null pointer for the stack structure. Try to allocate memory for it. On success, point to the allocted memory, otherwise set the corresponding status code and return null.
-Create a null pointer for the stack elements. Try to allocate memory for it. On success, point to the allocted memory, otherwise deallocate the memory for the stack structure and set the corresponding status code and return null.
+Create a null pointer for the stack structure. Try to allocate memory for it. On success, point to the allocated memory, otherwise set the corresponding status code and return null.
+Create a null pointer for the stack elements. Try to allocate memory for it. On success, point to the allocated memory, otherwise deallocate the memory for the stack structure and set the corresponding status code and return null.
 Set the stack capacity according to the capacity argument.
 Set the stack top index to -1 (empty).
 Set the corresponding status code and return a pointer to the stack.
