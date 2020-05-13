@@ -1,6 +1,6 @@
 #include "sll_node.h"
 
-sll_node_t *sll_node_alloc(const int element, sll_node_t *next)
+sll_node_t *sll_node_alloc(const size_t element, sll_node_t *next)
 {
     sll_node_t *sll_node = malloc(sizeof(sll_node_t));
 

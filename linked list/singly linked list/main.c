@@ -4,7 +4,7 @@
 
 void sll_print(sll_node_t **sll_node)
 {
-    printf("%-32d%-32p%-32p\n", (*sll_node)->element, (*sll_node), (*sll_node)->next);
+    printf("%-32zu%-32p%-32p\n", (*sll_node)->element, (*sll_node), (*sll_node)->next);
 }
 
 void menu()
@@ -74,7 +74,7 @@ void controller(const char cmd)
     case 'g':
         printf("Index:");
         scanf("%zu", &index);
-        printf("%d\n", sll_get(list, index)->element);
+        printf("%zu\n", sll_get(list, index)->element);
         break;
     case 's':
         printf("Index:");
