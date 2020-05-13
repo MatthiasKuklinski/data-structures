@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void stk_ary_print(int *element)
+void stk_ary_print(size_t **element)
 {
-    printf("%-32d%-32p\n", *element, element);
+    printf("%-32zu%-32p\n", **element, *element);
 }
 
 void menu()
@@ -25,54 +25,44 @@ void menu()
 
 void controller(const char cmd)
 {
-    int value, capacity = 0;
+    unsigned long element, capacity = 0;
     static stk_ary_t *stk = NULL;
-    status_t status_code = success;
 
     switch (cmd)
     {
     case 'q':
-        stk_ary_traverse(stk, stk_ary_print, &status_code);
-        printf("Status: %d\n", status_code);
+        stk_ary_traverse(stk, stk_ary_print);
         break;
     case 'a':
         printf("Capacity:");
-        scanf("%d", &capacity);
-        stk = stk_ary_alloc(capacity, &status_code);
-        printf("Status: %d\n", status_code);
+        scanf("%lu", &capacity);
+        stk = stk_ary_alloc(capacity);
         break;
     case 'p':
-        printf("Value:");
-        scanf("%d", &value);
-        stk_ary_push(stk, value, &status_code);
-        printf("Status: %d\n", status_code);
+        printf("Element:");
+        scanf("%zu", &element);
+        stk_ary_push(stk, element);
         break;
     case 'r':
-        stk_ary_pop(stk, &status_code);
-        printf("Status: %d\n", status_code);
+        stk_ary_pop(stk);
         break;
     case 'g':
-        printf("%d\n", stk_ary_peek(stk, &status_code));
-        printf("Status: %d\n", status_code);
+        printf("%zu\n", stk_ary_peek(stk));
         break;
     case 'e':
-        printf("%d\n", stk_ary_is_empty(stk, &status_code));
-        printf("Status: %d\n", status_code);
+        printf("%hu\n", stk_ary_is_empty(stk));
         break;
     case 'f':
-        printf("%d\n", stk_ary_is_full(stk, &status_code));
-        printf("Status: %d\n", status_code);
+        printf("%hu\n", stk_ary_is_full(stk));
         break;
     case 'd':
-        stk_ary_dealloc(&stk, &status_code);
-        printf("Status: %d\n", status_code);
+        stk_ary_dealloc(&stk);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        stk_ary_dealloc(&stk, &status_code);
-        printf("Status: %d\n", status_code);
+        stk_ary_dealloc(&stk);
         exit(0);
     default:
         break;
