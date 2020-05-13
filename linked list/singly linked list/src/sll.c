@@ -18,7 +18,7 @@ void sll_dealloc(sll_node_t **sll_head_node)
 
 void sll_insert(sll_node_t *sll_head_node, const size_t element, const size_t index)
 {
-    for (int i = 1; i < index; ++i)
+    for (size_t i = 1; i < index; ++i)
         sll_head_node = sll_head_node->next;
 
     sll_head_node->next = sll_node_alloc(element, sll_head_node->next);
@@ -52,13 +52,14 @@ void sll_pop(sll_node_t **sll_head_node, const size_t index)
         return;
     }
 
-    sll_node_t *temp_node = *sll_head_node;
-    for (int i = 1; i < index; ++i)
-        temp_node = temp_node->next;
+    sll_node_t *temp_sll_node = *sll_head_node;
+    for (size_t i = 1; i < index; ++i) // Iterate through the list until index - 1
+        temp_sll_node = temp_sll_node->next;
 
-    sll_node_t *temp_popped_node = temp_node->next; // Temporarily store the address of the node to be popped.
-    temp_node->next = temp_node->next->next;        // Update the succeeding node address.
-    sll_node_dealloc(&temp_popped_node);            // Deallocate the memory at the address of the popped node.
+    sll_node_t *temp_popped_node = temp_sll_node->next;
+    // Set the node's (at index - 1) successing node to the node at index + 1
+    temp_sll_node->next = temp_sll_node->next->next;
+    sll_node_dealloc(&temp_popped_node);
 }
 
 void sll_pop_first(sll_node_t **sll_head_node)
@@ -95,25 +96,29 @@ void sll_set(sll_node_t *sll_head_node, const size_t index, const size_t element
 
 void sll_reverse(sll_node_t **sll_head_node)
 {
-    sll_node_t *temp_prev_node = NULL; // Temporarily store the address of the preceding node (for the first element of the list it has to be null).
-    sll_node_t *temp_next_node;
+    sll_node_t *temp_prev_sll_node, *temp_next_sll_node;
+
+    /*
+    // Temporarily store the address of the succeeding node.
+    // Point the node's succeeding pointer to its former preceeding node.
+    // Temporarily store the address of the current node.
+    // Continue with the next node.
+    */
 
     while (*sll_head_node)
     {
-        temp_next_node = (*sll_head_node)->next; // Temporarily store the address of the succeeding node.
-        (*sll_head_node)->next = temp_prev_node; // Point the succeeding node to its former succeeding node.
-        temp_prev_node = *sll_head_node;         // Temporarily store the address of the current node, which will be represented as the preceding node in the next iteration.
-        *sll_head_node = temp_next_node;         // Iterate onto the next node.
+        temp_next_sll_node = (*sll_head_node)->next;
+        (*sll_head_node)->next = temp_prev_sll_node;
+        temp_prev_sll_node = *sll_head_node;
+        *sll_head_node = temp_next_sll_node;
     }
 
-    *sll_head_node = temp_prev_node; // Point the new head node the former tail node.
+    *sll_head_node = temp_prev_sll_node; // Set the former tail node as the new head node.
 }
 
 void sll_traverse(sll_node_t **sll_head_node, void (*fp)(sll_node_t **sll_node))
 {
-    // Temporarily copy the head pointer.
     sll_node_t *temp_sll_head_node = *sll_head_node;
-    // Temporarily store the address of the succeeding node.
     sll_node_t *temp_next_sll_node = temp_sll_head_node;
 
     while (temp_next_sll_node)
