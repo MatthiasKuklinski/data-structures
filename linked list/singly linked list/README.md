@@ -5,8 +5,3 @@ The entry point of the list is called the head of the list (head node). The last
 ## Common area of application
 Since a list represents a linear collection of data elements, whose order is not given by their physical placement in memory, insert or delete operations don't require reallocation or reorganization of the entire data structure, since the nodes are not stored contiguously. Accessing any node (except the head node) from the list however, requires traversing through each node of the list, until the requested node is reached. Furthermore a list node comes with a memory overhead, since it doesn't only store the element, but also a reference to the succeeding node.
 Therefore a list can be used as an efficient data structure where insert or delete operations are more common than traverse operations and the memory overhead is negligible.
-
-## Time Complexity
-| Access           | Search           | Insertion        | Deletion         |
-| :--------------: | :--------------: | :--------------: | :--------------: |
-| Θ(n), O(n)       | Θ(n), O(n)       | Θ(1), O(1)       | Θ(1), O(1)       |
