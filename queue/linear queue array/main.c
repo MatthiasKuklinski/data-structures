@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void lin_que_ary_print(int *element)
+void lin_que_ary_print(int **element)
 {
-    printf("%-32d%-32p\n", *element, element);
+    printf("%-32d%-32p\n", **element, *element);
 }
 
 void menu()
@@ -25,54 +25,45 @@ void menu()
 
 void controller(const char cmd)
 {
-    int value, capacity = 0;
+    int element = 0;
+    long capacity = 0;
     static lin_que_ary_t *que = NULL;
-    status_t status = success;
 
     switch (cmd)
     {
     case 'q':
-        lin_que_ary_traverse(que, lin_que_ary_print, &status);
-        printf("Status: %d\n", status);
+        lin_que_ary_traverse(que, lin_que_ary_print);
         break;
     case 'c':
         printf("Capacity:");
-        scanf("%d", &capacity);
-        que = lin_que_ary_alloc(capacity, &status);
-        printf("Status: %d\n", status);
+        scanf("%li", &capacity);
+        que = lin_que_ary_alloc(capacity);
         break;
     case 'p':
-        printf("Value:");
-        scanf("%d", &value);
-        lin_que_ary_enqueue(que, value, &status);
-        printf("Status: %d\n", status);
+        printf("Element:");
+        scanf("%d", &element);
+        lin_que_ary_enqueue(que, element);
         break;
     case 'r':
-        lin_que_ary_dequeue(que, &status);
-        printf("Status: %d\n", status);
+        lin_que_ary_dequeue(que);
         break;
     case 'g':
-        printf("%d\n", lin_que_ary_peek(que, &status));
-        printf("Status: %d\n", status);
+        printf("%d\n", lin_que_ary_peek(que));
         break;
     case 'e':
-        printf("%d\n", lin_que_ary_is_empty(que, &status));
-        printf("Status: %d\n", status);
+        printf("%d\n", lin_que_ary_is_empty(que));
         break;
     case 'f':
-        printf("%d\n", lin_que_ary_is_full(que, &status));
-        printf("Status: %d\n", status);
+        printf("%d\n", lin_que_ary_is_full(que));
         break;
     case 'd':
-        lin_que_ary_dealloc(&que, &status);
-        printf("Status: %d\n", status);
+        lin_que_ary_dealloc(&que);
         break;
     case 'm':
         menu();
         break;
     case 'x':
-        lin_que_ary_dealloc(&que, &status);
-        printf("Status: %d\n", status);
+        lin_que_ary_dealloc(&que);
         exit(0);
     default:
         break;
