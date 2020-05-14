@@ -1,6 +1,12 @@
 # Doubly Linked List
-A doubly linked list is a linear collection of data elements (usually refered to as nodes) which together represent a sequence, whose order is not given by their physical placement in memory. Each node contains a stored element and a reference/pointer to the prev node, as well as a reference/pointer to the next node. The entry point of the list is called the head of the list. The last node in the list is refered to as the tail of the list. If the list im empty, the head node is a null reference.
+A doubly linked list is a linear collection of data elements (refereed to as list nodes) which together represent a sequence, whose order is not given by their physical placement in memory. Each node stores an element and a reference to the previous and next node. The element can be a reference to another location in memory itself.
+The entry point of the list is called the head of the list (head node). The last node in the list is refereed to as the tail of the list (tail node).
 
-## Usage
-Since a list is a linear collection of data elements, whose order is not given by their physical placement in memory, insert or delete operations don't require reallocation or reorganization of the entire data structure, because the data items don't need to be stored contiguously. Accessing any node from the list(except the head) requires traversing through each node of the list, until the required node is reached. Additionally a list node comes with a memory overhead of storing a reference/pointer besides the element itself.
+## Common area of application
+Since a list represents a linear collection of data elements, whose order is not given by their physical placement in memory, insert or delete operations don't require reallocation or reorganization of the entire data structure, since the nodes are not stored contiguously. Accessing any node (except the head node) from the list however, requires traversing through each node of the list, until the requested node is reached. Furthermore a list node comes with a memory overhead, since it doesn't only store the element, but also a reference to the preceding and succeeding node.
 Therefore a list can be used as an efficient data structure where insert or delete operations are more common than traverse operations and the memory overhead is negligible.
+
+## Time Complexity
+| Access           | Search           | Insertion        | Deletion         |
+| :--------------: | :--------------: | :--------------: | :--------------: |
+| Θ(n), O(n)       | Θ(n), O(n)       | Θ(1), O(1)       | Θ(1), O(1)       |
