@@ -1,20 +1,17 @@
 #pragma once
 
-#include <stdlib.h>
-
-#include "ht_sll_status_codes.h"
-#include "ht_node_sll.h"
+#include "ht_sll_node.h"
 
 typedef struct ht_sll
 {
-    ht_node_sll_t **nodes;
-    unsigned long capacity;
+    ht_sll_node_t **hashes;
+    size_t capacity;
 } ht_sll_t;
 
-ht_sll_t *ht_sll(const unsigned long capacity, status_code_t *status_code);
-unsigned long hash(const unsigned long capacity, const char *key);
-void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_t *status_code);
-ht_node_sll_t *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code);
-void ht_sll_traverse(ht_sll_t *ht, void (*fp)(ht_node_sll_t *), status_code_t *status_code);
-void ht_sll_remove(ht_sll_t *ht, const char *key, status_code_t *status_code);
-void ht_sll_delete(ht_sll_t **ht, status_code_t *status_code);
+ht_sll_t *ht_sll_alloc(const size_t capacity);
+void ht_sll_dealloc(ht_sll_t **ht_sll);
+void ht_sll_set(ht_sll_t *ht_sll, const char *key, const char *element);
+ht_sll_node_t *ht_sll_get(ht_sll_t *ht_sll, const char *key);
+size_t compHash(const size_t capacity, const char *key);
+void ht_sll_traverse(ht_sll_t **ht_sll, void (*fp)(ht_sll_node_t **ht_sll_node));
+void ht_sll_remove(ht_sll_t *ht_sll, const char *key);

@@ -1,220 +1,145 @@
 #include "ht_sll.h"
 
-#include <stdio.h>
-
-ht_sll_t *ht_sll(const unsigned long capacity, status_code_t *status_code)
+ht_sll_t *ht_sll_alloc(const size_t capacity)
 {
-    ht_sll_t *ht = NULL;            // Initialize a null pointer for the hash table structure itself.
-    if (!(ht = malloc(sizeof(ht)))) // Try to allocate sufficient memory on the heap.
-    {
-        *status_code = insufficient_heap_mem; // Set the correspoding status code.
-        return ht;                            // Hash table be null, since there was no sufficient memory on the heap to be allocated for it.
-    }
+    ht_sll_t *ht_sll = malloc(sizeof(ht_sll_t));
+    ht_sll->hashes = malloc(sizeof(ht_sll_node_t) * capacity);
 
-    ht->nodes = NULL;                                            // Initialize a null pointer for the hash table nodes array.
-    if (!(ht->nodes = malloc(sizeof(ht_node_sll_t) * capacity))) // Try to allocate sufficient memory on the heap.
-    {
-        free(ht);                             // Free the allocated memory for the hash table structure itself.
-        *status_code = insufficient_heap_mem; // Set the correspoding status code.
-        return NULL;
-    }
+    ht_sll->capacity = capacity;
 
-    ht->capacity = capacity;
-    for (unsigned long i = 0; i < capacity; ++i) // Iterate through the hash table nodes and set each node to null.
-        ht->nodes[i] = NULL;
+    // Iterate through the hash table and set each node pointer to null.
+    for (size_t i = 0; i < capacity; ++i)
+        ht_sll->hashes[i] = NULL;
 
-    *status_code = success; // Set the correspoding status code.
-    return ht;
+    return ht_sll;
 }
 
-// djb2
-unsigned long hash(const unsigned long capacity, const char *key)
+// http://www.cse.yorku.ca/~oz/hash.html (djb2)
+size_t compHash(const size_t capacity, const char *key)
 {
-    unsigned long hash = 5381;
+    size_t hash = 5381;
     int c;
 
     while ((c = *key++))
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 
+    // Return a value greater or equal zero and smaller or equal the hash table's capacity.
     return hash % capacity;
 }
 
-void ht_sll_set(ht_sll_t *ht, const char *key, const char *element, status_code_t *status_code)
+void ht_sll_set(ht_sll_t *ht_sll, const char *key, const char *element)
 {
-    if (!ht) // Check if the table pointer is defined.
+    size_t hash = compHash(ht_sll->capacity, key);
+    // Check if the hash already exists in the table.
+    if (!ht_sll->hashes[hash])
     {
-        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
+        ht_sll->hashes[hash] = ht_sll_node_alloc(key, element, NULL);
         return;
     }
 
-    unsigned long hash_index = hash(ht->capacity, key);
-    if (!ht->nodes[hash_index]) // Check if the hash table already contains an node at the generated hash index.
+    ht_sll_node_t *temp_prev_ht_sll_node;
+    ht_sll_node_t *temp_ht_sll_node = ht_sll->hashes[hash];
+
+    while (temp_ht_sll_node) // Iterate through the list.
     {
-        ht->nodes[hash_index] = ht_node_sll(key, element, status_code); // Create a new node and map it to the slot position.
-
-        *status_code = success; // Set the correspoding status code.
-        return;
-    }
-
-    ht_node_sll_t *temp_ht_node;
-    ht_node_sll_t *ht_node = ht->nodes[hash_index];
-
-    while (ht_node) // Iterate through the hash tables node(entry) nodes.
-    {
-        if (strcmp(ht_node->key, key) == 0) // Check if the list already contains the key.
+        // Replace the element if the list already contains the key.
+        if (strcmp(temp_ht_sll_node->key, key) == 0)
         {
-            free(ht_node->element);                                // Deallocate the memory.
-            ht_node->element = NULL;                               // Avoid a dangling pointer.
-            if (!(ht_node->element = malloc(strlen(element) + 1))) // Try to allocate sufficient memory on the heap.
-            {
-                *status_code = insufficient_heap_mem; // Set the correspoding status code.
-                return;
-            }
-            strcpy(ht_node->element, element); // Populate the node element by copying the element argument into it.
-
-            *status_code = success; // Set the correspoding status code.
+            free(temp_ht_sll_node->element);
+            temp_ht_sll_node->element = malloc(strlen(element) + 1);
+            strcpy(temp_ht_sll_node->element, element);
             return;
         }
 
-        temp_ht_node = ht_node;  // Temporarily store the current node.
-        ht_node = ht_node->next; // Get the successing node.
+        temp_prev_ht_sll_node = temp_ht_sll_node;
+        temp_ht_sll_node = temp_ht_sll_node->next;
     }
 
-    temp_ht_node->next = ht_node_sll(key, element, status_code); // Append a new node at the end of the list, since no duplicate key was found.
-
-    *status_code = success; // Set the correspoding status code.
+    // Append a new node at the end of the list, since no duplicate key was found.
+    temp_prev_ht_sll_node->next = ht_sll_node_alloc(key, element, NULL);
 }
 
-ht_node_sll_t *ht_sll_get(ht_sll_t *ht, const char *key, status_code_t *status_code)
+ht_sll_node_t *ht_sll_get(ht_sll_t *ht_sll, const char *key)
 {
-    if (!ht) // Check if the table pointer is defined.
-    {
-        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
+    size_t hash = compHash(ht_sll->capacity, key);
+    if (!ht_sll->hashes[hash])
         return NULL;
-    }
 
-    unsigned long hash_index = hash(ht->capacity, key);
-    if (!ht->nodes[hash_index])
+    ht_sll_node_t *temp_ht_sll_node = ht_sll->hashes[hash];
+
+    while (temp_ht_sll_node)
     {
-        *status_code = key_does_not_exist; // Set the correspoding status code.
-        return ht->nodes[hash_index];
+        if (strcmp(temp_ht_sll_node->key, key) == 0)
+            return temp_ht_sll_node;
+
+        temp_ht_sll_node = temp_ht_sll_node->next;
     }
 
-    ht_node_sll_t *ht_node = ht->nodes[hash_index];
-
-    while (ht_node)
-    {
-        if (strcmp(ht_node->key, key) == 0) // Check if the list already contains the key.
-        {
-            *status_code = success; // Set the correspoding status code.
-            return ht_node;
-        }
-
-        ht_node = ht_node->next; // Get the successing node.
-    }
-
-    *status_code = success; // Set the correspoding status code.
+    // If no matching hash and no matching key was found the key doesn't exist.
     return NULL;
 }
 
-void ht_sll_traverse(ht_sll_t *ht, void (*fp)(ht_node_sll_t *), status_code_t *status_code)
+void ht_sll_remove(ht_sll_t *ht_sll, const char *key)
 {
-    if (!ht) // Check if the table pointer is defined.
-    {
-        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
+
+    size_t hash = compHash(ht_sll->capacity, key);
+    if (!ht_sll->hashes[hash])
         return;
-    }
 
-    for (unsigned long i = 0; i < ht->capacity; ++i)
+    size_t index = 0;
+
+    ht_sll_node_t *temp_ht_sll_node = ht_sll->hashes[hash];
+    ht_sll_node_t *temp_prev_ht_sll_node = NULL;
+    while (temp_ht_sll_node) // Iterate through the hash tables node(entry) nodes.
     {
-        fp(ht->nodes[i]);
-    }
-
-    *status_code = success; // Set the correspoding status code.
-}
-
-void ht_sll_remove(ht_sll_t *ht, const char *key, status_code_t *status_code)
-{
-    if (!ht) // Check if the table pointer is defined.
-    {
-        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
-        return;
-    }
-
-    unsigned long hash_index = hash(ht->capacity, key);
-
-    if (!ht->nodes[hash_index]) // Check if the hash table contains a node at the generated hash index.
-    {
-        *status_code = key_does_not_exist; // Set the correspoding status code.
-        return;
-    }
-
-    unsigned long index = 0;
-    ht_node_sll_t *temp_ht_node = ht->nodes[hash_index];
-    ht_node_sll_t *temp_prev_ht_node = NULL;
-
-    while (temp_ht_node) // Iterate through the hash tables node(entry) nodes.
-    {
-        if (strcmp(temp_ht_node->key, key) == 0) // Check if the list already contains the key.
+        if (strcmp(temp_ht_sll_node->key, key) == 0) // Check if the list contains the key.
         {
-            if (index == 0 && !temp_ht_node->next) // Check for a first element without a succeeding node.
-                ht->nodes[hash_index] = NULL;      // Point the head node to null, since the list will be empty after removing.
+            // Check for a head node without a succeeding node.
+            if (index == 0 && !temp_ht_sll_node->next)
+                ht_sll->hashes[hash] = NULL;
 
-            if (index == 0 && temp_ht_node->next)           // Check for a first element with a succeeding node.
-                ht->nodes[hash_index] = temp_ht_node->next; // Point the head node to the succeeding node, since the first element will be removed.
+            // Check for a head node with a succeeding node.
+            if (index == 0 && temp_ht_sll_node->next)
+                ht_sll->hashes[hash] = temp_ht_sll_node->next;
 
-            if (index != 0 && !temp_ht_node->next) // Check for a last element without a succeeding node.
-                temp_prev_ht_node->next = NULL;    // Point the previous nodes successor node to null, since the former successing node will be removed.
+            if (index != 0 && !temp_ht_sll_node->next) // Check for a tail node.
+                temp_prev_ht_sll_node->next = NULL;
 
-            if (index != 0 && temp_ht_node->next)             // Check for elements inside the list.
-                temp_prev_ht_node->next = temp_ht_node->next; // Point the previous nodes successor node to the current node, since the former successing node will be removed.
+            if (index != 0 && temp_ht_sll_node->next) // Check for nodes inside the list.
+                temp_prev_ht_sll_node->next = temp_ht_sll_node->next;
 
-            free(temp_ht_node->key);      // Deallocate the memory for the key.
-            free(temp_ht_node->element);  // Deallocate the memory for the element.
-            free(temp_ht_node);           // Deallocate the memory for the removed node itself.
-            temp_ht_node->key = NULL;     // Avoid a dangling pointer (defensive programming).
-            temp_ht_node->element = NULL; // Avoid a dangling pointer (defensive programming).
-
-            *status_code = success; // Set the correspoding status code.
+            ht_sll_node_dealloc(&temp_ht_sll_node);
             return;
         }
 
-        temp_prev_ht_node = temp_ht_node;  // Temporarily store the current node.
-        temp_ht_node = temp_ht_node->next; // Get the successing node.
+        temp_prev_ht_sll_node = temp_ht_sll_node;
+        temp_ht_sll_node = temp_ht_sll_node->next;
         index++;
     }
-
-    *status_code = key_does_not_exist; // Set the correspoding status code.
 }
 
-void ht_sll_delete(ht_sll_t **ht, status_code_t *status_code)
+void ht_sll_traverse(ht_sll_t **ht_sll, void (*fp)(ht_sll_node_t **ht_sll_node))
 {
-    if (!*ht) // Check if the table pointer is defined.
+    for (size_t i = 0; i < (*ht_sll)->capacity; ++i)
     {
-        *status_code = ht_sll_ptr_is_null; // Set the correspoding status code.
-        return;
+        fp(&(*ht_sll)->hashes[i]);
     }
+}
 
-    ht_node_sll_t *temp_ht_node_sll, *temp_next_ht_node_sll;
-    for (unsigned long i = 0; i < (*ht)->capacity; ++i)
+void ht_sll_dealloc(ht_sll_t **ht_sll)
+{
+    ht_sll_node_t *temp_next_ht_sll_node;
+    for (size_t i = 0; i < (*ht_sll)->capacity; ++i)
     {
-        temp_ht_node_sll = (*ht)->nodes[i];
-        while (temp_ht_node_sll)
+        while ((*ht_sll)->hashes[i])
         {
-            free(temp_ht_node_sll->key);
-            free(temp_ht_node_sll->element);
-            temp_ht_node_sll->key = NULL;     // Avoid a dangling pointer (defensive programming).
-            temp_ht_node_sll->element = NULL; // Avoid a dangling pointer (defensive programming).
-
-            temp_next_ht_node_sll = temp_ht_node_sll->next;
-            free(temp_ht_node_sll);
-            temp_ht_node_sll = NULL; // Avoid a dangling pointer (defensive programming).
-            temp_ht_node_sll = temp_next_ht_node_sll;
+            temp_next_ht_sll_node = (*ht_sll)->hashes[i]->next;
+            ht_sll_node_dealloc(&((*ht_sll)->hashes[i]));
+            (*ht_sll)->hashes[i] = temp_next_ht_sll_node;
         }
     }
 
-    free((*ht)->nodes);
-    (*ht)->nodes = NULL;
-    (*ht) = NULL;              // Avoid a dangling pointer (defensive programming).
-    *status_code = success; // Set the correspoding status code.
+    free((*ht_sll)->hashes);
+    free(*ht_sll);
+    (*ht_sll) = NULL;
 }
