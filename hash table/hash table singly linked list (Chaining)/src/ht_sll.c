@@ -134,7 +134,7 @@ void ht_sll_dealloc(ht_sll_t **ht_sll)
         while ((*ht_sll)->hashes[i])
         {
             temp_next_ht_sll_node = (*ht_sll)->hashes[i]->next;
-            ht_sll_node_dealloc(&((*ht_sll)->hashes[i]));
+            ht_sll_node_dealloc(&(*ht_sll)->hashes[i]);
             (*ht_sll)->hashes[i] = temp_next_ht_sll_node;
         }
     }
