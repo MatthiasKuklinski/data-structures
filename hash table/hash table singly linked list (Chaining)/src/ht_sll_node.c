@@ -1,7 +1,5 @@
 #include "ht_sll_node.h"
 
-#include <stdio.h>
-
 ht_sll_node_t *ht_sll_node_alloc(const char *key, const char *element, ht_sll_node_t *next)
 {
     ht_sll_node_t *ht_sll_node = malloc(sizeof(ht_sll_node_t));
