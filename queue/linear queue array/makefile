@@ -1,6 +1,5 @@
 # Compiler settings
 CC := gcc
-CFLAGS := -c -Wall
 
 # Directories
 SRC_DIR = src
@@ -9,6 +8,13 @@ BIN_DIR = bin
 OBJ_DIR = obj
 
 $(shell mkdir -p $(OBJ_DIR) $(BIN_DIR))
+
+DEBUG ?= 0
+ifeq ($(DEBUG), 1)
+    CFLAGS = -c -Wall -g -O0
+else
+    CFLAGS = -c -Wall
+endif
 
 # Linking
 lin_que_ary: lin_que_ary.o main.o
