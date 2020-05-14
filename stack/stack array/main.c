@@ -3,14 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void stk_ary_print(size_t **element)
+void stk_ary_print(int **element)
 {
-    printf("%-32zu%-32p\n", **element, *element);
+    printf("%-32d%-32p\n", **element, *element);
 }
 
 void menu()
 {
-    printf("- Stack(Array) -\n");
+    printf("- Stack (Array) -\n");
     printf("Print(q)\n");
     printf("Allocate(a)\n");
     printf("Push(p)\n");
@@ -25,7 +25,8 @@ void menu()
 
 void controller(const char cmd)
 {
-    unsigned long element, capacity = 0;
+    int element = 0;
+    long capacity = 0;
     static stk_ary_t *stk = NULL;
 
     switch (cmd)
@@ -35,19 +36,19 @@ void controller(const char cmd)
         break;
     case 'a':
         printf("Capacity:");
-        scanf("%lu", &capacity);
+        scanf("%li", &capacity);
         stk = stk_ary_alloc(capacity);
         break;
     case 'p':
         printf("Element:");
-        scanf("%zu", &element);
+        scanf("%d", &element);
         stk_ary_push(stk, element);
         break;
     case 'r':
         stk_ary_pop(stk);
         break;
     case 'g':
-        printf("%zu\n", stk_ary_peek(stk));
+        printf("%d", stk_ary_peek(stk));
         break;
     case 'e':
         printf("%hu\n", stk_ary_is_empty(stk));
