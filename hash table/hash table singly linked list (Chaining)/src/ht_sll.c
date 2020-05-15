@@ -3,7 +3,7 @@
 ht_sll_t *ht_sll_alloc(const size_t capacity)
 {
     ht_sll_t *ht_sll = malloc(sizeof(ht_sll_t));
-    ht_sll->hashes = malloc(sizeof(ht_sll_node_t) * capacity);
+    ht_sll->hashes = malloc(sizeof(ht_sll_node_t*) * capacity);
 
     ht_sll->capacity = capacity;
 
@@ -141,5 +141,5 @@ void ht_sll_dealloc(ht_sll_t **ht_sll)
 
     free((*ht_sll)->hashes);
     free(*ht_sll);
-    (*ht_sll) = NULL;
+    *ht_sll = NULL;
 }
